@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>06.child.html예제</title>
+<script>
+  $(function(){ 
+	   //형식) 부모태그 > 자식태그->부모태그 바로 밑에 자식태그 선택->자손태그X
+	   //형식) 부모태그  자식태그->부모태그 바로 밑에 자식태그 선택->자손태그 O
+	   //형식) 부모태그+자식태그->바로 옆의 태그를 찾을때 사용
+	   $('body  div').css('border','3px solid navy')  //solid->실선
+	   $('p > span').css('border','3px dotted green') //dotted->점선
+	   //next()->바로 다음번 항목(태그)를 가리키는 경우<->prev()
+	    $('span+a').next().css('border','3px double blue') //double->이중선
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제</h1>
+  <div>
+      <ul>과일 목록
+         <li>사과</li>
+         <li>배</li>
+         <li>복숭아</li>
+         <li>오렌지</li>
+         <li>파인애플</li>
+      </ul>
+      <div>봄,여름 휴가</div>
+  </div>
+  <div>jQuery 연습</div>
+  <p>
+    <span>태그정보</span>
+    <a>one</a>
+    <span>태그정보2</span>
+  </p>	
+</body>
+</html>
+
+
+
+

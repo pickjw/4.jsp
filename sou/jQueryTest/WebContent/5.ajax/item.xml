@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items>
+   <item id="1" name="레몬">
+    <price>3000</price>
+     <description>피로회복에 좋고 비타민C 풍부
+     </description>
+   </item>
+   
+  <item id="2" name="키위">
+    <price>2000</price>
+     <description>비타민C 풍부 다이어트와 미용에 좋다
+     </description>
+   </item>
+   
+  <item id="3" name="블루베리">
+    <price>5000</price>
+     <description>안토시아닌이 풍부에 눈피로에 좋다
+     </description>
+   </item>
+</items>

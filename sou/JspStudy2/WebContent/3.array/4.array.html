@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>4.배열을 이용해서 성적처리</title>
+</head>
+<body>
+<script>
+  var students=[];//비어있는 배열 생성
+  //학생들 정보(객체)->배열에 저장 
+  //var 객체명={속성명:값,속성명2:값2,,,} //Student s=new Student(~)
+  //배열에 익명객체형태로 값을 저장-->객체 배열이 된다.
+  //students.push(new Student('이길수',100,78,90,65));
+  students.push({이름:'임시',국어:100,수학:87,영어:78,과학:70});//studnets[0]
+  students.push({이름:'테스트',국어:90,수학:87,영어:95,과학:70});
+  students.push({이름:'테스트2',국어:23,수학:54,영어:90,과학:56});
+  students.push({이름:'테스트3',국어:100,수학:65,영어:78,과학:99});
+  students.push({이름:'테스트4',국어:90,수학:87,영어:78,과학:70});
+  students.push({이름:'테스트5',국어:100,수학:23,영어:78,과학:70});
+  
+  //students배열내의 모든 객체에 메서드를 동적 추가(실행중심)
+  for(var i in students){
+	  students[i].getSum=function(){
+	  return this.국어+this.수학+this.영어+this.과학
+     };
+     //평균을 구해주는 메서드추가
+     students[i].getAvg=function(){
+    	 return this.getSum()/4;
+     }
+  }//for
+  
+  //출력
+  var output='이름, 총점, 평균\n';
+  for(var i in students){
+	  output+=students[i].이름+','+students[i].getSum()+','+
+	                students[i].getAvg()+'\n';
+  }
+  alert(output)
+</script>
+</body>
+</html>
+
+
+
+
+
+
+

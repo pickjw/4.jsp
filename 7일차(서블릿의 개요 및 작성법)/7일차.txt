@@ -1,0 +1,354 @@
+7일차(서블릿의 개요 및 작성법)
+
+                    호출할함수명(~)
+
+<a href="JavaScript:goBox()">표만들기</a>
+     or
+<input type="button" value="표만들기" onclick="goBox()">
+ ==>따로 폼에 선택한 항목의 값을 action속성에 언급한
+ box_proc.jsp에 전송하라
+
+ =>*** document.폼객체명.submit(); ****
+========================================================
+             submit
+
+
+하나의 객체에 대해 여러 가지 속성들을 한꺼번에 조작할 때 사용한다
+
+=>document.BoxForm.tr_cnt.options.selectedIndex==0
+  document.BoxForm.td_cnt.options.selectedIndex==0
+
+  AB+AC->A(B+C)
+
+
+형식)  with(공통된 소스코드부분){
+            나머지부분~
+
+        }
+.
+with (객체) {  조작 내용}  
+with (document) { bgcolor = "white";
+         	  fgcolor = "red";}
+
+if(document.BoxForm.tr_cnt.options.selectedIndex==1 ||
+   document.BoxForm.tr_cnt.options.selectedIndex==2
+   ,,,) && (~)
+
+ function goBox(){
+	  //기본형식-> document.폼객체명.입력양식객체명.속성명=값
+	  with(document.BoxForm) {
+	         if(tr_cnt.options.selectedIndex==0){
+	        	 alert("만들고자하는 표의 가로를 먼저 선택하세요!")
+	        	 return;//return false;
+	         }else if(td_cnt.options.selectedIndex==0){
+	        	 alert("만들고자하는 표의 세로를 먼저 선택하세요!")
+	        	 return;
+	         }else if((tr_cnt.options.selectedIndex!=0) && 
+	        		      (td_cnt.options.selectedIndex!=0)){
+	        	 //document.BoxForm.submit();
+	        	 submit()
+	         }
+	  }//with
+   }//goBox()
+========================================================
+<%
+     //int tr_cnt=Integer.parseInt(request.getParameter("tr_cnt"));
+     String tr_cnt=request.getParameter("tr_cnt"); //"2"
+     String td_cnt=request.getParameter("td_cnt");//"4"
+     System.out.println("tr_cnt=>"+tr_cnt+",td_cnt=>"+td_cnt);
+    
+%>
+</head>
+<body>
+  <table border="1">
+     <%
+          for(int i=0;i<Integer.parseInt(tr_cnt);i++){  //행 %>
+            <tr>
+          <% 
+        	  for(int j=0;j<Integer.parseInt(td_cnt);j++){  %>
+        		 <td width="50">&nbsp;</td> 
+            <%   }  %>
+            </tr>
+     <% } %>
+  </table>
+  <!-- <input type="button"  value="다시 입력하기" onclick="history.back()"> -->
+  <a href="JavaScript:history.back()">다시 입력하기</a>
+</body>
+</html>
+===============================================================
+** tip  **
+
+<%--   --%> 눈에 보이지 않는 주석
+
+액션태그,표현식의 경우 주석을 다는 경우=><%--  --%>사용할것
+-><!--   -->이 적용X
+
+<%-- <%2*10 %>  --%> 
+
+<!--  -->=>주로 태그를 주석을 달때 사용(html 주석=jsp주석)
+----------------------------------------
+
+
+->서블릿과 Jsp과의 관계
+->서블릿의 개요
+->서블릿 활용=>공지사항 팝업창(자바스크립트(open),
+                                               파일로부터 읽어들임(=파일입출력)
+                                                서블릿)
+-----------------------------------------------------------------------
+ ***JSP 구성요소 4가지 ***
+
+1.스크립트릿
+2.표현식
+3.선언문
+4.주석 또는 지시어
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+형식)page지시어
+     include 지시어
+
+    ->모델1(default) ->웹프로그래밍(개인사이트~중소규모사이트)
+===================================
+     taglib지시어 =>모델2에서 적용(대기업(->운영하는 사이트)
+                  =>*** 스프링(모델2를 활용) *****
+
+지시어->jsp파일의 선언문=>톰캣서버에게 요청을 하는 선언문
+             속성으로 요청
+       -------------------------------------------------
+      ->서버에게 현재 페이지의 환경설정을 알려주는 요청문
+        -------------------------------------------------
+
+language="java" ->jsp가 자바로 작성(생략이 가능하다.)
+
+<%@ page language="java"~>
+
+<%@ page info="현재 페이지는 로그인 페이지 연습입니다.">
+
+<!--현재 페이지는 로그인 페이지 연습입니다 --> =>편리성
+------------------------------------------------
+***************************
+contentType="text/html"  =>실행결과 text위주의 html문서로 만들어
+                           서 클라이언트로 재전송(영문글자 위주)
+
+contentType="text/html; charset=UTF-8"
+  ==>텍스트형태의 html문서로 만들어서 보내주되 한글이 결과에 포함이 되어있다면
+          한글이 깨지지 않은상태로 보내주세요
+
+pageEncoding="UTF-8"=>한글처리 해주세요(추가된 옵션)
+
+*** import=>외부에서 패키지를 불러올때 사용
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" 
+    import="java.util.Date" %>
+<%@ page import="java.io.*,java.util.*" %> =>속성값을 여러개 나열->,,,
+<%@ page import="java.sql.*" %> =>세로로 여러개의 import속성을 쓸 수있다.
+---------------------------------------------------------------------------------------
+p812 ->buffer,autoFlush=>입출력과 관련->액션태그와 연관
+
+<%@ page buffer="8kb"~>
+
+ 만약에 화면에 배치된 이미지,동영상을 불러올때 페이지 로딩속도가
+ 만약에 느리다고 판단-><%@ page buffer="16kb"~> 설정
+ autoflush=>버퍼의 내용이 꽉차면 어떻게 할것인가를 설정하는 속성
+------------------------------------------------------------------
+errorPage ,isErrorPage->에러페이지를 작성할때 사용
+->현재 8.x에서는 사용X --->Tomcat 4.x까지 사용했던 속성
+--------------------------
+**관리자인 경우에 사용하는 속성**
+
+isThreadSafe속성=false=>동시 접속X=>관리자만 접속해서 홈페이지 수정할때
+                                       외부에서 접속불가
+isThreadSafe=true(default)->홈페이지가 동시 접속이 가능하게 할때 사용하는 방법
+
+<%@page info="현재 페이지 연습중입니다">=>주석대용
+
+<!-- 현재 페이지 연습중입니다 -->
+
+contentType="text/html"  =>default(영어)->?????
+
+형식)<%@ 지시어종류
+                 ======
+
+        <%@ page ->page지시어
+        <%@ include ->include지시어>  =>모델1(웹사이트 기본)
+-----------------------------------------------------------------
+        <%@ taglib ->taglib지시어  =>모델2->대규모->스프링
+-------------------------------------------------------------------
+ ServletTest=>프로젝트를 생성
+
+ 목,금(상담)->3:30~(3시간)
+_________________________________
+
+                     Applet(클라이언트에서 실행되는 웹프로그램)
+                           ->브라우저에서 번역해서 실행->사용X
+
+Servlet->Server Side Applet(서버상에서 실행되는 웹프로그램)
+              외부사용자가 브라우저로 접속하면 자동으로 실행되는 프로그램
+
+    자바->main()코딩->실행==>웹에서 실행
+===========================================
+ 이클립스에서 작성하는 방법
+============================
+
+1.수동으로 만드는 방법(클래스 작성하는 경우),=>환경설정을 해야한다
+                                           =>web.xml 
+                                             작성한 서블릿을 설정
+                                           =>모델2
+
+2.자동으로 만드는 방법->기본적인 코딩을 해준다.
+                      ->web.xml을 환경설정하지 않아도 된다.
+                      ->어노테이션 때문에
+
+**서블릿의 조건**
+
+1. import javax.servlet.* //서블릿의 클래스
+   import javax.servlet.http.*;//웹상에서의 접속에 관련된 정보
+   import java.io.*;//입출력
+
+  =>c:\tomcat8.5\lib->servlet-api.jar파일에 저장
+  =================================================
+2.반드시 publi class로 작성해야 된다.=>누구나 접속이 가능하게 해주기위해
+
+ class 클래스명 ==>반드시 public class로 작성
+
+3.반드시 httpServlet클래스를 상속받아야 된다.
+
+HttpServlet-->사이트에 접속할때 마다 처리해주는 기능을 가지고 있다.
+               1)페이지 이동->데이터도 같이 전송해주면서 페이지가 이동
+
+                            get-------------->do Get()메서드를 사용하기위해서
+                            post-------------->doPost()
+이 메서드를 작성하기위해서 상속이 필요하다.
+->doGet()+doPost()==>service()->사용자가 get방식이든 post방식이든
+                                다 적용을 시키고 싶을경우에 사용
+====================================================================
+ 인터페이스 객체를 얻어오는 방법 2번째
+   hello.jsp
+
+ <%
+    out.println("<h2>Hello Servelt Testing 중입니다.!!!</h2>");
+ %>
+
+       192.168.0.57
+http://localhost:8090/ServletTest/HelloServlet
+                      프로젝트명/실행시킬 서블릿클래스명
+
+->기본적으로 서블릿을 실행하는 url경로를 잘 기억
+ 메서드의 매개변수를 통해서 객체를 얻어올 수 있다.
+------------------------------------------------------
+========================================
+http://localhost:8090/ServletTest/HelloServlet
+
+URL mapping=>웹상에서 서블릿을 실행시키는 방법을 제시
+                   =>실행시키는 방법을 변경이 가능하다.=>실행시키는 경로
+                                                         변경
+                                                        
+http://localhost:8090/ServletTest/abc/aaa.jsp
+
+                    =>/HelloServlet
+http://localhost:8090/ServletTest/HelloServlet
+                                ========
+                                 웹프로젝트명/실행시킬 서블릿클래스명
+         192.168.0.57
+
+http://localhost:8090/ServletTest/HelloServlet
+
+@WebServlet("/HelloServlet")=>"/test/Hello"  =>/가상경로/서블릿의 별칭
+
+http://localhost:8090/ServletTest/test/Hello
+
+  <url-pattern>/test/imsi/Hello</url-pattern>
+
+=>http://localhost:8090/ServletTest/test/imsi/Hello
+
+@WebServlet("/HelloServlet")=>"/test/abc/imsi/Hello" =>가상경로를 지정
+                                                       서블릿을 실행가능
+
+http://localhost:8090/ServletTest/test/abc/imsi/Hello
+===================================
+12장.  init()->doGet() or doPost()->destory()
+                     ---------------------
+                          service()->get으로 접속해도 service()호출
+
+  send.html(이름,주소입력)===>GetData 서블릿이 요청을 처리?
+                              getdata.jsp
+
+   /servelt/GetData ==>/servelt/실행시킬 서블릿클래스명 (원래 default)
+                    ==>/실행시킬 서블릿클래스명 =>/GetData
+
+  form의 action속성에 서블릿을 실행을 시키고 싶다(연결)
+  
+  action="/ServletTest/GetData" =>/프로젝트명/실행시킬 서블릿클래스명
+
+  action="/ServletTest/servelt/GetData"
+------------------------------------------------------------
+****웹상에서 직접 입력받는 경우*****
+
+  =>http://localhost:8090/ServletTest/servelt/GetData?name=test&addr=seoul
+
+ location객체->url창->href속성
+ location.href="요청경로를 지정(프로토콜:~)"
+  
+
+  **** 서블릿2 환경설정 ******
+
+    xml 예습->p179~180 ->태그를 만드는 규칙을 읽어볼것.
+    include 지시어를 예습
+  *****************************************************
+
+
+                                     post으로 접속해도 service()호출
+
+=>소스코드에 변화가 있으면 자동으로 Reloading해준다.
+서블릿이 종료할때(메모리 해제)=>destory()호출된다
+
+7월 07, 2017 12:47:38 오후 org.apache.catalina.core.StandardContext reload
+정보: Reloading Context with name [/ServletTest] is completed
+
+단독 서블릿 실행-> 
+
+사용자로부터 값을 입력을 받아서 처리해주는 서블릿
+                post로 접속-------------------->doPost()처리 or service()
+                                                            콜백메서드(자동으로 호출)
+========================================
+  요청을 하는 jsp------------------>요청처리해주는 jsp
+  요청을 하는 jsp (or html)-------->요청을 처리해주는 서블릿
+     이름,주소 입력(input.jsp)------------------>GetData
+-------------------------------------------------------------------------
+
+ 서블릿--->Jsp
+
+  http://localhost:8090/ServletTest/test/GetData
+--------------------------------------------------------
+ ServletTest
+        |
+         -src->Notice(2)
+        |
+         -WebContent->index.jsp(3)->이벤트처리(onload)
+                  |
+                   -notice->201777.txt(1)파일->파일입출력
+
+                               1.서블릿의 개요
+                               2.서블릿의 작성및 조건
+                               3.서블릿의 처리메서드(doGet())
+                               4.서블릿의 활용
+===================================
+=>page 지시어
+     include 지시어=>메인 페이지를 작성할때 사용=>include 액션태그
+    ============================
+       =>공통으로 자주 사용이 되는 페이지의내용을 따로 파일로 만들어서
+           불러올때 자주 사용 (ex 언어쪽)
+     WebContent => includeTest.jsp
+             |
+              -sub->JspModule.java
+
+<%@include file="경로포함해서 불러올 파일명" %>
+ 문자열형태로 삽입
+==============================
+<%@include file="./sub/JspModule.java" %>
+
+과제=>뒤로 이동=>history.back()
+----------------------------------------------
+내장객체,액션태그 예습

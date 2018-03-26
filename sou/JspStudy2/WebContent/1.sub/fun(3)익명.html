@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func(3)익명.html</title>
+<script>
+    //1.선언적 함수->함수이름이 명확하게 존재하는 경우->선언전,후 호출이 가능
+    check()
+    
+    function check(){
+    	document.write("호출하면 동작함<br>")
+    }
+    //함수호출
+    check()
+    //Car sonata=new Car() or new Car()->익명
+    //자바스크립트에서 함수의 이름이 없는 경우->익명함수
+    //형식) var 변수이름=function(){ 함수의 내용 기술}
+   // play()  익명함수의 경우에는 반드시 선언하고 나서 호출해야 된다.(전에 호출X)
+    var play=function(){
+    	document.write("저는 운동을 좋아해요!!<br>")
+    }
+    
+    play()
+    //2.매개변수가 존재하는 익명함수
+    var play2=
+	function(item) { //String item or int item or double item~
+		document.write(item + "를 좋아해요!!<br>")
+	}
+
+	play2("축구")
+
+	//3.반환값이 있는 익명함수
+	var play3 = function(x, y) {
+		return x + y;
+	}
+	//함수호출
+	var result = play3(5, 8)
+	document.write("result=>" + result + "<br>");
+
+	//똑같은 함수를 한번 선언=>무조건 맨 마지막함수를 호출?
+	function test() {
+		document.write("함수test()호출됨")
+	}
+
+	function test() {
+		document.write("자바의 오버라이딩과 비슷")
+	}
+
+	test()
+</script>
+</head>
+<body>
+
+</body>
+</html>

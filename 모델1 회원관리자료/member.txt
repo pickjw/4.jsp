@@ -1,0 +1,18 @@
+﻿회원 테이블을 생성=>테이블명Bean==>테이블명DTO
+
+ create table member(     ====>DTO(자바빈즈)
+ id varchar2(20) primary key,
+ passwd varchar2(20) not null,
+ name   varchar2(20) not null,
+ e_mail varchar2(20) ,
+ phone varchar2(30)  not null,
+ zipcode varchar2(10) ,
+ address varchar2(60) not null,
+ job  varchar2(30)
+ );
+
+ insert into member values('nup','1234','홍길동',
+        'test@daum.net','02-123-0987','132-098',
+        '서울시 강남구 대현빌딩 3층','프로그래머');
+
+ commit;

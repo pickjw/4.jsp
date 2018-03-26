@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>11.filter2.html예제</title>
+<script>
+  $(function(){ 
+	  //선택자(같은태그->속성명을 이용)->같은 태그인데 속성이 없으면
+	  //어떻게 구분? ->속성 필터 선택자를 이용
+	  /*
+       ** 속성필터 선택자**
+	       ->같은태그의 출력되는 순서를 기준으로 설정(->first,last)
+	       
+	요소:odd->홀수번째 위치한 태그를 찾기
+	요소:even->짝수
+	요소:first->첫번째 위치를 가진 태그찾기
+	요소:last->마지막번째 위치를 가진 태그찾기
+	
+	//추가
+	 요소:contains(찾는문자열)->찾는 문자열을 가진 태그찾기
+	 요소:eq(n)->n번째 위치를 가진 태그찾기(=3)
+	 요소:gt(n)->n번째보다 큰 위치를 가진 태그찾기 ex) >3(n)
+	 요소:lt(n)->n번째보다 작은위치(인덱스번호) 위치를 가진 태그찾기 < 3(n)
+	 요소:not(선택자)->선택자와 일치하지 않은  태그찾기
+	 요소:has(특정 태그)->특정태그를 찾을때 사용->검색
+		
+	*/	  
+	//$('tr:even').css('background','pink')//내부적으로 인덱스번호는 0부터시작
+	//$('tr:first').css('font-size','23pt').css('background','yellow')
+	//$('tr:eq(0)').css('font-size','23pt').css('background','green')
+	 //  $('tr').eq(0).css('font-size','23pt').css('background','pink')
+	//추가
+	$('td:contains(A형)').css('font-size','23pt').css('background','purple')
+	//$('tr:gt(2)').css('font-family','바탕체').css('font-size','16pt').css('color','red')
+	//$('tr:lt(2)').css('font-family','바탕체').css('font-size','16pt').css('color','red')
+	//tr태그중에서 th태그를 찾아서 스타일을 적용
+	$('tr:has(th)').css('color','green')//<->not(th(선택자)) ->!찾는 선택자
+	$('tr:not(th)').css('color','brown')
+  })
+</script>
+</head>
+<body>
+<h1>속성필터 선택자2 예제</h1>
+   <center>
+    <table border="1">
+       <tr><th>이름</th><th>혈액형</th></tr>
+       <tr><td>테스트</td><td>A형</td></tr>
+       <tr><td>임   시</td><td>B형</td></tr>
+       <tr><td>테스트2</td><td>O형</td></tr>
+       <tr><td>테스트3</td><td>AB형</td></tr>
+    </table>
+    </center>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

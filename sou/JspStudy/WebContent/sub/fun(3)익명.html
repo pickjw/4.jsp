@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func(3)익명.html</title>
+<script>
+    //1.선언적 함수->함수이름이 명확하게 존재하는 경우->선언전,후 호출이 가능
+    check()
+    
+    function check(){
+    	document.write("호출하면 동작함<br>")
+    }
+    //함수호출
+    check()
+    //Car sonata=new Car() or new Car()->익명
+    //자바스크립트에서 함수의 이름이 없는 경우->익명함수
+    //형식) var 변수이름=function(){ 함수의 내용 기술}
+   // play()  익명함수의 경우에는 반드시 선언하고 나서 호출해야 된다.(전에 호출X)
+    var play=function(){
+    	document.write("저는 운동을 좋아해요!!<br>")
+    }
+    
+    play()
+    
+    
+    
+    
+    
+</script>
+</head>
+<body>
+
+</body>
+</html>

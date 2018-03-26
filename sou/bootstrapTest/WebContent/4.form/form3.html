@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 입력폼(3)</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <div class="container">
+    <h1>폼의 입력양식</h1>
+       <form><!-- placeholder(툴팁과 같은 역할 커서를 입력하고 글자를 쓰면 사라짐)  -->
+          <label for="name">이름</label>
+          <input type="text" placeholder="이름"><br>
+          <label for="emailaddress">이메일</label>
+          <input type="email" placeholder="이메일"><br>
+          <button type="submit">확인</button>
+       </form>
+       <hr>
+       <h4 class="text-primary">부트스트랩의 폼양식 적용</h4>
+       <form role="form"><!-- role속성=기능을 표시(form)폼(전송) -->
+          <!-- 타이틀제목과 입력양식을 하나로 묶어준다.(form-group) -->
+          <div class="form-group">
+             <label for="name">이름</label>
+             <input type="text" class="form-control" name="name" placeholder="이름">
+             
+           </div>
+           
+           <div class="form-group">
+             <label for="emailaddress">이메일</label>
+             <input type="text" class="form-control" name="emailaddress" placeholder="이메일">
+           </div>
+           
+           <div class="form-group">
+             <button type="submit">확인</button>
+             <button type="reset">취소</button>
+           </div>
+       </form>
+       <hr>
+       <!--
+         인라인폼->브라우저의 넓이에 따라서 입력받는 input의 정렬이 변경이 되게
+                         해주는 폼
+                         형식)class="form-inline"
+               label에 .sr-only클래스를 선택자(화면에 안보이게 설정)
+               label->필요=>장애인용 웹사이트(screen reader only)
+         -->
+         <h4 class="text-primary">부트스트랩의 인라인폼</h4>
+       <form role="form" class="form-inline">
+          <!-- 타이틀제목과 입력양식을 하나로 묶어준다.(form-group) -->
+          <div class="form-group">
+             <label for="name" class="sr-only">이름</label>
+             <input type="text" class="form-control" name="name" placeholder="이름">
+             
+           </div>
+           
+           <div class="form-group">
+             <label for="emailaddress">이메일</label>
+             <input type="text" class="form-control" name="emailaddress" placeholder="이메일">
+           </div>
+           
+           <div class="form-group">
+             <button type="submit">확인</button>
+             <button type="reset">취소</button>
+           </div>
+       </form>
+       <hr>
+       <!--
+         폼양식을  수평으로 정렬->label,input에 적용(그리드와 혼합)
+             class="form-horizontal"
+       
+         -->
+       <h4 class="text-primary">부트스트랩의 그리드와 혼합</h4>
+       <form class="form-horizontal" role="form" >
+          <div class="form-group">
+             <label for="name" class="col-xs-2 col-lg-2 control-label">이름</label>
+             <div class="col-xs-10 col-lg-10">
+             <input type="text" class="form-control" name="name" placeholder="이름">
+             </div>
+           </div>
+           
+           <div class="form-group">
+             <label for="emailaddress" class="col-xs-2 col-lg-2 control-label">이메일</label>
+              <div class="col-xs-10 col-lg-10">
+             <input type="text" class="form-control" name="emailaddress" placeholder="이메일">
+              </div>
+           </div>
+           
+           <div class="form-group">
+             <div class="col-xs-offset-2 col-xs-10 col-lg-offset-2 col-lg-10">
+             <button type="submit">확인</button>
+             <button type="reset">취소</button>
+             </div>
+           </div>
+       </form>
+   </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+
+
+
+

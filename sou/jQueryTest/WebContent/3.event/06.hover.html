@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<style>
+    .reverse {background:black;color:white}
+</style>
+<script>
+  $(function(){ 
+	  //mouseover이벤트<->mouseout이벤트 발생을 번갈아 가면서 호출함수(hover)
+	  //형식)$(이벤트 발생대상자).hover(1.mouseover시 처리할 함수명(익명),
+	  //                                                 2.mouseout시 처리할 함수명(익명))
+	  $('h1').hover(function(){  //mouseover이벤트 발생
+		  $(this).addClass('reverse')
+	  },function(){                   //mouseout이벤트 발생
+		  $(this).removeClass('reverse')
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>header-0</h1>
+<h1>header-1</h1>
+<h1>header-2</h1>
+</body>
+</html>
+
+
+
+

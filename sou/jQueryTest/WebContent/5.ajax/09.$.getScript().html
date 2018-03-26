@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>09.$.getScript().html</title>
+<script>
+	$(function() {
+		//$.getScript('경로포함해서 불러올 js파일명')->js로 되어있는 파일을 읽어들여서
+		//              선언된 함수를 호출할 수있는 기능
+		$('#submit').click(function() {
+			$.getScript("test.js")//test.js에 선언된 함수를 호출 ->function call(param){}
+			var msg = call($('.username').val())
+			$('#message').html(msg)
+			return false;//에러발생시 전송되지 못하게 설정
+		})//click
+		$('#clearButton').click(function() {
+			$('#message').empty()//내용만 삭제-->태그까지 삭제 (remove())
+		})
+	})
+</script>
+</head>
+<body>
+	<h1>이름을 입력하세요</h1>
+	이름:
+	<input type="text" name="username" class="username">
+	<br>
+	<p>
+		<input type="button" id="submit" value="전송">
+		<button id="clearButton">지우기</button>
+	<div id="message"></div>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //요청문서->item2.json파일 ->$.ajax() 대신 $.getJSON()
+	  //$.getJSON('경로포함해서 불러올 파일명(사이트주소)',처리함수명(익명함수(매개){}))
+      $.getJSON('item2.json',function(data){
+    	  //json파일의 구조를 이해->키를 분리->값가져오는 구문
+    	  $('#treeData').append('<tr><td>id</td>'+'<td>name</td>'
+    			                            +'<td>price</td>'+'<td>description</td></tr>')
+       //객체관리,배열관리->$.each(1.컬렉션객체(배열~) 2.호출할 함수명 or 익명함수)
+          $.each(data,function(){ //현재 반복해서 불러올 객체->this로 구문
+        	  $('#treeData').append('<tr><td>'+this.id+'</td><td>'
+        	                                    +this.name+'</td><td>'
+        	                                    +this.price+'</td><td>'
+        	                                    +this.description+'</td></tr>')
+          })//$.each()
+      })//$.getJSON()
+  })
+</script>
+</head>
+<body>
+ <table id="treeData" border="1"></table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

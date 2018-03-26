@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(each함수와 연관)</title>
+<style>
+    .high_light_0  {background:yellow ; font-size:12pt; color:red}
+    .high_light_1  {background:orange}
+    .high_light_2  {background:blue}
+    .high_light_3  {background:green}
+    .high_light_4  {background:red}
+</style>
+<script>
+  $(function(){ 
+	  //$('h1:eq(0)').attr('class','high_light_0')
+	  //$('h1:first').attr('class','high_light_0')
+	  //$('h1:eq(2)').addClass('high_light_0')//<->removeClass(스타일클래스명)
+	  /*
+	    css()->속성명->속성값을 부여(하나씩 나열)
+	    addClass(클래스명)->한꺼번에 여러개의 스타일을 동시에 설정
+	     형식)$(선택자).addClass(함수호출(리턴값을 받자))->함수의 매개변수로써 각각 다른 클래스명을
+	                                                           부여가 가능하다.
+	  */
+	 // $('h1').each(function(){})->pattern1
+	 $('h1').addClass(function(index){ //태그를 읽어들이면서 브라우저가 전달
+		 alert(index)
+	     return 'high_light_'+index
+	 })
+  })
+</script>
+</head>
+<body>
+<h2>jQuery 실습예제</h2>
+<!-- <h1 class="high_light_0">Item-0</h1> 정적 디자인-->
+<h1>Item-0</h1>
+<h1>Item-1</h1>
+<h1>Item-2</h1>
+<h1>Item-3</h1>
+<h1>Item-4</h1>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

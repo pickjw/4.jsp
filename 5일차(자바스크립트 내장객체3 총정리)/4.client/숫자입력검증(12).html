@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>숫자입력검증(12).html</title>
+<script>
+          //1.입력받은 값이 문자인지 숫자인지 체크
+          function test(){
+        	  //if(isNaN(document.myform.money.value))->true(문자=>숫자입력)
+        	  var mylen=document.myform.money.value.length;//길이
+        	  var str=document.myform.money.value;//입력받은값
+        	  //alert(str)
+        	  var i;//첨자
+        	  for(i=0;i<mylen;i++){
+        		  //0~9->문자를 입력->숫자만  가능->자바 Character.isDigit(~)
+        		  if((str.charAt(i) < "0") || (str.charAt(i) > "9")) { //문자로 입력
+        			  alert("숫자만 입력이 가능합니다.")
+        			  document.myform.money.value="";
+        		      document.myform.money.focus();
+        		      break;//문자를 만나게 되면 더 이상 for실행 필요가 없다.(탈출문)
+        		  }//if
+        	  }//for
+          }
+          //test2
+          function test2(){
+        	  if(document.myform.money.value==""){
+        		  alert("금액을 먼저 입력하세요!")
+        		  document.myform.money.focus();
+        		   return false;//탈출문
+        	  }else{
+        		  var str="금액="+document.myform.money.value
+        		  alert(str)
+        		  document.myform.money.value="";
+        		  document.myform.money.focus();
+        	  }
+          }
+</script>
+</head>
+<body onload="document.myform.money.focus()">
+<!-- 
+   입력받을때 사용하는 항목을 입력하고 나서 커서를 이동시킬때 호출되는 이벤트
+    ->blur이벤트->on이벤트종류명="처리할 문장;~ or 함수명(~)"
+ -->
+  <form name="myform">
+    금액 <input type="text" name="money" size="10"  onblur="test()">
+    <input type="button" value="주문"  onclick="test2()">
+  </form>
+</body>
+</html>

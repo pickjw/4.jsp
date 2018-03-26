@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>dom4.html(이벤트 이용 화면에 출력) </title>
+  <!-- 
+   이벤트발생 종류   처리
+   1.click  ->버튼클릭,메뉴클릭,마우스를 클릭 ->on이벤트종류명=연결시킬함수명
+   2.load->현재 문서를 맨 처음에 읽어들일때 발생 ->onload="test()"
+   3.mouseover->특정항목을 마우스로 갖다댈때 ->onmouseover="호출할함수명"
+   4.mouseout->특정항목의 위치에서 마우스포인터가 벗어날때 onmouseout
+   5.change->콤보박스에서 특정항목을 선택할때 발생=>onchange
+  -->
+ </head>
+ <body>
+    <a href="http://www.daum.net" 
+	     onmouseover="document.img.src='../images/kid2.gif ' "
+		 onmouseout="document.img.src='../images/kid.gif ' " >
+	  <img src="../images/kid.gif" name="img"> 
+	   <!-- 이미지 변경 -->
+    </a>
+
+	<img src="../images/kid3.gif" name="img2">
+ </body>
+</html>

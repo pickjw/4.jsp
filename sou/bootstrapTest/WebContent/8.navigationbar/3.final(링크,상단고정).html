@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 101 템플릿</title>
+
+    <!-- 부트스트랩(기존에 불러오는 스타일시트파일 다음에 불러올것) -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/custom1.css" rel="stylesheet">
+    <style>
+      body {  /* 네비게이션바와 본문이 겹치는 부분이 존재(여백주기 위해서) */
+             padding-top:50px; /* navbar-fixed-top 적용시 */
+             padding-bottom:70px; /* navbar-fixed-bottom 적용시 */
+      }
+    </style>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+    <h1>네비게이션바 구현</h1>
+    <!--
+         네비게이션바를 상단에 고정->navbar-fixed-top 적용<->navbar-fixed-bottom
+         넓이가 100%로 확장된다(단점)(양쪽 여백이 존재)
+         ->navbar-static-top(양쪽 여백이 존재)
+         navbar-inverse(네비게이션의 배경색과 텍스트색이 반전)
+      -->
+      <!--  <nav  class="navbar navbar-default navbar-fixed-top"   role="navigation"> -->
+         <nav  class="navbar navbar-inverse navbar-static-top"   role="navigation">
+           <div class="navbar-header">
+              <button type="button" class="navbar-toggle"
+                           data-toggle="collapse"
+                           data-target=".navbar-ex1-collapse">
+                 <span class="sr-only">navigation title</span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+                 <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#"><!--로고그림 -->
+                  <span class="glyphicon glyphicon-home"></span>
+              </a>
+           </div>
+           <!-- 
+              1.상단메뉴의 나오는 순서를 변경->navbar-left or navbar-right
+            -->
+           <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul class="nav navbar-nav">
+              <li class="active"><a href="#">공지사항</a></li>
+              <li><a href="#">자유게시판</a></li>
+               <!--  before
+               <li class="active"><a href="#">공지사항</a></li>
+                <li><a href="#">자유게시판</a></li>
+                <li><a href="#">Q&A</a></li>
+                 -->
+              <li class="dropdown">
+              <a data-toggle="dropdown" href="#">사용자
+                               <span class="caret"></span>
+              </a>
+               <ul class="dropdown-menu">
+                   <li><a  href="#">회원로그인</a></li>
+                   <li><a  href="#">자유게시판</a></li>
+                   <li><a  href="#">설문조사</a></li>
+              </ul>
+             </li>
+                <!--관리자  -->
+                <li class="dropdown">
+              <a data-toggle="dropdown" href="#">관리자
+                               <span class="caret"></span>
+              </a>
+               <ul class="dropdown-menu">
+                   <li><a  href="#">관리자로그인</a></li>
+                   <li><a  href="#">공지사항</a></li>
+                   <li><a  href="#">통계처리</a></li>
+              </ul>
+             </li>
+                <!--  -->
+                <li class="dropdown">
+              <a data-toggle="dropdown" href="#">Q&A
+                               <span class="caret"></span>
+              </a>
+               <ul class="dropdown-menu">
+                   <li><a  href="#">이미지 게시판</a></li>
+                   <li><a  href="#">자유게시판</a></li>
+                   <li><a  href="#">설문조사2</a></li>
+              </ul>
+             </li>
+              <li  class="disabled"><a href="#">메뉴4</a></li>
+                <!--  -->
+              </ul>
+              <!--검색폼(role="search")과 버튼을 추가  
+                  1.navbar-form->네비게이션바에 추가된 폼
+                  2.네비게이션의 항목->navbar-right(선택자)->오른쪽에 배치
+              -->
+              <form class="navbar-form navbar-right" role="search">
+                  <div class="form-group">
+                    <input type="text" class="form-control" placeholder="검색">
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+              <!-- 
+                 1.네비게이션바에 버튼을 추가(navbar-btn)
+                 2.네비게이션바에 들어가는 문자열->navbar-text
+                 3.네비게이션바에 들어가는 링크문자열->navbar-link(pull-right)
+               -->
+               <button type="button" class="btn btn-default navbar-btn">단순버튼</button>
+               <p class="navbar-text">로그인</p>
+               <p class="navbar-text pull-right">
+                   <a href="#"  class="navbar-link">회원가입</a>
+               </p>
+           </div>
+       </nav>
+       <!-- 본문내용 부분  -->
+       <article>
+          <p>
+        디지털 경제의 확산으로 우리 주변에는 규모를 가늠할 수 없을 정도로 많은 정보와 데이터가 생산되는 '빅데이터(Big Data)' 환경이 도래하고 있다. 빅데이터란 과거 아날로그 환경에서 생성되던 데이터에 비하면 그 규모가 방대하고, 생성 주기도 짧고, 형태도 수치 데이터뿐 아니라 문자와 영상 데이터를 포함하는 대규모 데이터를 말한다.
+       PC와 인터넷, 모바일 기기 이용이 생활화되면서 사람들이 도처에 남긴 발자국(데이터)은 기하급수적으로 증가하고 있다(정용찬, 2012a). 쇼핑의 예를 들어 보자. 데이터의 관점에서 보면 과거에는 상점에서 물건을 살 때만 데이터가 기록되었다. 반면 인터넷쇼핑몰의 경우에는 구매를 하지 않더라도 방문자가 돌아다닌 기록이 자동적으로 데이터로 저장된다. 어떤 상품에 관심이 있는지, 얼마 동안 쇼핑몰에 머물렀는지를 알 수 있다. 쇼핑뿐 아니라 은행, 증권과 같은 금융거래, 교육과 학습, 여가활동, 자료검색과 이메일 등 하루 대부분의 시간을 PC와 인터넷에 할애한다. 사람과 기계, 기계와 기계가 서로 정보를 주고받는 사물지능통신(M2M, Machine to Machine)의 확산도 디지털 정보가 폭발적으로 증가하게 되는 이유다.
+        사용자가 직접 제작하는 UCC를 비롯한 동영상 콘텐츠, 휴대전화와 SNS(Social Network Service)에서 생성되는 문자 등은 데이터의 증가 속도뿐 아니라, 형태와 질에서도 기존과 다른 양상을 보이고 있다. 특히 블로그나 SNS에서 유통되는 텍스트 정보는 내용을 통해 글을 쓴 사람의 성향뿐 아니라, 소통하는 상대방의 연결 관계까지도 분석이 가능하다. 게다가 사진이나 동영상 콘텐츠를 PC를 통해 이용하는 것은 이미 일반화되었고 방송 프로그램도 TV수상기를 통하지 않고 PC나 스마트폰으로 보는 세상이다.
+          </p>
+       <p>
+         webpack이란 Module Bundler 이다. webpack과 같은 모듈 번들러로는 grunt, gulp 등이 있다.
+              각각 모듈들에 필요한 의존성에 대해 관계를 파악하여 그룹핑해주며, 여러 기능 자동 수행.
+              여러가지 js, css, png 파일들이 모듈 번들러를 통해서 몇몇 파일들로 합쳐진다. 
+            진행되야 하는 작업들  ECMA6 파일을 ECMA5 파일로 변경  문서 최적화 코드 테스트 문서 문법 검증 SASS 컴파일
+            위와 같은 빌드 단계에서 진행되야 하는 것들을 일관화하여, 모듈화시켜주는데 기여한다. 
+           모듈화 시키는데 대표적인 작업 그룹이 있었으니 CommonJs와 AMD(Asynchronous Module Definition)가 있다.  
+           webpack은 두 그룹의 명세를 모두 지원하는 javascript 도구이다.
+     </p>
+       </article>
+       
+       
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>SpringBoard</display-name>
+  
+  <!-- 1.외부의 DB설정에 관련된 파일  불러오기
+     param-name->매개변수명(경로포함해서 불러올 파일명)
+     param-value->경로포함해서 불러올 DB에 관련된 파일명
+    -->
+  <context-param>
+     <param-name>contextConfigLocation</param-name>
+     <param-value>/WEB-INF/dataAccessContext-local.xml</param-value>
+  </context-param>
+  
+  <!--외부의 파일을 불러올때 사용되는 클래스를 등록  -->
+  <listener>
+     <listener-class>
+         org.springframework.web.context.ContextLoaderListener
+     </listener-class>
+  </listener>
+  
+    <servlet>
+    <servlet-name>board</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    </servlet>
+  
+  <!-- 요청명령어를 등록(*.do~) -->
+  <servlet-mapping>
+     <servlet-name>board</servlet-name>
+     <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+</web-app>
+
+
+

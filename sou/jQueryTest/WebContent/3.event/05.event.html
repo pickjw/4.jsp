@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //이미지를 더블클릭->두배로 확대되는 예제
+	  //이벤트를 한번만 실행시키고 두번째 이벤트를 발생->자동적으로 해제되는 함수
+	  //형식) $(이벤트 대상자).one('이벤트 종류명',한번만 실행시킬 함수명 or 익명함수)
+	  $('img').bind('dblclick',function(event){
+		//  $('img').dblclick(function(event){
+		 //$('img').one('dblclick',function(event){
+		  //event객체->마우스의 좌표(x,y),이미지의 가로,세로
+		  var $target=$(event.target) //이미지객체의 정보저장
+		  //var $target=$(this)
+		  alert($target.width()+","+$target.height())
+		  $target.width($target.width()*2)//기존의값에다 *2
+		  //$변수명-->jQuery객체를 의미한다.  
+		  //var target(일반변수)=값,  var $target(객체)=값
+		  // int x=3                          Integer x=new Integer(3)
+          //$(event.target)->이벤트를 발생시킨 객체를 의미(예약어)->$(this)
+          //형식)$(이벤트발생 대상자).unbind('해제시킬 이벤트종류명')
+          //~.unbind()->전부 해제(등록된 이벤트 종류)
+          $target.unbind()
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>$(event.target) 용어</h1>
+  <img src="../picCats/Persian.jpg">
+</body>
+</html>
+
+
+
+

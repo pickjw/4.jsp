@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>CheckBox객체(4).html</title>
+<script>
+  function test(){
+	  sel="";//String sel=""; 선택항목을 저장할 변수
+	  //1번 그림을 선택했다면(체크했다면)
+	  if(document.myform.a1.checked==true)
+		  sel+="1번 ";
+	  if(document.myform.a2.checked==true)
+		  sel+="2번 ";
+	  if(document.myform.a3.checked==true)
+		  sel+="3번";
+	  alert(sel+" 그림이 맘에 드시는 군요!!!")
+  }
+</script>
+</head>
+<body>
+<!-- checkbox(다중선택)(각각을 구분해서 저장)  -->
+  <form name="myform">
+  <input type="checkbox" name="a1">
+    1.<img src="./img/1.gif" width="77"  height="77"><br>
+  
+  <input type="checkbox" name="a2">
+    2.<img src="./img/2.gif" width="77"  height="77"><br>
+    
+  <input type="checkbox" name="a3">
+    3.<img src="./img/3.gif" width="77"  height="77"><p>
+    <input type="button" value="체크확인" onclick="test()">
+  </form>
+</body>
+</html>
+
+
+
+
+
+

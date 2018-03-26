@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jQuery예제(간단한 회원가입)</title>
+<style>
+   #userid,#age,#pwd1,#pwd2  {width:200px}
+   .msg {color:red;padding-left:2px}
+</style>
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"  src="input.js" ></script>
+</head>
+<body>
+<h2>** 간단한 회원자료 입력**</h2>
+<!-- action='register.jsp' -->
+ <form id="signup" method="post">
+    id입력:<input type="text"  name="userid"  id="userid">
+    <span class="msg" id="id_error">
+         id값은 (필수 정보) 입력하세요
+    </span><br>
+    <!--나이  -->
+    나이입력:<input type="text"  name="age"  id="age">
+    <span class="msg" id="age_error1">
+         나이는 반드시 (필수 정보) 입력하세요
+    </span><br>
+    <span class="msg" id="age_error2">
+         나이는 반드시 숫자로 입력하세요
+    </span><br>
+    <!--비밀번호  -->
+    비번입력:<input type="password"  name="pwd1"  id="pwd1">
+    <span class="msg" id="p_error1">
+         비밀번호는 (필수 정보) 입력하세요
+    </span><br>
+    <!--비밀번호 재입력 확인  -->
+    비번재입력:<input type="password"  name="pwd2"  id="pwd2">
+    <span class="msg" id="p_error2">
+         비밀번호가 불일치 합니다.
+    </span><br>
+    <input type="button" id="btnSend" value="회원가입">
+ </form>
+</body>
+</html>
+
+
+
+

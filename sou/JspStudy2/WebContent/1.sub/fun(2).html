@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title> 함수의 선언및 호출유형 (2).html  </title>
+	<script>
+		 /* 간단한 자바스크립트코드,함수를 선언(=부하직원) 
+	        함수의 종류
+	        
+	   1.단순하고 반복적인 구문->매개변수X , 반환값 X ->알바
+	            메서드명(자료형 매개변수,,,){}
+	   
+	    형식) function 함수명(=부하직원)(변수1,변수2,,,,){
+              함수가 해야할 일(부하직원 할일)->변수선언,입력,출력
+         }
+	 */
+	 var test=3; //number(자료형->컴퓨터에게 어떠한 데이터종류를 저장)
+	 var test2=5,b,c
+	 
+	 function print(){
+		 document.write("단순하고 반복적인 구문만 전담")
+	 }
+    //2. 매개변수(함수가 처리해야할 일) 0,반환값 X -> 입력을 받아서 출력 , 계산 ,저장
+	function print2(su){ //print2(int su){}
+	// System.out.println("당신이 입력받은 값은 "+su+" 입니다.");
+		document.write("당신이 입력받은 값은 "+su+" 입니다.");
+	}
+	//3. 매개변수 2개 반환값X ->가독성(알아보기 쉽게 써준 문장) 게산목적
+	function print3(su,su2){//print3(int su,int su2){~}
+		document.write(" su+su2 " + (su+su2) + "<br>")
+	}
+	//4. 매개변수 O, 반환값 O
+	function print3(su,su2){
+		document.write(" su+su2 " + (su+su2) + "<br>")
+		return (su+su2) //return 수식(변수)
+	}
+	</script>
+ </head>
+ <body>
+	<input type="button" value="계산출력" onclick="print()">
+ </body>
+</html>

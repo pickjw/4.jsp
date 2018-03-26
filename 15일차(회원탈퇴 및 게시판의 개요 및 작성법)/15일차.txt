@@ -1,0 +1,580 @@
+15일차(회원탈퇴 및 게시판의 개요 및 작성법)
+
+회원탈퇴
+
+1.MemberDAO->** 회원탈퇴 메서드? **
+
+//7)회원탈퇴를 시켜주는 메서드=>delete
+	//1.id->삭제시킬 id 필요  2.passwd->웹상에서 입력한 암호==DB상의 암호
+	public  int deleteMember(String id,String passwd) {
+		
+//1.DB연결
+	Connection con=null;
+	PreparedStatement pstmt=null;
+	ResultSet rs=null;//select passwd from member where id='nup'
+	int x=-1;//암호를 체크하기위한 변수(성공->1, 실패->0)
+	String dbpasswd="";//id값에 해당하는 DB의 암호값저장
+	String sql="";//sql구문을 저장
+				
+	//2.메서드 목적에 맞는 SQL구문
+	try {
+	con=pool.getConnection();
+ 	con.setAutoCommit(false);//트랜잭션 처리 시작
+	sql="select passwd from member where id=?";
+	pstmt=con.prepareStatement(sql);
+	pstmt.setString(1, id);//웹상에서 입력한 id값
+	rs=pstmt.executeQuery();
+	//id값에 대한 DB에 저장된 암호를 찾았다면
+	if(rs.next()) {
+	dbpasswd=rs.getString("passwd");
+	System.out.println("dbpasswd=>"+dbpasswd);
+	//db상의 암호==웹상에 입력한 암호
+	if(dbpasswd.equals(passwd)) {
+	pstmt=con.prepareStatement("delete from member where id=?");
+	pstmt.setString(1, id);
+	int delete=pstmt.executeUpdate();
+	con.commit();
+	System.out.println("delete 회원탈퇴 성공유무=>"+delete);
+		x=1;
+	}else {
+	x=0;//암호가 실패해서 삭제가 안되는 경우
+	}
+	}//else { x=-1 } 데이터를 못 찾은 경우
+	}catch(Exception e) {
+	System.out.println("deleteMember() 메서드 실행오류=>"+e);
+				}finally {//메모리해제
+					pool.freeConnection(con, pstmt, rs);
+				}
+				return x;
+	}
+=================================================================
+<a href="DelCheckForm.jsp?mem_id=<%=mem_id%>">회원탈퇴</a>
+
+2.DelCheckForm.jsp(암호?)--->deletePro.jsp(탈퇴메서드 호출=>처리)
+
+*****웹프로그램 작성할때 매개변수를 전달하는 방법****(기술면접시)
+*********************************************
+
+1.링크문자열을 이용해서 페이지 전환할때 사용->매개변수를 지정
+ <a href="DelCheckForm.jsp?mem_id=<%=mem_id%>">회원탈퇴</a>
+
+2.Request객체 또는 Session객체를 이용한 데이터 공유방법
+  ->이미 로그인 상태에서는 페이지가 이동된다고 해도 mem_id값이
+  ->사라지지 않고 메모리에 계속 저장된 상태
+
+<a href="MemberUpdate.jsp">회원수정</a>
+ =>String mem_id=(String)session.getAttribute("idKey")
+      
+3.<form>태그내부에 <input type="hidden"~>값을 전달하는 경우
+   형식) <input type="hidden" name="전달할매개변수명" value="전달할값">
+ex)<input type="hidden" name="mem_id" value="<%=mem_id%>" >
+
+  <input type="hidden" name="mem_id" value="<%=mem_id%>" >
+    대신에 action속성값에 
+     action="이동할페이지명?매개변수명=전달할값&매개변수명2=값2,,,
+
+4.action="delePro.jsp?mem_id=<%=mem_id%>
+
+  <form name="del" method="post" 
+              action="deletePro.jsp?mem_id=<%=mem_id%>">
+----------------------------------------------------------------
+모델1의 게시판=>el,jstl문법->모델2의 게시판,스프링(모델2 기반)
+----------------------------------------------------------------
+JspBoard => MySQL 작성(오라클,MySQL 또는 Mariadb)
+                       (실무) (개인,중소규모)=>웹사이트
+         => 페이징 처리(MySQL)
+
+ www.mysql.com
+
+www.jspstudy.co.kr
+
+요구분석
+
+1.게시판의 종류
+
+1.공지사항->관리자만 글쓰기,편집,삭제->거의 자유게시판 성격
+2.자유게시판->회원에 가입X 자유롭게 글쓰기,글수정,글삭제,글조회,,,
+                      댓글(X)
+
+3.Q&A게시판(=답변형 게시판)=>변형이 되는 게시판
+                   ->152p 예외처리 질문     [2] ->댓글수
+                   =>테이블을 2개 설계(1:다 관계때문에)
+
+                  =>글쓰기,글수정,글삭제,글조회+댓글기능
+                  =>회원제 운영(실명제) O or X
+                  =>글삭제(게시판의 취지와 상관없는 광고성~)
+
+4.자료실겸용 게시판->Q&A 게시판+파일업로드 & 다운로드
+====================================
+  답변형 게시판
+
+  공지사항게시판->따로 만들어서 ->하나의 페이지에 붙이는 경우
+  답변형게시판->
+
+ 게시판의 필드->눈에 보이는 필드(번호,분류(공지,Q&A,,,),제목,이름(작성자)
+                                                작성날짜(오늘날짜),조회수)
+                       눈에 보이지 않는 필드->댓글(ref,step,level)
+
+
+--------------------------------------------------------------------
+ 게시판의 번호(큰번호-->하나씩 감소)
+
+ 1
+ 2
+ 3----------------------->3 ->가장 최근의 글이 맨앞에 온다
+                                    2
+                                    1
+-----------------------------------------------------------------
+한페이지당 기본 레코드갯수 10개
+15페이지->150개
+----------------------------------
+기본용어 10가지 공식
+-------------------------------
+JspBoard-->JspBoard2
+
+  JspBoard==>1.페이징 처리기법 2.댓글다는 로직->회원관리와 동일
+       |                                                                 회원리스트(메서드)
+        -src->1.DBConnectionMgr(DB)->mysql로 작성
+
+                 private String _driver = "org.gjt.mm.mysql.Driver",->mysql 드라이버
+                _url = "jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=EUC_KR",
+                                                               ===(포트번호 3306,3307)
+                     /mydb(접속할 DB명)?useUnicode=true&characterEncoding=UTF-8",
+                _user = "root",  (접속계정명)
+                _password = "1234";(암호)  
+       |
+         -WebContent
+                  |
+                   -list.jsp(글목록보기)->memberlist.jsp
+
+   http://www.mysql.com
+  -------------------------------
+  환경설정을 하면서 세밀하게 설치-> Custom을 선택하기
+  설치경로-> C:\MySQL 5.1\
+  =>우편번호도 같이 설치
+
+  Register the MySQL Server now->체크해제
+-------------------------------------------------
+  Configure the Mysql Server now ->체크유지
+  =>계속 환경설정을 이어서 할 예정
+
+  Developer Machine(개발용)
+         |
+  Multifunctionak Database(다기능 목적)
+         |
+  Manual Setting  =>동시접속수 지정(15) 체크
+      포트번호 3306 or 3307
+      오라클의 포트번호(1521->1522)
+  언어선택->utf8
+         |
+  서비스=>MySQL
+  ***PATH에 bin폴더 등록->경로에 상관없이 mysql명령어
+                                  사용하기위해서*****
+  root
+  암호 1234
+  원격접속 체크->Enable root access from remote machine
+  가능하게
+======================================================>finish
+
+Enter password: ****
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 2
+Server version: 5.1.45-community MySQL Community Server (GPL)
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+1.show databases;==>현재 어떤 데이터베이스 목록확인
+  오라클의 select * from tab;//와 기능이 유사
+
+mysql>show databases; //탐색기의 폴더처럼 생각
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| test               |=>폴더(파일이 저장)
++--------------------+
+3 rows in set (0.00 sec)
+
+2.특정 DB에 접속->들어가고 싶다.
+
+ use 전환할 DB명
+
+mysql> use mysql;  //DB에는 테이블이 들어있다.
+Database changed
+
+3.DB에 들어가 있는 테이블을 보여주세요(목록)
+
+mysql>show tables;
+
+mysql> show tables;
++---------------------------+
+| Tables_in_mysql           |
++---------------------------+
+| columns_priv              |
+| db                        |
+| event                     |
+| func                      |
+| general_log               |
+| help_category             |
+| help_keyword              |
+| help_relation             |
+| help_topic                |
+| host                      |
+| ndb_binlog_index          |
+| plugin                    |
+| proc                      |
+| procs_priv                |
+| servers                   |
+| slow_log                  |
+| tables_priv               |
+| time_zone                 |
+| time_zone_leap_second     |
+| time_zone_name            |
+| time_zone_transition      |
+| time_zone_transition_type |
+| user                      |
++---------------------------+
+23 rows in set (0.00 sec)
+
+4.desc user; //구조확인 =>desc 구조확인할 테이블명
+
+5.select * from user;
+---------------------------
+mysql>exit->종료
+---------------------------
+SQLGate for Mysql->30일
+
+유저명:root
+패스워드:1234
+서버:localhost 
+포트:3306------>3307
+데이터베이스:mysql ->처음에는 존재하는 DB에 접속
+**캐릭터셋:utf8
+**유니코드 사용->반드시 체크할것->한글사용 가능
+  연결테스트->접속성공
+
+환경설정
+
+도구->프로그램 옵션
+      SQL 에디터 ->options
+      에디터폰트->글꼴,크기 정해준다.
+                   돋움체
+===========================
+
+ 오라클->varchar2-->varchar(mysql)
+             varchar
+             number----->int->smallint
+             varchar2(4000)      ->text
+                한글은 2000까지
+              clob
+------------------------------------------------
+*******************************************************
+auto_increment->자동으로 게시물번호가 증가하라.(언어적)
+->수동으로 입력하는 경우 적용X ->자동으로 입력이 될때 적용
+                               =>프로그래밍적인 언어로 사용
+                           insert into board values(?,?,?~)
+******************************************************
+=>오라클 ->sequence와 기능이 동일
+=>create sequence 시컨스명board_seq; (1,1)
+=>insert into board values (board_seq.nextval,~)
+                                                            X
+=>최대값+1
+--------------------------------------------------------
+1)재접속->파일 연결끊은 후 다시 재접속=>유니코드 체크한 뒤에
+2)스키마 구조 확인
+
+
+1.DBConnectionMgr.java 설정
+2.BoardDTO 생성
+
+public class BoardDTO {
+
+	private int num;// 게시물번호
+	private String writer;// 작성자
+	private String subject;// 글제목
+	private String email;// 이메일
+	private String content;// 글내용
+	private String passwd;// 암호(글쓰기,글수정할때,글삭제)
+	private Timestamp reg_date;// 작성날짜
+	private int readcount;// 조회수->default->0
+	private String ip;// 작성자의 ip주소를 출력
+	// 댓글에 관련된 필드
+	private int ref;// 글 그룹번호
+	private int re_step;// 답변글의 순서를 지정
+	private int re_level;// 답변글의 답변에 대한 깊이
+	// private String file;=>파일의 정보 추가->자료실
+               ...
+
+3.BoardDAO=>DB에 접속해서 불러올 테이블의 crud에 관련된
+                                           메서드를 선언
+
+설계=>DTO(테이블의 갯수에 맞추면 된다.)
+      =>DAO=>테이블 갯수에 맞추는게 아니라 연관성
+
+ZipcodeDTO,->우편번호 검색=>회원가입->MemberDAO
+==================================
+
+페이징 처리를 연습하기위해서 =>zipcode테이블 ->4만개
+
+형식)먼저 테이블을 작성하고 나서
+ mysql -u 접속계정명 -p 암호 접속할DB명  < 경로포함 파일명
+c:\mysql5.1\bin\ mysql -u root -p  mydb < zipcode.txt
+ password:1234
+
+ 부작용->한글이 깨져
+------------------------------------------------------
+
+@c:\mysql5.1\bin\zipcode.txt ->오라클의 경우라면
+
+제어문->while(조건식->반복),
+                      조건식이 거짓
+                     한번도 수행
+            do~while(무조건 한번은 수행
+                           조건식->거짓 끝)
+            ->누적의 개념
+->ex) 벽돌쌓기
+--------------------------------------------
+테이블을 생성 ->insert할때 한글이 깨지는 경우 ???
+오click->스키마 보기
+
+CREATE TABLE zipcode (
+  zipcode char(7) NOT NULL,
+  area1 char(10) DEFAULT NULL,
+  area2 char(20) DEFAULT NULL,
+  area3 char(40) DEFAULT NULL,
+  area4 char(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+                         ==========
+                         CHARSET=latin1=>한글깨짐
+연결접속->charset=utf8
+         유니코드 사용->체크해야 된다.
+============================
+
+1.게시판의 종류=>답변형 게시판(reply)=>자유 게시판->답변이 없는 게시판
+                                       (공지게시판)
+            ===================================
+            number->int, varchar->varchar2
+            date(날짜), datetime(날짜와 시간)
+            varchar2(4000)->text
+            ==================================
+=>Mysql=>zipcode->42265
+
+use mydb;
+
+create table board( 
+num int not null primary key auto_increment, /*  글번호를 저장하는필드 */ 
+writer varchar(10) not null, /*글쓴이 */ 
+email varchar(30),  /*  이메일->유일하게null값을허용*/ 
+subject varchar(50) not null, /*글제목 */ 
+passwd varchar(12) not null, /*글의 비밀번호 */ 
+reg_date datetime not null, /*글을쓴 날짜*/ 
+readcount int default 0, /*  글의조회수 */ 
+ref int not null,     /*  글을그룹화하기위한 필드 */ 
+re_step smallint not null, /*  제목글과 답변글의순서를 정리*/ 
+re_level smallint not null, /*  글의 레벨을저장하는필드 */ 
+content text not null, /*  글내용  */ 
+ip varchar(20) not null /*  글쓴이의ip주소를 저장하는필드 */ 
+     ); 
+
+2.DB연결=>DBConnectionMgr.java
+          --------------------
+
+private Vector connections = new Vector(10);
+    /*   MySQL  */
+      
+	private String _driver = "org.gjt.mm.mysql.Driver",
+    _url = "jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=UTF-8",
+    _user = "root",
+    _password = "1234"; 
+
+2.BoardDAO
+
+  =>www.jspstudy.co.kr
+
+//3-1)페이징 처리를 위해서 전체 레코드수를 구해와야 된다.
+    //select count(*) from board->select count(*) from member
+    //wherew 조건식이 없으면 매개변수 X
+    
+    public int getArticleCount() {
+    	
+    	Connection con=null;
+    	PreparedStatement pstmt=null;
+    	ResultSet rs=null;
+    	int x=0;
+    	
+    	try {
+    		con=pool.getConnection();
+    		System.out.println("con="+con);
+    		String sql="select count(*) from board";
+    		pstmt=con.prepareStatement(sql);
+    		rs=pstmt.executeQuery();
+    		if(rs.next()) {
+    			x=rs.getInt(1);//필드명이 아니기때문에 select ~ from사이에 나오는순서
+    		}
+    	}catch(Exception e) {
+    		System.out.println("getArticleCount()메서드 에러유발"+e);
+    	}finally {
+    		pool.freeConnection(con, pstmt, rs);
+    	}
+    	return x;
+    }
+    
+   //3-2)글목록보기에 대한 메서드 구현(매개변수)->범위를 지정->zipcode확인
+    //1.레코드의 시작번호, 2.불러올 레코드의 갯수
+    public List getArticles(int start,int end) { 
+    	
+    	Connection con=null;
+    	PreparedStatement pstmt=null;
+    	ResultSet rs=null;
+    	List articleList=null; //ArrayList articleList=null;->10개씩
+    	
+    	try {
+    		con=pool.getConnection();
+    		String sql="select * from board order by ref desc,re_step asc limit ?,?";
+    		pstmt=con.prepareStatement(sql);
+    		pstmt.setInt(1, start-1);//mysql이 레코드순번은 내부적으로 0부터
+    		pstmt.setInt(2, end);
+    		rs=pstmt.executeQuery();
+    		if(rs.next()) {//레코드가 존재한다면(1개)
+    			//articleList=new List(); X
+    			//articleList=new 자식클래스명();
+    			articleList=new ArrayList(end);//end갯수만큼 데이터를 담기위해서
+    			do {
+    			BoardDTO article=new BoardDTO();
+    			article.setNum(rs.getInt("num"));//최대값+1->코딩
+    			article.setWriter(rs.getString("writer"));
+    			article.setEmail(rs.getString("email"));
+    			article.setSubject(rs.getString("subject"));
+    			article.setPasswd(rs.getString("passwd"));
+    			article.setReg_date(rs.getTimestamp("reg_date"));//오늘날짜->코딩 now()     
+    			article.setReadcount(rs.getInt("readcount"));//->default->0
+    			article.setRef(rs.getInt("ref"));//그룹번호->언어
+    			article.setRe_step(rs.getInt("re_step"));//답변글순서->언어
+    			article.setRe_level(rs.getInt("re_level"));//답변의 깊이
+    			article.setContent(rs.getString("content"));//글내용
+    			article.setIp(rs.getString("ip"));//글쓴이의 ip주소->request.getRemoteAddr();
+    			//추가
+    			articleList.add(article);
+    			}while(rs.next());
+    		}
+    	}catch(Exception e) {
+    		System.out.println("getArticleCount()메서드 에러유발"+e);
+    	}finally {
+    		pool.freeConnection(con, pstmt, rs);
+    	}
+    	return articleList;
+    }
+-------------------------------------------------------------
+3.list.jsp=>게시판에 사용되는 용어 9~10가지 용어
+
+게시판* 
+------------
+
+    1) b_ref (reply family)->윗글(일반글)과답변글을묶어준다. 
+                                   단독으로 사용하는 경우
+                                    각각의 게시물을 구분하는 인자로 사용
+                                    (=num와 같다)
+
+
+    2) b_step(reply step)->몇번째단계의답변인지를나타내는컬럼 
+
+                            ->같은그룹내에서도답변글을구분 
+
+    3) b_level(reply level)=> 글의정렬순서를지정해주는 컬럼 
+                                    가로 
+                                    (들여쓰기) ->답변
+게시판에 글쓰기
+------------------------>신규글일때 step,level->0
+
+num    writer    ,,,         ref     step    level
+  1       aaa                      0      0         0
+            |
+             -aaa-1               0       1           1
+                  |
+                   -aaa-2         0       2          2
+                 |
+                  -aaa-3          0       3           2
+
+  2       bbb                      1      0         0
+             |
+               -bbb-1             1                 1
+                   |
+                    -bbb-2        1                 2
+
+  3       ccc                       2      0         0
+             |
+              -ccc-1               2                 1
+
+  4        ddd                    3       0          0
+             |
+               -ddd-1            3                  1
+
+
+select * from board order by ref desc,re_step asc limit ?,?
+                                           num
+
+그룹번호는 내림차순으로 정렬하되 답변글 순서는 오름차순으로
+ 정렬하라 몇번째 레코드부터 몇개기준으로
+----------------------------------------------------------------
+테이블의 필드 3개(ref,step,level)
+
+record->10개->1페이지->10개페이지 (1 	블럭)
+
+블럭의 종류
+                     1~10     11~20                                        21~30            
+1.이전블럭=>이전 10개 11 12 13 14 15 16 17 18 19 20 다음블럭
+                   ----------   현재 블럭
+
+2.현재블럭  1 2 3 4 [5] 6 7 8 9 10
+                     현재 블럭
+3.다음블럭 1 2 3 4 5 6 7 8 9 10 ::: 다음 10개?
+                                                    다음블럭
+
+1. int nowPage=>현재 보고 있는 페이지(클릭해서)
+2. int nowBlock=>현재블럭=>현재 페이지가 포함된 전체 페이지
+                                            들
+
+3  int numPerPage = 10;  =>페이지당 보여주는 레코드수를 지정   
+               
+4. int pagePerBlock = 10; =>블럭당 보여주는 페이지수를 지정
+
+5. 총페이지수=총레코드수/페이지당 보여주는 레코드수
+                                      122/10=12.2=(int)13.2=13
+
+ 12페이지 10개 2개->1 페이지를 더 생성->총 13페이지
+
+    int totalPage =(int)Math.ceil((double)totalRecord / numPerPage);
+                                      무조건 올림메서드
+
+6. 총블럭수=총페이지수 /블럭당 보여주는 페이지수
+    int totalBlock =(int)Math.ceil((double)totalPage / pagePerBlock);
+	               13/10
+
+7. 페이지당 맨 처음에 보여주는 게시물 번호
+                                   현재페이지*페이지당 보여주는 레코드수
+   int beginPerPage =   nowPage * numPerPage;
+                      ex)            1*10=10,9,8,7,6
+                                       2*10=20,19,18,17,16,,
+=======================================
+list.jsp 시작
+                                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

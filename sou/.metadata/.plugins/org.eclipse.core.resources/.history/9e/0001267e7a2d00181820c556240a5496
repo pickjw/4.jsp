@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+ 
+ <!--1. springboard테이블에서 SQL작업(1.글목록보기) -->
+ 
+<select id="list" resultType="board">
+    select * from springboard order by num desc
+</select>
+
+<!--2.최대값 구하기  -->
+<select id="getNewNum" resultType="int">
+     select max(num) from springboard 
+</select>
+
+<!--3.글쓰기 #{매개변수명(=멤버변수명} -->
+<insert id="write" parameterType="board">
+     insert into springboard(num,author,title,content,writeday)
+     values(#{num},#{author},#{title},#{content},sysdate)
+</insert>
+ 
+</mapper>
+
+
+
+
+
+
+

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  $('#sel').change(function(event){
+		  //select태그의 option의 value값을 불러오는 코딩
+		  //var imgSrc=$(this).val()
+		  var imgSrc=$(event.target).val()
+		  //alert(imgSrc)
+		  $('img').attr('src',imgSrc)
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>jQuery select 예제</h1>
+<form name="frm">
+  <table>
+     <tr>
+       <td>
+          <select id="sel">
+             <option value="../picCats/Abyssinian.jpg">Abyssinian
+             <option value="../picCats/AmericanShorthair.jpg">AmericanShorthair
+          </select>
+       </td> 
+       <td>
+         <img id="img">
+       <!-- <img id="img"  src="../picCats/Abyssinian.jpg"> -->
+       </td>
+     </tr>
+  </table>
+</form>
+</body>
+</html>
+
+
+
+

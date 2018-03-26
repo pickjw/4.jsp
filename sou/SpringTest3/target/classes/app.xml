@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+<!-- @Required, @Autowired(@inject),@Resource 을 자바코드에서 사용하기
+       위해서 환경설정 xml파일에 빈즈객체로 등록해야 된다. -->
+
+<bean class="org.springframework.beans.factory.annotation.RequiredAnnotationBeanPostProcessor" />
+<bean class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+
+<bean id="camera1"  class="anno1.Camera">
+    <property name="number" value="12" />
+</bean>
+
+<bean id="moniter"  class="anno2.SystemMoniter" />
+    <!-- 
+    <property name="periodTime"  value="20" />
+    <property name="sender" ref="sender" /> 
+    -->
+    
+<bean id="sender"   class="anno2.SmsSender" />
+
+<!-- @Resource (부서별로 cctv 설치갯수를 설정)-->
+<bean id="camera2" class="anno3.Camera" p:number="2" />
+<bean id="camera3" class="anno3.Camera" p:number="3" />
+<bean id="camera4" class="anno3.Camera" p:number="4" />
+
+<bean id="homeController"  class="anno3.HomeController" />
+
+<bean id="homeController2"  class="anno4.HomeController2"
+          factory-method="test" />
+          
+<bean id="camera5" class="anno4.Camera" />
+
+
+</beans>
+
+
+

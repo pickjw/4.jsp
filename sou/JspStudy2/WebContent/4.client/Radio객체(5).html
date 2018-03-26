@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Radio객체(5).html</title>
+<script>
+  function test(){
+	 //sel="";//String sel=""; 선택항목을 저장할 변수
+	  //1번 그림을 선택했다면(체크했다면)
+	  if(document.myform.ok[0].checked)   //char(1) y|n
+		  alert("1번 그림이 맘에 드시는 군요!!!")
+	  else if(document.myform.ok[1].checked)
+		  alert("2번 그림이 맘에 드시는 군요!!!")
+	  else if(document.myform.ok[2].checked==true)
+		  alert("3번 그림이 맘에 드시는 군요!!!")
+  }
+</script>
+</head>
+<body  oncontextmenu="return false"
+            ondragstart="return false"
+            onselectstart="return false">
+<!-- Radio(하나만 선택)(여러개중에서 하나만 선택이 가능한경우)
+       같은 태그를 여러개 사용->배열로 인식->첨자로 구분
+   ex) 결재종류를 선택->현금,무통장입금,카드
+  -->
+  <form name="myform">
+  <input type="radio" name="ok">
+    1.<img src="./img/1.gif" width="77"  height="77"><br>
+  
+  <input type="radio" name="ok">
+    2.<img src="./img/2.gif" width="77"  height="77"><br>
+    
+  <input type="radio" name="ok">
+    3.<img src="./img/3.gif" width="77"  height="77"><p>
+    <input type="button" value="체크확인" onclick="test()">
+  </form>
+</body>
+</html>
+
+
+
+
+
+

@@ -1,0 +1,119 @@
+@charset "UTF-8";
+
+/*
+ * Slideshow
+ */
+
+.slideshow {
+    background-color: rgb(0, 0, 0); /* 배경 색상 */
+    height: 465px;
+    min-width: 960px;
+    overflow: hidden;
+    position: relative;
+}
+
+.slideshow-slides {
+    height: 100%;
+    position: absolute;/* 4장 이미지가 겹쳐있는 상태 */
+    width: 100%;   /* left는 JavaScript로 지정 ->main.js */
+} 
+
+.slideshow-slides .slide {
+    height: 100%;
+    overflow: hidden;  /* 영역을 벗어난 경우는 안보이게 설정*/
+    position: absolute; /* 이미지 겹쳐있는 상태 */
+    width: 100%;   /* left는 JavaScript로 지정 */
+}  
+
+.slideshow-slides .slide img {
+    left: 50%; /* 슬라이드의 정중앙에 배치 */
+    margin-left: -800px;
+    position: absolute;
+}
+
+.slideshow-nav a,       /*클릭 후*/
+.slideshow-indicator a {  /* main.js에서 <a href=~ */
+    background-color: rgba(0, 0, 0, 0); /* for IE9 */
+    overflow: hidden; /* 슬라이드 이동시 화면에 안보이게 설정*/
+}
+
+.slideshow-nav a:before,  /* 클릭 전 */
+.slideshow-indicator a:before { /* 인디케이터 누르기전 */
+    content: url(../img/sprites.png);
+    display: inline-block; /* <  ,>  나란히 정렬 */
+    font-size: 0;
+    line-height: 0;
+}
+
+.slideshow-nav a {  /* 링크문자열의 위치와 크기 지정 */
+    position: absolute;/* 링크문자열도 겹치게 설정 */
+    top: 50%;
+    left: 50%;
+    width: 72px;
+    height: 72px;
+    margin-top: -36px;
+}
+.slideshow-nav a.prev {  /* < 누른후 이동한 위치 */
+    margin-left: -480px;
+}
+.slideshow-nav a.prev:before { /* < 누르기 전 이동 위치*/
+    margin-top: -20px;    
+}
+.slideshow-nav a.next { /* > 누른 후 이동 위치 */
+    margin-left: 408px;
+}
+.slideshow-nav a.next:before { /* > 누르기 전 이동 위치*/
+    margin-left: -80px;
+    margin-top: -20px;
+}
+.slideshow-nav a.disabled { /* a 비활성화->화면에 안보이게*/
+    display: none;
+}
+
+.slideshow-indicator { /* 인디케이트의 스타일 설정*/
+    bottom: 30px; /* 이미지의 바닥으로부터 30px 떨어진 위치 */
+    height: 16px;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center; /* 가운데 위치 */
+}
+.slideshow-indicator a {
+    display: inline-block; /* a링크 문자열 가로로 정렬 */
+    width: 16px;
+    height: 16px;
+    margin-left: 3px; /* 인디케이터끼리의 여백 */
+    margin-right: 3px;
+}
+.slideshow-indicator a.active { /* 마우스 포인터 지정(기본) */
+    cursor: default;
+}
+.slideshow-indicator a:before {
+    margin-left: -110px;
+}
+.slideshow-indicator a.active:before { /* 링크문자열 활성화 전의 스타일 */
+    margin-left: -130px;
+}
+
+/* JavsScript 비활성화 시 */
+
+.no-js .slideshow {
+    height: auto;
+}
+.no-js .slideshow-slides {
+    height: auto;
+    position: static;
+}
+.no-js .slideshow-slides .slide {
+    display: block;
+    height: auto;
+    position: static;
+}
+.no-js .slideshow-slides .slide img {
+    margin: auto;
+    position: static;
+}
+.no-js .slideshow-nav,
+.no-js .slideshow-indicator {
+    display: none;
+}

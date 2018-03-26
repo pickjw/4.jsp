@@ -1,0 +1,6 @@
+127.0.0.1 - - [21/Mar/2018:14:50:04 +0900] "GET / HTTP/1.1" 404 1074
+0:0:0:0:0:0:0:1 - - [21/Mar/2018:14:50:07 +0900] "GET /SpringMyBatis/index.jsp HTTP/1.1" 302 -
+0:0:0:0:0:0:0:1 - - [21/Mar/2018:14:50:07 +0900] "GET /SpringMyBatis/list.do HTTP/1.1" 200 2489
+0:0:0:0:0:0:0:1 - - [21/Mar/2018:14:50:07 +0900] "GET /favicon.ico HTTP/1.1" 404 1085
+0:0:0:0:0:0:0:1 - - [21/Mar/2018:14:54:22 +0900] "GET /SpringMyBatis/writeui.do HTTP/1.1" 200 519
+0:0:0:0:0:0:0:1 - - [21/Mar/2018:14:54:29 +0900] "GET /SpringMyBatis/writeui.do HTTP/1.1" 200 519

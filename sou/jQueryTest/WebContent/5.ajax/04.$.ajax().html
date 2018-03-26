@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>04.$.ajax().html</title>
+<script>
+  $(function(){ 
+	  //getXml.jsp파일을 불러오기(1.url,2매개변수,3.콜백함수) or ({속성명:값,,})
+	  //$.ajax({url:'getXml.jsp',success:function(data){}})
+	  $.ajax('getXml.jsp', //function(data){}
+			    //data:~ 매개변수가 전달되는 것이 없는 경우에는 생략이 가능
+			  {success:function(data){ //분리작업(파싱분석)parse->
+				  $(data).find('person').each(function(){ //$(this)-><person>
+					   var name='<li>'+$(this).find('name').text()+'</li>'
+					   var job='<li>'+$(this).find('job').text()+'</li>'
+					   var age='<li>'+$(this).find('age').text()+'</li>'
+					   //<div>에 출력
+					   $('#output').append('<ul>'+name+job+age+'</ul>')
+				  })//each
+			  }//success
+	  })//$.ajax
+  })
+</script>
+</head>
+<body>
+  <div id="output">
+      <!-- <ul>
+          <li>홍길동</li>
+          <li>학생</li>
+          <li>23</li>
+      </ul> -->
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+

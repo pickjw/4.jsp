@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ajax Programming의 전체 과정</title>
+<script>
+    var httpRequest=null;//xhr객체를 저장(전역변수)->다른 함수에서 불러다사용
+    //1.->XHR객체를 생성->반환
+    function getXHR(){ //function 호출할 함수명(~){} 
+    	if(window.XMLHttpRequest){//XMLHttpRequest을 가지고 있다면
+    		return new XMLHttpRequest();//객체를 생성하는 구문
+    	}
+    }
+    //2.요청을 받아서 대신 요청을 해주는 역할함수
+    function load(url){ //요청경로 포함해서 요청할 문서를 받아서 처리
+    	//1)xhr객체를 생성
+    	httpRequest=getXHR();
+    	//alert(httpRequest);//[객체표시 object]
+    	//2)생성된 xhr객체->준비작업(콜백함수를 지정,요청받은것을 확인)->서버요청
+    	//형식) xhr객체명.onreadystatechange=콜백함수명  //() X ->함수이름만 쓸것
+    	httpRequest.onreadystatechange=viewMessage;
+    	//3)콜백함수를 지정->특별한 조건이 만족하면 자동적으로 호출되는 함수
+    	//                            서버가 xhr객체에게 요청결과를 받았다면
+    	//4)xhr객체를 이용해서 요청->xhr객체명.open()
+    	//(1.요청방식(get or post),2.요청문서(url) 3.처리방식(비동기(true) or  동기))
+    	// 비동기방식으로 통신(채팅,메일보내기(상대방이 요청결과를 보내주는것과
+    	//                                                      상관없이 다른일을 할 수 있는 방식))
+    	httpRequest.open("GET",url,true);
+    	//5)최종적으로 요청->xhr객체명.send(null or 매개변수명)
+    	httpRequest.send(null);
+    }
+    //3.서버의 요청결과를 받으면 자동으로 호출되는 함수를 작성(변화를 감지 자동호출)
+    function viewMessage(){
+    	//alert("viewMessage()호출됨!");
+    	//1.톰캣서버가 클라이언트의 요청을 다 받았는지 확인->readyState=0~(4)
+    	if(httpRequest.readyState==4){ //서버가 내 요청을 다 받았들었다면
+    		//2.서버가 클라이언트에게 데이터를 다 전송했는지를 체크->status->404,500
+    		if(httpRequest.status==200){//200(정상적으로 응답)
+    			//텍스트(text)->responseText 처리(default)   xml(responseXml),json
+    			alert(httpRequest.responseText);
+    		}else{//404 or 500 or 403(접근금지)
+    			alert('실패=>'+httpRequest.status)
+    		}
+    	}
+    }
+</script>
+</head>
+<body>
+   <h2>텍스트파일에 대한 한글처리 방법</h2><!--1.이벤트 발생구문  -->
+   <input type="button" value="simple.txt" onclick="load('simple.txt')">
+   <input type="button" value="simple2.txt" onclick="load('simple2.txt')">
+   <input type="button" value="simple.jsp" onclick="load('simple.jsp')">
+   <input type="button" value="simple2.jsp" onclick="load('simple2.jsp')">
+</body>
+</html>
+
+
+
+
+
+

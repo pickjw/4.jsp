@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>dom2(동적으로 버튼생성).html </title>
+  <script>
+    //동적으로 버튼만 계속해서 생성->단순,반복->매개변수X 반환값 X
+	//함수밖에서 선언->전역변수->모든 지역에서 사용이 가능(함수)
+	var count=0;//1,2,3,4,5,,,,
+
+    function appendItem(){ //서울,경기도
+       //변수선언 var count=0 //지역변수->함수내부에서만 사용이 되는 변수
+	   //변수=변수+값
+       count=count+1//1,2,3,4,5,,,
+     //1.화면에 생성시킬  태그생성 <div></div>
+	 var newItem=document.createElement("div")
+	 //2.같은 태그를 구분시켜주기위해서 id(속성명)=값
+	 //형식) 생성된 태그명.setAttribute("생성시킬 속성명","값")
+     newItem.setAttribute("id","item_"+count)//<div id=item_1 ></div>
+	 //3.createTextNode함수이용 or innerHTML속성명=값을 이용
+	 //자바스크립트 문자열->" " "(X) " or ' "  "  '
+     var html='새로 추가된 아이템['+count+']'+'<input type="button" value="삭제" onclick="removeItem('+count+')"  />'
+	 //4.생성시킨 태그명.innerHTMl="수정할값";
+     newItem.innerHTML=html //newItem.createTextNode(html)
+	 //5.부모태그명.appendChild(새로 생성시킨 태그명)
+     var itemList=document.getElementById("itemList")
+	 itemList.appendChild(newItem)
+	}
+	//동적으로 특정 버튼만 계속해서 삭제->수정->매개변수 O, 반환값X
+	//삭제
+
+	function removeItem(idCount){//idCount 매개변수로 삭제할 항목구분
+       //확인용
+	   //alert(idCount)
+	   //삭제->부모태그.removeChild(삭제시킬 자식태그(id)값)
+       //부모를 얻어오는 방법->id값->document.getElementById('id값')->$('id값')
+	   //자식태그를 얻어오면-> 자식태그.parentNode->부모태그를 얻어오는 경우
+      var item=document.getElementById("item_"+idCount)
+	  //var itemList=document.getElementById("itemList")
+	  //itemList.removeChild(item)
+       item.parentNode.removeChild(item)
+	}
+  
+  </script>
+ </head>
+ <body>
+	<input type="button" value="추가" onclick="appendItem()">
+	<div id="itemList"><!-- 화면에 출력시켜주는 영역 -->
+       <!-- 
+	   <div id="item_1">새로 추가된 아이템1[삭제]</div>
+	   <div id="item_2">새로 추가된 아이템2[삭제]</div>
+	    .... -->
+	</div>
+	<hr>
+	<div id="itemList2">
+
+	</div>
+ </body>
+</html>

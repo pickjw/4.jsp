@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 101 템플릿</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+         <!-- 
+            1.버튼들을 하나로 묶어주는 클래스->btn-group
+            2.서브메뉴 안나오게 해주는 옵션클래스-><ul class="dropdown-menu">
+            3.data-toggle="dropdown" ->클릭했을때 메뉴가 나오게 해주는 클래스선택자
+            4.dropdown-toggle-> 버튼의 클래스 선택자(둥근 모서리 설정이 가능)
+            5.caret->화살표를 나오게 설정을 해주는 옵션
+               형식)글자 또는 이미지아이콘<span class="caret"></span>
+            6.button태그로 이루어진 버튼의 경우에는 양쪽정렬 적용이 안된다.
+          -->
+         <h1>드롭다운예제</h1>
+         <h4 class="text-primary">버튼 그룹의 중첩을 이용한 서브메뉴 이용</h4>
+         <div class="btn-group">
+           <button type="button" class="btn btn-default">버튼1</button>
+           <button type="button" class="btn btn-default">버튼2</button>
+           <button type="button" data-toggle="dropdown" 
+                        class="btn btn-default dropdown-toggle">
+                        <span class="glyphicon glyphicon-plus"></span>
+                        <span class="caret"></span>
+                        </button>
+           <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">공지사항</a></li>
+              <li><a tabindex="-1" href="#">자유게시판</a></li>
+              <li><a tabindex="-1" href="#">자료실</a></li>
+           </ul>
+         </div><!--<div class="btn-group">  -->
+         <p>
+         <hr>
+         <!-- 버튼그룹의 수직정렬(btn-group-vertical),양쪽 정렬하기 -->
+         <h4 class="text-primary">버튼 그룹의 수직정렬하기</h4>
+         <div class="btn-group-vertical">
+           <button type="button" class="btn btn-default">버튼1</button>
+           <button type="button" class="btn btn-default">버튼2</button>
+           <button type="button" data-toggle="dropdown" 
+                        class="btn btn-default dropdown-toggle">클릭
+                        <span class="caret"></span>
+                        </button>
+           <ul class="dropdown-menu">
+              <li><a tabindex="-1" href="#">공지사항</a></li>
+              <li><a tabindex="-1" href="#">자유게시판</a></li>
+              <li><a tabindex="-1" href="#">자료실</a></li>
+           </ul>
+         </div><!--<div class="btn-group">  -->
+         <p>
+         <!--  -->
+         <h4>a태그로 이루어진 버튼의 정렬(양쪽정렬)(btn-group-justified)</h4>
+         <div class="btn-group btn-group-justified">
+            <a href="#" class="btn btn-default">버튼1</a>
+            <a href="#" class="btn btn-default">버튼2</a>
+            <a href="#" class="btn btn-default">버튼3</a>
+         </div>
+         <hr>
+         <h4>button태그로 이루어진 버튼의 경우에는 양쪽정렬 적용이 안된다.</h4>
+         <div class="btn-group btn-group-justified">
+             <button type="button" class="btn btn-default">버튼1</button>
+             <button type="button" class="btn btn-default">버튼2</button>
+             <button type="button" class="btn btn-default">버튼3</button>
+         </div>
+         
+    </div><!-- <div class="container"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(serialize().html)</title>
+<script>
+  $(function(){ 
+	  $('#submit').click(function(){
+		  $('#result').empty();//전에 부착된 내용을 새로 지우고 다시 받아오기 위해서
+		   /*
+		   var form_data=$('form').serialize();//쿼리문자열 형태로 전달(포장)
+		    $('#result').text(form_data)
+		    */
+		    //(2)serializeArray()->json형식의 문자열로 변환->전달
+			  var form_data=$('form').serializeArray();
+		    /* 키명:전달한값 형식으로 전달
+			    $.each(form_data,function(index,value){//name속성(키명) value속성(값)
+			    	$('#result').append(value.name+"="+value.value+"<br>")
+			  }) 
+			          {name:value~}=>json표기법형식으로 전달
+			  */
+			  $.post('form.jsp',form_data,function(args){
+				  $('#result').html(args)
+			  })
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>값을 입력(여러개의 값을 입력받아서 전송)회원가입</h1>
+<form>
+  <!-- 
+    $.ajax or $.post=>  {매개변수명:전달할값,매개변수명2:전달할값,,,}
+                           =>serialize() 또는 serializeArray()이용 
+   -->
+   <input type="hidden" name="seq" value="1">
+   <label>이름을 입력하세요:</label>
+   <input type="text" name="username"><br>
+   <label>암호를 입력하세요:</label>
+   <input type="password" name="password"><br>
+   <input type="checkbox" name="hobby" value="music">music
+   <input type="checkbox" name="hobby" value="yoga">yoga
+   <input type="checkbox" name="hobby" value="reading">reading
+   <p>
+   <input type="button" id="submit" value="전송">
+</form>
+<hr>
+<div id="result"></div>
+</body>
+</html>
+
+
+
+
+
+
+
+

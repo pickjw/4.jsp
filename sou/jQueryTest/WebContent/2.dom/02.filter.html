@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(each함수와 연관)</title>
+<style>
+    .high_light_0  {background:yellow ; font-size:12pt; color:red}
+    .high_light_1  {background:orange}
+    .high_light_2  {background:blue}
+    .high_light_3  {background:green}
+    .high_light_4  {background:red}
+</style>
+<script>
+  $(function(){ 
+	  //h1태그를 반복해서 읽어들였을때 class속성이 select인것을 찾아서 특정스타일로
+	  //형식)$('선택자').filter('찾는조건에 해당하는 선택자'')->일치하는 단어중심
+	  //형식)$('선택자').find('찾는조건에 해당하는 선택자'')->하위태그에 있는 단어중심(트리구조 중심)
+	  
+	  //$('h1').filter(':even').css('background','orange')
+	  $('h1').filter(function(index){
+		            return index%2==1
+	  }).css('background','orange')
+	  //제어문(if) 형식) $('선택자').is('찾을 조건')->is함수->이벤트 처리와 연관
+	  $('h1').each(function(){
+		  if($(this).is('.select')){  //클래스 선택(.select)
+			  $(this).css('background','yellow') //$(this)->현재 읽어들이는 h1태그
+		  }else {//클래스 선택자가 아닌경우
+			  $(this).css('background','green')
+		  }
+	  })
+  })
+  
+</script>
+</head>
+<body>
+<h3>filter함수 응용</h3>
+<h1>Header-1</h1>
+<h1 class="select">Header-2</h1>
+<h1 id="select">Header-3</h1>
+<h1>Header-4</h1>
+<h1>Header-5</h1>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

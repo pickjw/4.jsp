@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(이벤트 처리)</title>
+<script>
+  $(function(){ 
+	 //1.$('img').bind('click',function(){
+     //2.$('img').click(function(){
+	 //	  alert('이미지 설명') 
+	 //})
+	 //형식  $(이벤트발생 대상자).bind({등록할 이벤트이름:function()익명함수})
+	 $('img:eq(0)').bind({  //<->unbind({해제시킬 이벤트이름:function()익명함수})
+		   mouseout:function(){
+			   $('img:eq(0)').attr('src','../picCats/Persian.jpg')
+		   },
+		   mouseover:function(){
+			   $('img:eq(0)').attr('src','../picCats/RussianBlue.jpg')
+		   },
+           click:function(){
+			   alert('bind함수를 이용한 연결테스트 연습입니다.')
+		   }
+	    })	 
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 이벤트처리(bind함수 이용)</h1>
+
+  <img src="../picCats/Persian.jpg" width="200" height="200">
+  <img src="../picCats/RussianBlue.jpg" width="200" height="200">
+  <img src="../picCats/BritishShorthairs.jpg" width="200" height="200">
+
+</body>
+</html>
+
+
+
+

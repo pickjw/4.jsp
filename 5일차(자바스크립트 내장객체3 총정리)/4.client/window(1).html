@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>window객체</title>
+<script>
+/*
+ * setTimeout(실행시킬 함수명,milisecond(초단위)) 
+  ex) 1000->1초 뒤에 특정 실행시킬 함수를 한번 실행
+  
+   setinterval(실행시킬 함수명,milisecond(초단위))
+       ->일정시간후에 함수를 반복해서 실행
+       =>자바의 쓰레드객체 대용으로 많이 사용
+ *
+ */
+ function test(){
+	  alert('경고창을 닫고 3초후에 이 페이지는 종료됩니다.')
+	  //3초뒤에 창을 닫기
+	  window.setTimeout(function(){
+		  window.close();//창을 닫기<-->window.open()
+	  },3000)
+  }
+       
+   function new_open(){ //공지사항을 띄우기
+	   //window.open(1.불러올 문서명 2.문서의제목,3.창의옵션(넓이,높이,위치,,))
+	   //<->window.close()-> self(자기자신의 창).close()
+	   //toolbar=yes|no(툴바),menubar=yes|no(메뉴바),status(상태바),resizable=yes|no(창크기 조절)
+	   open("new.html","w","left=200,top=200,width=250,height=300,toolbar=no,status=yes,scrollbars=yes,resizable=no")
+   }
+   function re_size(sel){//다중선택 if~else if ->switch~case
+	   //매개변수를 받아서 처리->moveBy(x,y)->IE O, chrome X
+	   switch(sel){
+	        //top
+	        case "up":window.moveBy(0,-20)//y->음(위) pixel
+	        break;
+	        //down
+	        case "down":window.moveBy(0,20)//y->양(아래) pixel
+	        break;
+	        //left
+	        case "left":window.moveBy(-20,0)//x->음(왼쪽)
+	        break;
+	        //right
+	        case "right":window.moveBy(20,0)//x->양(오른쪽)
+	        break;
+	   }
+   }
+</script>
+</head>
+<body onload="new_open()">
+<!-- <body> -->
+<form>>
+<input type="button" value="클릭" onclick="test()">
+<input type="button" value="open" onclick="new_open()">
+<input type="button" value="up" onclick="re_size('up')">
+<input type="button" value="down" onclick="re_size('down')">
+<input type="button" value="left" onclick="re_size('left')">
+<input type="button" value="right" onclick="re_size('right')">
+</form>
+</body>
+</html>
+
+
+

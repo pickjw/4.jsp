@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //append(),appendTo()  <-> remove(),empty()->dom에서 처리
+	  //empty()->특정태그의 내용을 제거, remove()->구조까지 제거
+	  //empty()->append()
+	  //$('#button').bind('click',function(){
+	   $('#button1').click(function(){
+		  $('#div1').remove()//div태그를 삭제->이 div태그안의 내용물도 같이 삭제
+	  })
+	  
+	   $('#button2').click(function(){
+		  $('#div1').empty()//특정태그(div)의 내용만 삭제
+	  })
+	  
+	  $('#button3').click(function(){
+		  $('.test').empty()//특정태그의 내용만 삭제
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>삭제시키는 경우</h1>
+   <div id="div1"  style="height:100px;width:300px;
+                                     border:1px solid black;background-color:yellow">
+        <p class="test" style="height:50px;width:50px;
+                                     border:1px solid black;background-color:yellow">
+                  div first</p>
+        <p>div second</p>
+   </div><br>
+   <button id="button1">Remove div</button>
+   <button id="button2">Empty div</button>
+   <button id="button3">Empty p</button>
+</body>
+</html>
+
+
+
+
+
+
+
+

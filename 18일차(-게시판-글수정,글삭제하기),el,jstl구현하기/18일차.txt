@@ -1,0 +1,413 @@
+18일차(-게시판-글수정,글삭제 하기),
+       el,jstl구현하기(25장)->액션태그 2(암기)->2가지
+
+ p934 c태그  p946 fmt태그 암기
+============================================================
+수요일(모델2 개요->10장 MVC패턴->모델2 변경 작업
+다음주 월요일) 이번주 목요일->팀별(1~4지망)->금요일(협업)
+                              자리배치=>팀별 회식
+                               주제(2개 생각)->1개 최종 결정
+                               =>모델링 공부(2주정도)
+============================================================
+
+이번주 목요일 중간점검 시험->20~25문제
+2/22(시험)~2/23(팀발표-주제발표)->5분
+============================================================
+글수정하기=>회원관리의 수정과 동일
+
+글상세보기와 기능이 동일
+
+차이점
+
+1.조회수 증가(글상세보기) <-->글수정하기(조회수 증가X)
+2.수정목적 X(글상세보기->편집X)<->수정할 목적->편집 O
+      =>보여줄 목적
+
+
+글수정하기를 구현
+
+1.content.jsp->글수정하기->num,pageNum(수정된 레코드로 이동)
+             ->updateForm.jsp<-updateGetArticle(int num)
+                             <-getArticle()와 중복
+                             =>공통부분->메서드로 구현(공통모듈)
+
+2.updateForm.jsp->updatePro.jsp(수정 메서드를 호출->updateArticle()
+
+**** BoardDAO에서 공통메서드를 새로 작성 *******
+
+// 4.글 상세보기->조회수도 증가
+	//update board set readcount=readcount+1 where num=?
+	//select * from board where num=?
+	public BoardDTO getArticle(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;// select * from board where num=?
+		BoardDTO article = null;// 게시물번호에 해당하는 레코드 한개
+		
+		// 2.메서드 목적에 맞는 SQL구문
+		try {
+			con = pool.getConnection();
+			
+			String sql = "update board set readcount=readcount+1 where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			int update=pstmt.executeUpdate();
+			System.out.println("조회수 증가유무(update)=>"+update);//1
+			//pstmt.close();
+			sql="select * from board where  num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) { // 레코드갯수가 한개라도 존재한다면
+				   article=makeArticleFromResult(rs);
+				    /*article = new BoardDTO();// MemberDTO mem=new MemberDTO
+					article.setNum(rs.getInt("num"));// 번호
+					article.setWriter(rs.getString("writer"));// 작성자
+					article.setEmail(rs.getString("email"));// 메일
+					article.setSubject(rs.getString("subject"));
+					article.setPasswd(rs.getString("passwd"));
+					article.setReg_date(rs.getTimestamp("reg_date"));// 오늘날짜->코딩->now()
+					article.setReadcount(rs.getInt("readcount"));// 조회수
+					article.setRef(rs.getInt("ref"));// 그룹번호->답변다는 위치지정
+					article.setRe_step(rs.getInt("re_step"));// 답변글 순서
+					article.setRe_level(rs.getInt("re_level"));// 답변의 깊이(depth)
+					article.setContent(rs.getString("content"));// 글내용
+					article.setIp(rs.getString("ip"));// 글쓴이의 ip
+*/			} // if(rs.next()){}
+		} catch (Exception e) {
+			System.out.println("getArticle() 메서드 실행오류=>" + e);
+		} finally {// 메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return article;
+	}
+    //----중복된 레코드한개를 담을 수 있는 메서드를 따로 처리해주는 메서드작성-------------------------------------------------------------
+	//이 메서드는 웹상에서 호출되는 메서드X=>이 클래스내부에서만 사용(private)
+	//private MemberDTO makeMemberFromResult(ResultSet rs){}
+	private BoardDTO  makeArticleFromResult(ResultSet rs) throws Exception {
+		BoardDTO article = new BoardDTO();// MemberDTO mem=new MemberDTO
+		article.setNum(rs.getInt("num"));// 번호
+		article.setWriter(rs.getString("writer"));// 작성자
+		article.setEmail(rs.getString("email"));// 메일
+		article.setSubject(rs.getString("subject"));
+		article.setPasswd(rs.getString("passwd"));
+		article.setReg_date(rs.getTimestamp("reg_date"));// 오늘날짜->코딩->now()
+		article.setReadcount(rs.getInt("readcount"));// 조회수
+		article.setRef(rs.getInt("ref"));// 그룹번호->답변다는 위치지정
+		article.setRe_step(rs.getInt("re_step"));// 답변글 순서
+		article.setRe_level(rs.getInt("re_level"));// 답변의 깊이(depth)
+		article.setContent(rs.getString("content"));// 글내용
+		article.setIp(rs.getString("ip"));// 글쓴이의 ip
+		return article;
+	}
+	
+	//-----------------------------------------------------------------------
+	
+	// 5.글수정을 하기위한 게시물번호에 해당하는 레코드를 찾는 메서드
+	// ->updateGetArticle(int num)->select * from board where num=?
+	public BoardDTO updateGetArticle(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;// select * from board where num=?
+		BoardDTO article = null;// 게시물번호에 해당하는 레코드 한개
+		
+		// 2.메서드 목적에 맞는 SQL구문
+		try {
+			con = pool.getConnection();
+			String sql="select * from board where  num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if (rs.next()) { // 레코드갯수가 한개라도 존재한다면
+				article=makeArticleFromResult(rs);
+			} // if(rs.next()){}
+		} catch (Exception e) {
+			System.out.println("getArticle() 메서드 실행오류=>" + e);
+		} finally {// 메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return article;
+	}
+================================================================
+
+// 6.글수정시켜주는 메서드->updateArticle(BoardDTO article){}
+	//   =>글쓰기(insertArticle()와 기능이 동일(데이터를 저장)->인증->수정
+    public int updateArticle(BoardDTO article) { //(int passwd)
+    	
+    	Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;// passwd를 조회할 select필요
+        String dbpasswd=null;//db에서 찾은 암호를 저장
+		String sql = "";// sql구문 저장
+		int x= -1;//게시물의 수정 성공 유무
+
+		// 2.메서드 목적에 맞는 SQL구문
+		try {
+			con = pool.getConnection();
+			sql = "select passwd from board where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,article.getNum()); //수정하고자하는 데이터에서 암호분리
+			rs = pstmt.executeQuery();
+			// 추가
+			if (rs.next()) { // 게시물번호에 해당하는 암호를 찾았다면
+				dbpasswd=rs.getString("passwd");
+				System.out.println("dbpasswd=>"+dbpasswd);
+				//db상의 암호=웹상에 입력한 암호가 맞다면
+				if(dbpasswd.equals(article.getPasswd())) {
+	
+			sql = "update board set writer=?, email=?,subject=?,passwd=?,";
+			sql += " content=?   where num=? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, article.getWriter());
+			pstmt.setString(2, article.getEmail());
+			pstmt.setString(3, article.getSubject());
+			pstmt.setString(4, article.getPasswd());// 암호
+			pstmt.setString(5, article.getContent());// 글내용
+			pstmt.setInt(6, article.getNum());// 게시물 번호
+            //실행
+			int update=pstmt.executeUpdate();
+			System.out.println("게시판의 글수정 성공유무(update)=>"+update);
+			x=1;
+			}else {
+				x=0;//수정실패->암호가 틀린경우
+			}
+		  }//if(rs.next())=>암호가 존재한다면
+		} catch (Exception e) {
+			System.out.println("updateArticle() 메서드 실행오류=>" + e);
+		} finally {// 메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return x;//1->수정성공, 0->수정실패
+    }
+===================================================================
+ form태그 내부에서 사용자로부터 값을 입력받지 않고 전달하는 방법
+
+응용 3)
+1. action="updatePro.jsp?pageNum=<%=pageNum%>"
+
+2.<input type="hidden" name="num" value="<%=num%>"> 
+===============================================================
+
+응용 1)
+   action="updatePro.jsp?pageNum=<%=pageNum%>&num=<%=num%>"
+
+응용 2)
+     action="updatePro.jsp"
+
+    <input type="hidden" name="num" value="<%=num%>">
+    <input type="hidden" name="pageNum" value="<%=pageNum%>">
+=================================================================
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="java.sql.Timestamp,lys.board.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+     request.setCharacterEncoding("utf-8");//한글
+     //BoardDTO->Setter Method호출(5개)+hidden(2개)->7개
+%>
+<jsp:useBean id="article" class="lys.board.BoardDTO" />
+<jsp:setProperty name="article" property="*" />
+<%
+   //pageNum이 넘어오는지 체크
+   String pageNum=request.getParameter("pageNum");//필드X
+   BoardDAO dbPro=new BoardDAO();
+   int check=dbPro.updateArticle(article);//num=0
+   if(check==1){//글 수정이 성공했다면
+	  //response.sendRediect("list.jsp?pageNum=?") //표현식으로 전달 
+%>
+<meta http-equiv="Refresh" 
+            content="0;url=list.jsp?pageNum=<%=pageNum %>">
+<% }else { %>
+     <script>
+        alert("비밀번호가 맞지않습니다.\n다시 확인요망!!")
+        history.go(-1);//history.back()
+     </script>
+<% } %>
+================================================================
+updatePro.jsp=>updateArticle(article)호출=>1 or 0->list.jsp로이동
+
+writePro.jsp=>insertArticle(article)->list.jsp로 이동
+=================================================================
+ 삭제하기
+
+1.deleteForm.jsp(비밀번호를 입력폼)->deletePro.jsp(게시물 삭제
+                                        암호? --->메서드호출)
+
+2.BoardDAO의 삭제 시켜주는 메서드를 작성->게시물 수정 메서드 유사
+
+ //글삭제 시켜주는 메서드=>회원탈퇴(삭제)=>암호를 물어본다.(deletePro.jsp)
+    //select passwd from board where num=? ->직접
+    //delete from board where num=?
+    public int deleteArticle(int num,String passwd) { //String pageNum,HttpRequestResponse res
+    	//response.sendRedirect(list.jsp?pageNum=pageNum)
+    	Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;// passwd를 조회할 select필요
+        String dbpasswd=null;//db에서 찾은 암호를 저장
+		String sql = "";// sql구문 저장
+		int x= -1;//게시물의 삭제 성공 유무
+
+		// 2.메서드 목적에 맞는 SQL구문
+		try {
+			con = pool.getConnection();
+			sql = "select passwd from board where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1,num); //삭제하고자하는 데이터에서 암호분리
+			rs = pstmt.executeQuery();
+			// 추가
+			if (rs.next()) { // 게시물번호에 해당하는 암호를 찾았다면
+				dbpasswd=rs.getString("passwd");
+				System.out.println("dbpasswd=>"+dbpasswd);
+				//db상의 암호=웹상에 입력한 암호가 맞다면
+				if(dbpasswd.equals(passwd)) {
+	
+			sql = "delete from board where num=? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);// 게시물 번호
+            //실행
+			int delete=pstmt.executeUpdate();
+			System.out.println("게시판의 글삭제 성공유무(delete)=>"+delete);
+			    x=1; //삭제성공
+			}else {
+				x=0;//삭제실패->암호가 틀린경우
+			}
+		  }//if(rs.next())=>암호가 존재한다면
+		} catch (Exception e) {
+			System.out.println("deleteArticle() 메서드 실행오류=>" + e);
+		} finally {// 메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return x;//1->삭제성공, 0->삭제실패
+    }
+=================================================================
+
+모델2->모델1의 차이점
+
+ chapter 25장->el,jstl문법을 사용해야만 모델2? 
+             ->(el,jstl을 사용X ->모델2가 아니다. ->틀린말)
+             ->모델2가 나온 시점에 el,jstl을 같이 사용하는 시기
+
+ 모델1,모델2->내부적으로 처리해주는 과정이 다르다.(MVC 패턴)
+            ->MVC패턴을 사용하면==>모델2
+            ->MVC패턴을 사용X ====>모델1
+
+ el,jstl=>화면디자인 상의 자바소스코드->태그형태로 만든것을 사용
+                                        (액션태그)
+
+jsp의 내장객체!= el의 내장객체=>p924~ p927 내장객체의 사용범위
+   request        requestScope
+                         ------
+
+p930->jstl 액션태그 라이브러리->p931 다운로드
+                               jakarta.apache.org에서 다운로드
+
+p933->jstl.jar, standard.jar을 복사->lib폴더에 저장
+
+=========================================
+**** <c>태그->core(핵심)=>p935~936 표암기할것.*****
+<fmt>태그 p946(날짜,시간을 출력)
+=========================================
+p958=><sql>태그->사용X===>***MyBatis를 사용(태그로 구성)=>스프링**
+                          ==================================
+<x>태그->xml을 이용->사용X
+
+->모델2 구조을 이해->** 10장 MVC패턴에 대한 요청**->처리(서블릿)
+================================================================
+=>Jstltest 프로젝트작성
+      |
+       -WebContent->setTag.jsp
+             |
+              -WEB-INF
+                  |  **************************************
+                   -lib->jstl.jar,standard.jar복사,ojdbc6.jar
+                         외부패키지는 여기에 저장
+==============================================================
+
+** 액션태그=>웹상에서 자주 사용이 되는 자바코드=>태그형태로
+             만들어 놓은것.
+           ================>내장 액션 태그 느낌
+ <jsp:include ~>
+ <jsp:forward ~>
+ <jsp:useBean ~>
+ <jsp:setProperty ~>
+ <jsp:getProperty ~>
+  --------------------------->5가지
+==========================================================
+ 나머지 다른 자바의 액션태그를 사용하고 싶다.
+ =>JSTL(Java Standard Tag Libraray)->외부 패키지(다운로드)
+ =>lib에 standard.jar, jstl.jar=>액션태그의 정보 저장
+
+ ***********************************************************
+ =>jsp에서 선언문(p942)=>어떤 액션태그를 사용할것인지=>prefix
+                         액션태그의 정보가 어디에있는지
+                         ->사이트 주소형태(경로 지정) uri
+*************************************************************
+
+ =>page,include, taglib지시어(모델2와 같이 사용)
+         
+<%
+    int num1=20;//지역변수->액션태그 set
+%>
+<body>
+<c:set var="num1(변수명)"  value="20(저장할값)"  />
+
+
+<c:set var="x"  value="100"  scope="page" />
+===============>자료형은 value값의 값에 따라서 자동으로 설정
+=><%
+     int x=100;
+  %>
+  <jsp:useBean id="객체명" class="패키지명.클래스명"
+       scope="저장영역(page|request|session|application"
+  request.setAttribute("x",100);  =>scope="request"
+  <--->request.getAttribute("x")==>100
+
+ el문과 jstl(c:set)액션태그
+
+EL문(Expression Language)=>표현언어
+====>웹상에 출력할때 사용하는 구문
+
+ System.out.println(출력할 변수명)->콘솔
+        out.println(출력할 변수명)
+        =><%=출력할 변수명%>
+          형식)
+        =>***${출력할 변수명 or 객체명.멤버변수명}
+        =>***${수식} =>변수에 값을 저장할때 표시
+         변수에 값을 저장시킬때=> ${저장할 값(숫자)}
+
+ **el,jstl을 사용하는 목적**
+
+장점->자바코드를 액션태그로 만들었기때문에 디자인이해
+      쉽다
+
+단점->에러유발->찾기가 어렵다.=>에러가 나오는 위치를
+                                알 수 가 없는 단점
+    =>에러메세지에 관대한다.->에러메세지가 잘 출력X
+=====================================================
+org.apache.jasper.JasperException: javax.el.ELException: Failed to parse the expression [${객체명.속성명}]
+
+ A ap=new A();
+
+ <c:set target="${ap}"  =>${객체명} 객체이다.
+                           알려주는 역할
+
+<%-- <jsp:useBean id="map"   class="java.util.HashMap"  /> --%>
+
+<!-- 
+        target(객체명) ,property(속성(멤버변수명)),value="저장할값)
+        ${객체명.속성명} or ${객체명['속성명']} or ${객체명["속성명"]}
+        map.put("name","홍길동");  <->map.get("name")
+   -->
+
+<%=articel.getWriter()%> =>${article.writer}으로 변경
+
+ p339 모델?
+ p342 뷰? p345 -><c:forEach ~>
+ p346 ***컨트롤러 개요***
+===================================================
+
+

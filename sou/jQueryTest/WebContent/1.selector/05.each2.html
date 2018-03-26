@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>05.each2.html예제</title>
+<script>
+  $(function(){ 
+	   //중첩된 태그의 특정 태그정보를 어떻게 얻어오고 내용을 검색->수정
+	   //jquery 변수선언 ->var $변수명=값
+	   var $nodes=$('#root').children().css('color','red')
+	   alert('자식들의 수=>'+$nodes.length)
+	   var txt="";//자식들의 이름들을 저장할 변수선언
+	   //$(선택자(반복적으로 실행시킬 태그명)).each(함수명 | function(){})
+	   $('#root').children().each(function(){
+		   //txt+=$(this).text()  //$(this)=>for문내부의 각각의 div태그를 구분
+	       txt+=$(this).html()
+	   })
+	   alert(txt)
+	   /*
+	    1.text()->오직 태그의 텍스트만 가져오는 함수<->text(매개변수(값))
+	    2.html()->태그와 텍스트들까지 같이 가져오는 함수<->html(매개변수)
+	    3.val()->폼태그안에 입력양식에 해당되는 값을 가져올때(input,check)
+	             <->val(매개변수(값))->Setter 함수
+	   */
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제</h1>
+  <div id="root">
+    <div><b>홍길동</b></div>
+    <div>김길수</div>
+    <div><i>테스트</i></div>
+    <div>임시</div>
+  </div>
+</body>
+</html>
+
+
+
+

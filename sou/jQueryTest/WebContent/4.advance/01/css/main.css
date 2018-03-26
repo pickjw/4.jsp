@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+/*
+ * Slideshow
+ */
+ .slideshow{
+   overflow:hidden; /* 이미지를 감출목적(width,height 지정한 외에 영역감추기) */
+   position:relative; /* 특정한 슬라이드 기준->나열 */
+   min-width:960px; /* 최소 넓이 */
+   height:465px;
+ }
+ 
+ /* div영역에 있는 이미지 설정 */
+ .slideshow  img{
+     display:none;/* 첫장 슬라이드 제외한 나머지 이미지는 안보이게 설정*/
+     position:absolute; /* 첫 슬라이드(relatvie),absolte(마지막 슬라이드) */
+     left:50%; /* 중앙 위치(오른쪽으로 이동) */
+     margin-left:-800px;/* 여백(왼쪽->오른쪽 이동) */
+ }
+
+/* 자바스크립트 비활성화되어있으면 첫번째 슬라이드만 출력이 되게 설정 */
+.no-js .slideshow img:frist-child{
+	display:inline;
+}
+

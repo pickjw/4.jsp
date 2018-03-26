@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>ServletTest</display-name>
+  
+  <!-- 실행시킬 서블릿의 이름과 별칭(짧게 사용되는 이름)  -->
+   <servlet>
+      <servlet-name>Gu</servlet-name>
+      <servlet-class>GuTest</servlet-class>
+   </servlet>
+   
+  <!-- 실행시킬 서블릿의 웹상에서 요청경로를 지정해주는 역할  -->
+  <servlet-mapping>
+     <servlet-name>Gu</servlet-name>
+     <url-pattern>/imsi/abc/GuTest</url-pattern>
+  </servlet-mapping>
+  
+  
+  <!--메인페이지를 지정할때 사용하는 태그정보  -->
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+</web-app>

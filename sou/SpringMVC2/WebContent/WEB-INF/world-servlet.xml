@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!--(4~5) viewResolver(위치,이동할 페이지의 확장자를 지정) -->
+<bean id="viewResolver"
+class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   <property name="viewClass" 
+                   value="org.springframework.web.servlet.view.JstlView" />
+   <property name="prefix" value="/"  />
+   <property name="suffix" value=".jsp" />           
+</bean>
+
+<!--(2) 컨트롤러이름을 알려주는 HanderMapping등록 -->
+<bean id="defaultHandlerMapping"
+ class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+ 
+
+<!--3.요청에 따라서 처리해주는 컨트롤러 만들어서 처리(등록)  -->
+<bean name="/world.do"  class="lee.WorldActionController" />
+</beans>
+
+
+
+
+

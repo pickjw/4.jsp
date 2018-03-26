@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="autoid.css" type="text/css">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //검색입력하기전에 처음에는 목록이 X
+	  $('.listbox').hide()//<->show()
+	  $('.userid').keyup(function(){ //검색어를 입력
+		  var uid=$('.userid').val()
+		  //alert(uid)
+		  //autoid.jsp?userid='자'
+		  var d='userid='+uid	
+		  $.ajax({
+			   type:'post',  //type:get | post 전송방식을 지정하고자 할때
+			   url:'autoid.jsp', //url:'요청문서(.xml, .json~)'
+			   data:d,//data:{매개변수:값}
+			   success:function(html){//<li>testkim</li>
+				   $('.listbox').show()//스타일 적용시킬 목록을 화면에 출력
+				   $('.namelist').html(html)
+				   //하이라이트 효과
+				   $('li').hover(function(){ //hover클래스->cyan, blue
+					   $(this).addClass('hover')
+				   },function(){
+					   $(this).removeClass('hover')
+				   })
+				   //실시간으로 나오는 항목을 클릭->등록
+				   $('li').click(function(){
+					   $('.userid').val($(this).text()) //목록선택->li태그의 문자열
+					   $('.listbox').hide()//목록창 감추기
+				   })
+			   }//success
+		  })//$.ajax
+		  return false;//전송X
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>검색할 회원id를 입력하세요</h1>
+<form>
+  검색어:<input type="text" name="userid" class="userid"><br>
+  <div class="listbox">
+          <div class="namelist"></div>
+  </div>
+</form>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

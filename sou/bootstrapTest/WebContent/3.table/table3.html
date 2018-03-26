@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>테이블의 스타일 적용</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+       <!-- 6.class="table-responsive(브라우저의 길이에 맞춰서 테이블의 크기및
+                                                  내용부분또한 가변적으로 변한다.)"
+                                                  공간이 부족하면 스크롤바가 생성된다. 
+               반응형으로 하길 원하는 테이블의 태그를 
+               <div class="table-responsive"></div> 로 감싸준다.                                  
+                                                  -->
+       <h4 class="text-primary">class="table-responsive를 준다"</h4>
+      <div class="table-responsive">
+       <table class="table">
+          <thead><!-- 타이틀을 설정  -->
+             <tr>
+                 <td>게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr>
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr>
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+       </div>
+       <hr>
+       <!--7.테이블의 테두리에 선 적용,각 행마다 마우스를 갖다대면 색상적용
+              table->행과 행사이의 테두리(안쪽만)
+              table-bordered->행밖의 테두리를 칠때 부여
+         -->
+       <h4 class="text-primary">class="table table-bordered table-hover 를 준다"</h4>
+       <table class="table table-bordered table-hover">
+          <thead><!-- 타이틀을 설정  -->
+             <tr>
+                 <td class="text-center">게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr>
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr>
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+

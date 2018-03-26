@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>자바스크립트의 배열 작성법1</title>
+<script>
+   //String array[]={"포도","사과",,,}; =>자바의 경우
+   //var 배열객체명=[요소1,요소2,,,,]
+    var array=['포도','사과','바나나','망고'];
+   document.write(array[2]+'<br>')
+   //배열의 값을 출력->for문
+   var output='';
+   for(var i=0;i<array.length;i++){
+	   output+=i+':'+array[i]+'\n'
+   }
+   alert(output);
+   document.write('==========<p>')
+   for(var i in array){ //for(i:array)->자바
+	   document.write(array[i]);
+   }
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+

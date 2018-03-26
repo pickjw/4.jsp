@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //요소:selected->select태그의 option객체중에서 선택된 태그를 가리킬때 사용
+	  /*
+	    setTimeout(호출할 함수명|익명함수(function(){}),초단위(1000))
+	                      ->1초뒤에 함수호출 (한번만 실행)
+	                                                            
+	    setInterval(호출할 함수명|익명함수(function(){}),초단위(1000))
+                             ->1초뒤에 함수호출 (계속 반복해서 실행)
+	  
+	  */
+	   setInterval(function(){ //onchange 이벤트처리 하는경우
+		  var value=$('select > option:selected').val()
+		  alert(value)
+	  },3000) //3초뒤에 선택한 항목을 화면에 출력
+	  /* (1)
+	  var value=$('select > option:selected').val()
+	  alert(value)*/
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제</h1>
+   <select>
+      <option>화면구현1(html5,css3,javascript(함수))</option>
+      <option selected>오라클</option>
+      <option>자바</option>
+      <option>웹프로그래밍</option>
+      <option>화면구현2(jQuery,Ajax)</option>
+   </select>
+</body>
+</html>
+
+
+
+

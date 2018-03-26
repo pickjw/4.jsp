@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+<bean id="mBean" class="spring2.MessageBeanImplDI" scope="prototype">
+
+   <!-- <constructor-arg index="0">
+      <value>대한민국</value>
+   </constructor-arg> -->
+   
+    <constructor-arg index="0"  value="한국" />
+   
+   <constructor-arg index="1">
+      <value>서울</value>
+   </constructor-arg>
+   
+   <property name="greeting">
+      <value>안녕,</value>
+   </property>
+   
+   <!-- 
+   <property name="outF">
+        <ref bean="outFile" />
+   </property>
+    --> 
+   <property name="outF" ref="outFile" />
+</bean>
+
+<!-- OutFileImpl클래스의 setFilePath메서드 호출하면 매개변수 경로를 설정 -->
+<bean id="outFile" class="spring2.OutFileImpl">
+  <property name="filePath">
+     <value>c:/webtest/good.txt</value>
+  </property>
+</bean>
+
+</beans>
+
+
+

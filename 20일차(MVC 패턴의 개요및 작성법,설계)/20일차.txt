@@ -1,0 +1,360 @@
+20일차(MVC 패턴의 개요및 작성법,설계)
+
+
+10장. MVC 구조 (모델2) ==>스프링(MVC구조 모양으로 되어있다.)
+                          back-end(컨트롤러가 눈에 X)
+
+                       ==>Angulare,React(front-end)->3주
+
+Model(모델)=>데이터가 저장되는 부분=>빈즈부분(DB)
+             BoardDTO,BoardDAO=>테이블갯수,필드갯수 증가
+
+View(화면 출력)->html,css,js,jsp파일+자바코드<% ~ %>
+               -->+el,jstl문법
+
+*** Controller(컨트롤러)***
+
+모델2->무조건 el,jstl을 사용한다는 것을 의미하지 않는다.
+            화면 편리성을 추구
+
+컨트롤러를 배운다는 말과 같다.
+===========================================================
+모델1  요청(jsp, html)
+          버튼,링크문자열클릭--------->list.jsp(자바코드+화면출력
+                                                                              html,css)
+http://localhost:8090/JspBoard/list.jsp
+
+**********
+ 모델1의 장점
+**********
+
+  1.중소규모의 사이트 작성에 적합
+  2.적은인원으로도 구성이 가능(4~5)
+
+*********
+ 모델1의 단점 
+*********
+
+     페이지가 많아지면 유지보수가 어려워진다.
+ 1. jsp=>자바소스코드+화면출력(html) ->혼영=>유지보수가 어려워진다.
+ 2. 중복된 코드가 많아진다.(페이지별로)
+
+    클--------list.jsp-------------->서(list.jsp(자바코드+html실행)
+                                             M,V이 섞여있는 구조
+                                                 C,V
+   ex)회원제로 운영->20페이지다
+   <%
+       String mem_id=(String)session.getAttribute("idKey");
+    %>
+   <% if (mem_id!=null) %>
+--------------------------------------------------------------------------
+******
+모델2
+
+모델2의 장점
+
+1.대규모 사이트에 작성하는데 적합한 구조(대기업)
+2.역할이 분담이 나누어져 있어서 유지보수가 쉽다.
+
+단점
+
+1.개개인의 실력이 향상을 요구->서블릿이 중심
+2.구성원이 10인 이상을 요구
+************************************
+
+M->데이터 저장부분
+
+V->처리결과를 받아서 출력만 담당
+      1)요청을 받는 부분->Controller에게 전담
+      2)뷰에서 존재하는 자바코드->요청명령어 클래스에서 처리
+
+C-->1)요청을 받아서 그 요청에 맞는 요청명령어 클래스를 선택->처리
+                                                               |
+                                                   빈즈메서드 호출(getArticles())
+                                                          DB접속
+========================================
+모델1 게시판-->모델2로 게시판
+
+ServletTest2
+
+요청->서블릿이 요청을 받아서 그 요청에 해당하는 jsp로 페이지를 이동
+-----------------------------------------------------------------------
+            SimpleController------------->simpleview.jsp
+            요청명령어에 따라서  ------------->화면에 보여주는 부분이 다르다.
+
+요청을 할때 요청명령어->처리되는 결과도 다르고->보여주는 페이지도 다르다.
+  매개변수를 설정(type)
+
+type=null
+type=date
+type=greeting
+                                   /실행시킬 서블릿명?매개변수=값
+http://localhost:8090/ServletTest2/SimpleController?type=greeting
+==========================================
+MVC 모델 설계->컨트롤러=>스프링이 이미 만들어져 있다.
+                         작성
+http://localhost:8090/ServletTest2/SimpleController?type=date
+http://localhost:8090/ServletTest2/SimpleController?type=greeting
+http://localhost:8090/ServletTest2/SimpleController
+==================================
+모델1 게시판->모델2로 변환
+==================================
+
+요청명령어?->게시판의 글목록보기
+                   글쓰기,상세보기,글수정,글삭제
+                   글검색=>6개-->처리해주는 클래스도 6개->객체->메서드 필요
+
+->~.do(스프링)=>요청명령어->확장자로 구분
+~.mov
+~.nhn
+======================================
+1.요청명령어->컨트롤러에 요청명령어를 구분소스 계속 작성...
+
+                if(글목록을 요청) { if(type.equals("/list.do")
+			글목록에 해당클래스 생성->메서드호출
+                                     new ListAction();  ->list()
+		}else if(type.equals("/writePro.do") {
+			글쓰기에 해당클래스 생성->메서드호출
+                                     new WriteAction()->write()
+		}else {
+			resultObject="Invalid Type";
+		}
+                          ,,,,
+
+****2.컨트롤러 하나 ->소스계속해서 X
+
+ 동일한 소스->그대로 사용=>인터페이스를 이용->요청명령어만 따로 작성
+---------------------------------------------------------------------------
+  모델2--->1)요청명령어에 따라서 처리하는 결과를 =>jsp로 이동->코딩이 길어진다.
+               if(type==null || type.equals("greeting")) {
+			resultObject="안녕하세요!";
+		}else if(type.equals("date")) {
+			resultObject=new java.util.Date();
+		}else {
+			resultObject="Invalid Type";//오류문자열 저장
+		}
+                  ,,,,
+
+           ****  2)요청명령어를 따로 설계->파일로 만들어서 설계 ****
+                 ->컨트롤러에서 불러오게 설계->컨트롤러의 코딩은 추가X
+                =>** <init-param>태그를 이용->불러오기 **
+  JspBoard2
+       |
+        -src
+           controller
+                ControllerAction(4)=>시작
+          action
+                인터페이스를 하나 작성
+              CommandAction->requestPro(request,response)
+                           상속-------->계속사용(5)
+
+         웹상에서 요청에 따라 처리되는 과정->설계
+         =>인터페이스=>전체 프로그램의 명세서를 작성
+                       (공통으로 사용하는 메서드가 필요)
+ 
+  /list.do=action.ListAction=>글목록보기 이동
+  #/writeForm.do=action.WriteFormAction=>글쓰기폼으로 이동
+  #/writePro.do=action.WriteProAction=>글쓰기->list.jsp 이동
+  ,,,
+   공통점->기능은 틀려도->페이지가 이동되면서 최종 결과를 보여준다
+          클래스는 다르지만 처리되는 기능이 유사->메서드를 통일
+           =>인터페이스 설계=>스프링(Controller)을 상속
+       |
+        -WebContent->list.jsp~(el,jstl로 모두 변경)(1)
+                 |
+                  -WEB-INF->commandPro.properties(2)
+                                 /가상경로/~/요청명령어=패키지명.명령어처리클래스
+
+                              #key(command~.do)=value(package...classname)
+                               /list.do=action.ListAction
+
+                               #/notice/list.do=
+
+                               #/member/list.do
+                           web.xml(3)->컨트롤러 역할을 해주는 서블릿을 지정
+                                        ->commandPro.properties 읽어들일 수 있도록
+                                           환경설정을 해야 한다.
+==========================================
+ <!--컨트롤러역할을 하는 서블릿의 이름,요청경로를 지정  -->
+  <servlet>
+     <servlet-name>서블릿클래스명 동일</servlet-name>
+     <servlet-class>패키지명..실행시킬 서블릿클래스명</servlet-class>
+                ->서블릿이 실행이 될때 맨 처음 초기화 작업을 할때 필요로하는 태그
+     <init-param>
+          <param-name>propertyConfig(파라미터매개변수명)</param-name>
+          <param-value>C:/webtest/4.jsp/sou/JspBoard2/WebContent/WEB-INF/commandPro.properties</param-value>
+     </init-param> ->매개변수에 따른 경로 포함해서 불러올 파일명(절대경로)
+  </servlet>
+  
+  <!-- 어떻게 요청이 들어왔을때 처리할 것인가?  -->
+  <servlet-mapping>
+     <servlet-name>서블릿클래스명 동일</servlet-name>
+     <url-pattern>요청명령어를 지정(*.do)</url-pattern>
+  </servlet-mapping>
+
+   /*  =>어떠한 요청명령어도 다 처리해주겠다.
+   *.do =>요청명령어 끝이 do로 끝나는 경우에만 처리해주겠다.(default)
+   *.mov
+   *.book
+==========================================
+ 적용예)
+=====
+ <!--컨트롤러역할을 하는 서블릿의 이름,요청경로를 지정  -->
+  <servlet>
+     <servlet-name>ControllerAction</servlet-name>
+     <servlet-class>controller.ControllerAction</servlet-class>
+     <init-param>
+          <param-name>propertyConfig</param-name>
+          <param-value>C:/webtest/4.jsp/sou/JspBoard2/WebContent/WEB-INF/commandPro.properties</param-value>
+     </init-param>
+  </servlet>
+  
+  <!-- 어떻게 요청이 들어왔을때 처리할 것인가?  -->
+  <servlet-mapping>
+     <servlet-name>ControllerAction</servlet-name>
+     <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+
+==========================================
+                          
+                         |
+                          -lib->standard.jar,jstl.jar복사(1)
+
+(5)
+
+package action;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+//요청명령어에 따라서 처리해주는 모든 클래스의 공통메서드(인터페이스)
+public interface CommandAction {
+	//이동할 페이지의 경로와 페이지명이 필요->반환=>ModelAndView(스프링)
+    public String requestPro(HttpServletRequest request,
+    		                              HttpServletResponse response)
+                                          throws Throwable;
+}
+-----------------------------------------------------------------------------
+ ControllerAction클래스 중에서 요청->처리
+
+ //시용자의 요청을 분석해서 해당 작업을 처리
+    private void requestPro(HttpServletRequest request,
+    		                HttpServletResponse response) 
+                            throws ServletException, IOException {
+     String view=null;//요청명령어에 따라서 이동할 페이지를 저장
+   	 //  /list.do=action.ListAction객체
+     CommandAction com=null;//어떠한 자식클래스의 객체라도 부모형으로 형변환
+     //CommandAction com=new ListAction();//ListAction com=new ListAction();
+     //CommandAction com=new WriterFormAction(); //소스코드 줄이는것이 가능
+      try {
+    	  //요청명령어를 분석->이동할 페이지가 결정
+    	  String command=request.getRequestURI();
+    	  System.out.println                      // /JspBoard2/list.do
+    	       ("request.getRequestURI()=>"+request.getRequestURI());
+    	  //요청명령어와 웹프로젝트명 이름 사이의 일치하는 위치를 얻기위해서
+    	  System.out.println                     // /JspBoard2/
+    	         ("request.getContextPath()=>"+request.getContextPath());
+    	  if(command.indexOf(request.getContextPath())==0) {
+    		  command=command.substring(request.getContextPath().length());
+    		  System.out.println("실질적인 command=>"+command);// /list.do
+    	  }
+    	  //요청명령어 -> /list.do->action.ListAction객체
+    	  com=(CommandAction)commandMap.get(command);//<->put(객체)
+    	  System.out.println("com="+com);//action.ListAction@주소값
+    	  view=com.requestPro(request, response);// /list.do->/list.jsp
+    	  System.out.println("view->"+view); // /list.jsp
+      }catch(Throwable e) {
+    	  throw new ServletException(e);//e.printStackTrace();
+      }
+      //위에서 요청명령어에 해당하는 view로 이동(forward)
+      RequestDispatcher dispatcher=request.getRequestDispatcher(view);
+      dispatcher.forward(request, response);
+    }
+================================================================
+ DB 환경설정도 보안->파일로 만들어서 불러오기
+
+   WEB-INF
+       |
+        -dbtest->dbmysql.properties
+
+jdbc.driverClassName=org.gjt.mm.mysql.Driver
+jdbc.url=jdbc:mysql://127.0.0.1:3307/mydb?useUnicode=true&characterEncoding=UTF-8
+jdbc.username=root
+jdbc.password=1234
+============================================================
+ DBConnectionMgr.java=>소스코드를 변경->파일로 불러올 수 있도록
+                                         코드를 변경시킬것.
+=============================================================
+ //(1)
+    private String _driver, _url, _user ,_password;
+    
+	/*private String _driver = "org.gjt.mm.mysql.Driver",
+    _url = "jdbc:mysql://127.0.0.1:3306/mydb?useUnicode=true&characterEncoding=UTF-8",
+    _user = "root",
+    _password = "1234"; */
+    //---------------------------------------------------------------
+
+//(2)dbmysql.properties파일을 읽어들여서 키->value값을 불러오는 코드
+    public DBConnectionMgr()throws IOException {
+    	Properties props=new Properties();//파일의 내용을 메모리에 올리기위해
+    	FileInputStream in=new FileInputStream
+    	("C:/webtest/4.jsp/sou/JspBoard2/WebContent/WEB-INF/dbtest/dbmysql.properties");
+    	props.load(in);//메모리에 DB정보를 올려달라.
+    	in.close();
+    	//파일에서 불러와서 각 키에 해당되는 value을 저장
+    	//jdbc.driverClassName=org.gjt.mm.mysql.Driver
+    	_driver=props.getProperty("jdbc.driverClassName");
+    	//드라이브클래스만 시스템에 반영
+    	if(_driver!=null) System.setProperty("jdbc.driverClassName",_driver);//키명,저장할값
+    	_url=props.getProperty("jdbc.url");
+    	_user=props.getProperty("jdbc.username");
+    	_password=props.getProperty("jdbc.password");
+    	System.out.println("_driver=>"+(_driver)+",_url="+(_url));
+    	System.out.println("_user=>"+(_user)+",_password="+(_password));
+    	
+    } //private DBConnectionMgr(){}
+
+    /** Use this method to set the maximum number of open connections before
+     unused connections are closed.
+     */
+  
+    //(3)커넥션풀을 얻어오는 정적메소드
+    public static DBConnectionMgr getInstance() throws Exception {
+        //커넥션풀이 생성이 안되어있다면
+		if (instance == null) {
+            synchronized (DBConnectionMgr.class) {
+                //생성이 안되어있다면
+				if (instance == null) {
+					//객체생성
+                    instance = new DBConnectionMgr();//생성자를 호출
+                }
+            }
+        }
+        return instance;//호출한 클래스쪽으로 반환
+    }
+==============================================================
+=> 모델2에서의 설계 방법
+==========================
+
+1.글목록보기 구현
+
+http://localhost~/JspBoard2/list.do=>
+
+ 1)ControllerAction 서블릿->init() 요청명령어 파일=>action.ListAction
+ 
+ 2)ListAction클래스를 읽어들인다.->객체생성->commandMap객체에 저장
+
+ 3)ListAction클래스->requestPro()->/list.do-> /list.jsp 이동
+                                           
+ 4)->list.jsp(el,jstl문법에 내용을 수정)
+========================================================
+
+
+
+
+
+
+
+
+
+

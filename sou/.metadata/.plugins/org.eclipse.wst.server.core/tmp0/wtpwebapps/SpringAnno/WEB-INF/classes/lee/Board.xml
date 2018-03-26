@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+ 
+ <!--1. springboard테이블에서 SQL작업(1.글목록보기) -->
+ 
+<select id="list" resultType="board">
+    select * from springboard order by num desc
+</select>
+
+<!--2.최대값 구하기  -->
+<select id="getNewNum" resultType="int">
+     select max(num) from springboard 
+</select>
+
+<!--3.글쓰기 #{매개변수명(=멤버변수명} -->
+<insert id="write" parameterType="board">
+     insert into springboard(num,author,title,content,writeday)
+     values(#{num},#{author},#{title},#{content},sysdate)
+</insert>
+
+<!-- 4.조회수 증가(update)-->
+ <update id="updateReadcnt" parameterType="String">
+    update springboard set readcnt=readcnt+1 where num=#{num}
+ </update>
+ 
+<!-- 5.게시물번호를 이용한 레코드 상세보기 -->
+ <select id="retrieve" parameterType="String"  resultType="board">
+   select * from springboard where num=#{num}
+ </select>
+ 
+ <!-- 6.글수정하기 -->
+ <update id="update" parameterType="board">
+     update springboard set title=#{title}, content=#{content},
+                                  author=#{author} where num=#{num}
+ </update>
+ 
+ <!--7.글삭제하기 -->
+ 
+ <delete id="delete" parameterType="String">
+    delete from springboard where num=#{num}
+ </delete> 
+ 
+ <!-- 8.글검색하기 -->
+ <select id="search" resultType="board" parameterType="board">
+    select * from springboard where ${searchName}  like  '%${searchValue}%'
+    order  by num desc
+ </select>
+  
+</mapper>
+
+
+
+
+
+
+

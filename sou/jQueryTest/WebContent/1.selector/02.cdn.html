@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>02.cdn.html 이용</title>
+<style type="text/css">
+    /*  선택자(태그) {속성명:속성값;~} 
+    h1 {color:red}
+    span {border:3px solid blue}
+    .my */
+</style>
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+  $(function(){ 
+	  //alert("cdn테스트중")
+	  //형식) $(element(태그이름),id,class선택자).함수명(~).함수명2(~).함수명3()~
+      $('h1').css('color','red') //$(element).css('속성명','속성값');h1 {color:red}
+      $('span').css('border','3px solid blue')
+      //형식2)클래스 선택자->$('태그명.클래스명')->태그명생략=>모든 태그적용
+      $('p.my').css('border','5px dotted green')
+      //형식3)id선택자->$('태그명#id선택자이름')->태그명을 생략->특정태그만 적용
+      $('#content').css('background','yellow')
+      //형식4)->모든 태그에 스타일 적용
+      $('*').css('color','red') //같은 스타일을 여러번 적용->맨 마지막 스타일 적용
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 선택자 연습</h1>
+      <p class="my">jQuery 실습</p>
+      <div>
+           <div id="content">id값이 content인 div</div>
+      </div>
+      <span>span1</span>
+      <span class="my">span2</span>
+</body>
+</html>
+
+
+
+
+
+
+

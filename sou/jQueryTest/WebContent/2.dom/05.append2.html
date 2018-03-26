@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  /*
+       *************************************************
+	              함수               설명
+	 형식)
+	 $(A(자식)).appendTo(B(부모))->A를 B의 기존자식의 뒤에 추가  <->$(B).append(A)
+	 $(A).prependTo(B)->A를 B의 기존자식의 앞에 추가
+	 
+	 $(A).insertAfter(B)->A를 B뒤에 추가  (자식에 추가X)
+	 $(A).insertBefore(B)->A를 B앞에 추가 (자식에 추가X)
+       ****************************************************
+	*/
+	//$('div').append('<h1>jQueryTest</h1>')
+	//(1)
+	//   $('<h1>jQueryTest</h1>').appendTo('div')
+	//(2)
+	//   $('<h1>jQueryTest2</h1>').prependTo('div')
+	//(3) div태그 뒤에 <h1>DOMTest</h1>을 추가
+	      $('<h1>DOMTest</h1>').insertAfter('div')
+	//(4) div태그 앞에 <h1>DOMTest</h1>을 추가
+	      $('<h1>DOMTest22</h1>').css('color','red').insertBefore('div')
+	      $('img').attr('width',300).insertBefore('div')
+  })
+</script>
+</head>
+<body>
+<h2>jQuery DOM정리1</h2>
+      <!--(4) <h1>DOMTest22</h1> -->
+      <!--(5) 이미지가 추가 <img src="../picCats/Persian.jpg" width=100> -->
+  <div>
+      <!--(2) <h1>jQueryTest2</h1> -->
+      <h1>안녕하세요?</h1>
+      <!--(1) <h1>jQueryTest</h1> -->
+  </div>
+       <!--(3) <h1>DOMTest</h1> -->
+  <h1>반가워요!</h1>
+  <img src="../picCats/Persian.jpg">
+</body>
+</html>
+
+
+
+

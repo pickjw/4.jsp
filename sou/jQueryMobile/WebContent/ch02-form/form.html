@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+                                                        maximum-scale=1.0,minimum-scale=1.0,
+                                                        user-scalable=no">                                                                                               
+    <title>jquery mobile예제</title>
+
+    <!-- 모바일에서 환경설정(cdn->jquerymobile.com) -->
+    <link href="../mobile/jquery.mobile-1.3.2.min.css" rel="stylesheet">
+      <script src="../mobile/jquery-1.9.1.min.js"></script>
+      <script src="../mobile/jquery.mobile-1.3.2.min.js"></script>
+  </head>
+  <body>
+    <div data-role="page">
+     <div data-role="header">
+       <h1>회원가입</h1>
+       <a href="#" data-icon="home" data-iconpos="notext">Home</a>
+       <a href="#" data-icon="search" data-iconpos="notext">Search</a>
+     </div>
+    <div data-role="content">
+         <form>
+             <h2>form구성요소(회원가입)</h2>
+              <div data-role="fieldcontain"><!--(부트스트랩) class="form-group"  -->
+                <label for="name">이름:</label><!--(부트스트랩)form-control  -->
+                <input type="text" name="name" id="name">
+              </div>
+              <!-- 경력 -->
+              <div data-role="fieldcontain">
+                <label for="textarea">경력사항:</label>
+                <textarea rows="8"  cols="40" name="textarea" id="textarea"></textarea>
+              </div>
+              <!-- 검색 -->
+              <div data-role="fieldcontain">
+                <label for="search">검색:</label>
+                <input type="search" name="search" id="search">
+              </div>
+              <!--환경설정 Flip Switch(on/off)  data-role="slider"-->
+              <div data-role="fieldcontain">
+                <label for="switch">Wifi Switch</label>
+                <select name="switch" id="switch" data-role="slider">
+                    <option value="off">Off</option>
+                    <option value="on">On </option>
+                </select>
+              </div>
+              <!--가격,나이(숫자) 슬라이드바 생성(data-highlight="true")
+                  선택배경을 이동한 슬라이드 거리만큼 색깔부여
+                -->
+              <div data-role="fieldcontain">
+                <label for="slider">Slider:</label>
+                <input type="range" name="slider" id="slider"
+                           value="0" min="0" max="100"
+                           data-highlight="true">
+              </div>
+              <!-- checkbox -->
+              <div data-role="filedcontain">
+                 <fieldset><!-- 체크박스항목의 전체영역을 설정태그 -->
+                     <legend>취업희망 직업</legend>
+                  <input type="checkbox"  name="checkbox" id="checkbox-a"
+                             value="웹프로그래머">
+                     <label for="checkbox-a">웹프로그래머</label><!--체크할 항목-->
+                  <input type="checkbox"  name="checkbox" id="checkbox-b"
+                             value="빅데이터분석가">
+                      <label for="checkbox-b">빅데이터분석가</label>       
+                  <input type="checkbox"  name="checkbox" id="checkbox-c"
+                             value="DB(디자인)설계 및 기획"> 
+                        <label for="checkbox-c">DB(디자인)설계 및 기획</label>                        
+                 </fieldset>
+              </div>
+              <!-- checkbox의 크기를 작게 설정,수평으로 정렬
+                     data-mini="true"(컴포넌트 작게) -->
+                <fieldset data-role="controlgroup" data-type="horizontal"
+                              data-mini="true">
+                     <legend>글자 스타일 모양</legend>
+                  <input type="checkbox"  name="checkbox" id="checkbox-1"
+                             value="b">
+                     <label for="checkbox-1">b</label>
+                  <input type="checkbox"  name="checkbox" id="checkbox-2"
+                             value="i">
+                      <label for="checkbox-2">i</label>       
+                  <input type="checkbox"  name="checkbox" id="checkbox-3"
+                             value="u"> 
+                        <label for="checkbox-3">u</label>                        
+                 </fieldset>
+                 <!--여러개중에서 선택 
+                     data-native-menu="false" 
+                     원래의 html의 스타일을 사용하지 않고 JQuery Mobile에 적합한
+                     스타일을 사용하고 싶다.
+                  -->
+                 <div data-role="fieldcontain">
+                   <label for="select-choice-a">좋아하는 과목을 선택:</label>
+                   <select name="select-choice-a" id="select-choice-a"
+                               data-native-menu="false">
+                      <option>아래에서 선택</option>
+                      <option value="JQuery">JQuery</option>
+                      <option value="Java 언어">Java</option>
+                      <option value="bootstrap & Mobile">bootstrap & Mobile</option>
+                   </select>
+                 </div>
+         </form>
+     </div>
+   
+    <div data-role="footer">
+         <h1>Footer</h1>
+     </div>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+

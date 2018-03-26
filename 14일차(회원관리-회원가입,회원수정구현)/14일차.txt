@@ -1,0 +1,251 @@
+14일차(회원관리-회원가입,회원수정 구현=>회원탈퇴 예습)
+
+1) 웹상에서의 트랜잭션을 처리하는 방법?->회원가입,수정,탈퇴
+2) 회원수정,회원탈퇴=>공통(회원 로그인)=>** 파라미터값 전달 **
+
+SQL> select count(*) from member;
+
+  COUNT(*)
+----------
+         1
+
+
+회원가입 절차==>Register.jsp---->RegisterProc.jsp(다시 한번 확인)
+                                                          |
+                                      MemberInsert.jsp(회원가입메서드
+                                                                             호출)
+-----------------------------------------------------------------------
+<시작태그>본문</종료태그>=><시작태그></종료태그>=><태그 />
+
+ex) <jsp:useBean id="" class=""  />
+
+    <jsp:useBean ~>  =><jsp:useBean ~ />
+     
+    </jsp:useBean>
+
+**예외 경우**
+--------------------------------------------------------------
+<script language="JavaScript" src="script.js?ver=1"></script>
+<script language="JavaScript" src="script.js?ver=1" />=>X
+---------------------------------------------------------------
+
+<%@ page contentType="text/html;charset=UTF-8"%>
+<%
+  //Register.jsp->RegisterProc.jsp
+   request.setCharacterEncoding("utf-8");//한글처리
+   //방법1) 단순히 앞에서 입력받은값을 출력목적
+   //String mem_id=request.getParameter("mem_id");
+   //String mem_passwd=request.getParameter("mem_passwd");
+   //,,,,
+   //방법2) 앞에서 입력한 값을 DTO클래스의 멤버변수에 각각 저장이 가능
+   /*
+     MemberDTO mem=new MemberDTO();
+       mem.setMem_id(request.getParameter("mem_id"));->mem_id->getMem_id
+       ,,,
+   */
+%>
+//방법3
+<jsp:useBean id="mem"  class="hewon.MemberDTO" scope="page" />
+<jsp:setProperty name="mem" property="*" />
+-------------------------------------------------------------------
+
+MemberDAO->회원가입 메서드->회원수정
+
+
+오라클에서 트랜잭션처리 (대용량)
+
+테이블을 여러개 작업-->{ A(insert)->,B(update) }
+                              O ------->O
+                              X -------->O
+
+->트랜잭션->insert,update,delete->여러개를 하나의 작업
+
+  con.setAutoCommit(false); //시작점,con.setAutoCommit(true); //디폴트
+                          ->save point 지정
+   insert
+   update
+   delete
+   ...
+  con.commit();  or con.rollback() 실행취소
+
+2.MemberDAO에서 회원가입 메서드 작성
+
+public  boolean   memberInsert(MemberDTO mem) {
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		//ResultSet rs=null ->insert이기때문
+		boolean check=false;//회원가입 성공유무
+		String sql="";//sql구문 저장
+		
+		try {
+			con=pool.getConnection();
+			//트랜잭션처리 시작구문
+			con.setAutoCommit(false);
+			//-----입력을 받을때는 DTO->각각의 필드에 값을 저장->Getter Method
+			sql="insert into member values(?,?,?,?,?,?,?,?)";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, mem.getMem_id());
+			pstmt.setString(2, mem.getMem_passwd());
+			pstmt.setString(3, mem.getMem_name());
+			pstmt.setString(4, mem.getMem_email());
+			pstmt.setString(5, mem.getMem_phone());
+			pstmt.setString(6, mem.getMem_zipcode());
+			pstmt.setString(7, mem.getMem_address());
+			pstmt.setString(8, mem.getMem_job());
+			int insert=pstmt.executeUpdate();//1->성공, 0->실패->메모리상 저장
+			//메모리상에 저장된 값이=>실제 테이블에 저장(동기화)
+			con.commit();
+			System.out.println("회원가입 성공유무(insert)=>"+insert);
+			if(insert > 0) {
+				check=true;
+			}
+		}catch(Exception e) {
+			System.out.println("memberInsert() 실행 에러유발=>"+e);
+		}finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return check;
+	}
+===============================================================
+3.MemberInsert.jsp->IdCheck.jsp를 save as해서 작업
+==================================================
+
+회원수정을 하는 흐름도
+                                    MemberUpdate.jsp
+1.Login.jsp(회원수정 링크문자열)->회원수정폼(id 수정X)->pk때문에
+                                    회원수정 취소
+                                             |
+                                    MemberUpdateProc.jsp
+                                     회원수정 성공유무(경고창)
+                                              |
+                                         수정후 로그인화면
+
+ 결론) MemberUpdate.jsp =>id값에 해당하는 메서드를 호출
+                        =>id값에 해당하는 데이터를 출력
+
+       MemberUpdateProc.jsp=>회원수정을 시켜주는 메서드 호출
+=============================================================
+SQL> select id,name from member;
+
+ID                   NAME
+-------------------- --------------------
+test                 테스트
+nup                  홍길동
+
+SQL> select * from member where id='test';
+
+//5)수정하기원하는 개인정보를 화면에 출력
+	//select * from member where id=?; =>MemberDTO
+	//select * from member ->레코드 한개이상->Vector(X)->ArrayList
+	public MemberDTO getMember(String mem_id) {
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;//
+		ResultSet rs=null;//select 
+		//추가
+		MemberDTO mem=null;//mem_id값에 해당하는 레코드를 담을 객체 필요
+		//ArrayList<MemberDTO> vecList=new ArrayList();
+		String sql="";
+		
+		try {
+			con=pool.getConnection();
+			sql="select * from member where id=?";
+			pstmt=con.prepareStatement(sql);  //->NullPointerException발생주의
+			pstmt.setString(1, mem_id);
+			rs=pstmt.executeQuery();
+			//레코드 한개를 담는다면 if(rs.next()){~}
+			//레코드 한개 이상을 담는다면 while(rs.next()){~)
+			if(rs.next()) { //화면에 보여줄 레코드가 한개 존재한다면
+				//MemberDTO mem=new MemberDTO();
+				mem=new MemberDTO();
+				mem.setMem_id(rs.getString("id"));// nup~
+				mem.setMem_passwd(rs.getString("passwd"));
+				mem.setMem_name(rs.getString("name"));
+				mem.setMem_phone(rs.getString("phone"));
+				mem.setMem_zipcode(rs.getString("zipcode"));
+				mem.setMem_address(rs.getString("address"));
+				mem.setMem_email(rs.getString("e_mail"));
+				mem.setMem_job(rs.getString("job"));
+			}
+		}catch(Exception  e) {
+			System.out.println("getMember() 실행 중 에러유발=>"+e);
+		}finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return mem;
+	}
+	
+	//6)회원수정을 시켜주는 메서드=>회원가입과 소스코드 동일
+	public boolean memberUpdate(MemberDTO mem) {
+		
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		//ResultSet rs=null ->insert이기때문
+		boolean check=false;//회원수정 성공유무
+		String sql="";//sql구문 저장
+		
+		try {
+			con=pool.getConnection();
+			//트랜잭션처리 시작구문
+			con.setAutoCommit(false);//수정
+			
+			sql="update member set passwd=?, name=?, e_mail=?, phone=?,"
+					+ " zipcode=?, address=? ,job=?  where id=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, mem.getMem_passwd());
+			pstmt.setString(2, mem.getMem_name());
+			pstmt.setString(3, mem.getMem_email());
+			pstmt.setString(4, mem.getMem_phone());
+			pstmt.setString(5, mem.getMem_zipcode());
+			pstmt.setString(6, mem.getMem_address());
+			pstmt.setString(7, mem.getMem_job());
+			pstmt.setString(8, mem.getMem_id());
+			
+			int update=pstmt.executeUpdate();//1->성공, 0->실패->메모리상 저장
+			//메모리상에 저장된 값이=>실제 테이블에 저장(동기화)
+			con.commit();
+			System.out.println("회원수정 성공유무(update)=>"+update);
+			if(update == 1) {
+				check=true; //수정성공
+			}
+		}catch(Exception e) {
+			System.out.println("memberUpdate() 실행 에러유발=>"+e);
+		}finally {
+			pool.freeConnection(con, pstmt);
+		}
+		return check; //true or false
+	}
+===========================================================
+*****웹프로그램 작성할때 매개변수를 전달하는 방법****(기술면접시)
+*********************************************
+
+1.링크문자열을 이용해서 페이지 전환할때 사용->매개변수를 지정
+ <a href="DelCheckForm.jsp?mem_id=<%=mem_id%>">회원탈퇴</a>
+
+2.Request객체 또는 Session객체를 이용한 데이터 공유방법
+  ->이미 로그인 상태에서는 페이지가 이동된다고 해도 mem_id값이
+  ->사라지지 않고 메모리에 계속 저장된 상태
+
+<a href="MemberUpdate.jsp">회원수정</a>
+ =>String mem_id=(String)session.getAttribute("idKey")
+      
+3.<form>태그내부에 <input type="hidden"~>값을 전달하는 경우
+   형식) <input type="hidden" name="전달할매개변수명" value="전달할값">
+ex)<input type="hidden" name="mem_id" value="<%=mem_id%>" >
+
+  <input type="hidden" name="mem_id" value="<%=mem_id%>" >
+    대신에 action속성값에 
+     action="이동할페이지명?매개변수명=전달할값&매개변수명2=값2,,,
+4.action="delePro.jsp?mem_id=<%=mem_id%>
+=======================================================
+ ** 웹상에서 콤보박스의 값과 Db상의 필드값을 연결시키는 방법**
+    콤보박스에 있는 목록에 있는 DB에 저장된 값은 화면에 나오지 않음
+
+        <script>
+     document.regForm.mem_job.value="<%=mem.getMem_job()%>"
+	</script>
+
+  수정처리해주는 jsp->MemberUpdateProc.jsp =>RegisterProc.jsp와 동일
+============================================================
+
+

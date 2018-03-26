@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+
+.listbox {  /* 검색된 항목의 리스트에 스타일 적용*/
+   position:relative;
+   left:10px;
+   margin:10px;
+   width:200px; /* 검색어의 넓이를 지정 */
+   background-color:#000;
+   color:#fff;
+   border:2px solid #000;
+}
+
+.namelist  { /* 실제 목록이 나오는 부분 */
+	margin:0px; /* 검색어입력란 바로밑에 위치 */
+	padding:0px;
+	list-style:none;/* 마커 해제 */
+}
+
+.hover { /*하이라이트 효과*/
+	background-color:cyan;
+	color:blue;
+}
+
+
+

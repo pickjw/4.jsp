@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  /*
+       *************************************************
+	              함수               설명
+	 형식)
+	 $(A(부모)).append(B(자식))->B를 A의 기존자식의 뒤에 추가  
+	 $(A).prepend(B)->B를 A의 기존자식의 앞에 추가
+	 
+	 $(A).after(B)->B를 A뒤에 추가  (자식에 추가X)
+	 $(A).before(B)->B를 A앞에 추가 (자식에 추가X)
+       ****************************************************
+	*/
+	    
+	//(1) div태그의 기존자식의 바로 뒤에 추가
+	      $('div').append('<h1>jQueryTest</h1>')
+	 //  $('<h1>jQueryTest</h1>').appendTo('div')
+	//(2)  div태그의 기존자식의 바로앞에 추가
+	        $('div').prepend('<h1>jQueryTest222</h1>') 
+	//   $('<h1>jQueryTest2</h1>').prependTo('div')
+	//(3) div태그 뒤에 <h1>DOMTest</h1>을 추가
+	        $('div').after('<h1>DOMTest2</h1>')
+	  //    $('<h1>DOMTest</h1>').insertAfter('div')
+	//(4) div태그 앞에 <h1>DOMTest</h1>을 추가
+	        $('div').before('<h1>DOMTest3</h1>').css('color','red')
+	//      $('<h1>DOMTest22</h1>').css('color','red').insertBefore('div')
+	//      $('img').attr('width',300).insertBefore('div')
+	         $('img').attr('width',300).before('<h2>jQuery DOM정리2</h2') //새로 작성
+  })
+</script>
+</head>
+<body>
+<h2>jQuery DOM정리2</h2>
+      <!--(4) <h1>DOMTest3</h1> -->
+  <div>
+      <!--(2) <h1>jQueryTest222</h1> -->
+      <h1>2월의 마무리</h1>
+      <!--(1) <h1>jQueryTest</h1> -->
+  </div>
+       <!--(3) <h1>DOMTest2</h1> -->
+  <h1>2월의 네번째 월요일</h1>
+  <img src="../picCats/Persian.jpg">
+</body>
+</html>
+
+
+
+

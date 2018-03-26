@@ -1,0 +1,14 @@
+﻿회원 테이블을 생성=>테이블명Bean==>테이블명DTO
+                                ====>DTO(자바빈즈)
+ create table member(     
+ id varchar2(20) primary key,  //회원id
+ passwd varchar2(20) not null, //not null(필수입력)
+ name   varchar2(20) not null, //회원명
+ e_mail varchar2(20) ,         //이메일
+                               //이메일을 id대용으로
+                               //설계 not null
+ phone varchar2(30)  not null, //전번
+ zipcode varchar2(10) ,        //우편번호 검색
+ address varchar2(60) not null,//주소
+ job  varchar2(30)             //직업
+ );

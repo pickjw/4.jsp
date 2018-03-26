@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>select(6).html</title>
+<script>
+    function fg_color(form){
+       //alert(form) //select태그 객체->[ selectElement]
+       //var list=document.f_list.form.selectedIndex; //options배열의 항목인덱스번호
+       var list=form.selectedIndex;
+       //alert(list)
+       //글자색->document.fgColor or bgColor=파란색
+       //document.f_list.form.options[인덱스번호].text->바깥문자열(파란색,오랜지색)
+       //document.f_list.form.options[인덱스번호].value->내부문자열
+       alert(form.options[list].value)
+       //document.bgColor=document.f_list.form.options[document.f_list.form.selectedIndex].value
+       document.fgColor=form.options[list].value;
+    }
+</script>
+</head>
+<body>
+  <h3>글자색 바꾸기</h3>
+  원하시는 색상을 선택하시면 글자의 색깔이 변경됩니다.<p>
+  <form name="f_list">
+    <select name="form" onchange="fg_color(document.f_list.form)">
+    <!--size="항목수"(리스트박스) multiple(동시에 여러개 선택하는 경우)  -->
+    <!-- <select name="form" size="4" multiple> -->
+       <option value="blue">파란색</option>
+       <option value="green" selected>초록색</option>
+       <option value="orange">오렌지색</option>
+       <option value="gray">회색</option>
+    </select>
+  </form>
+  
+</body>
+</html>
+
+
+

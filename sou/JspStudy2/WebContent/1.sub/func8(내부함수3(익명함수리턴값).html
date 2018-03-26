@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func8(내부함수3(익명함수리턴값).html</title>
+</head>
+<body>
+<script>
+   function other(){
+	   //선언적함수명을 기술
+	   //return g(함수명);  형식) return function(){ 함수의 내용}
+	   return function(){
+		   alert("익명함수 호출연습")
+	   }
+   }
+   //함수호출
+   /* (1)일반적인 방법
+  var n=other()
+  document.write("익명의 n=>"+n+"<br>")
+  n() */
+    //(2) 축약형
+   //var n()=other()()
+   other()() //other()->n
+</script>
+</body>
+</html>
+
+
+
+

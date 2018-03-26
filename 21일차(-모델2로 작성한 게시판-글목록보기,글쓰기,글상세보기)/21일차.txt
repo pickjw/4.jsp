@@ -1,0 +1,247 @@
+21일차(-모델2로 작성한 게시판-글목록보기,글쓰기,글상세보기)
+
+->1.쪽지시험
+  2.팀원 제출->내일 발표(자리배치)->자료
+-----------------------------------------------------------
+1.글목록보기
+
+1)web.xml부터 읽어들임->서블릿을 실행->/list.do=action.ListAction
+                                               requestPro()호출
+                                                 "/list.jsp"
+------------------------------------------------------------------
+public String requestPro(HttpServletRequest request, HttpServletResponse response) throws Throwable {
+		// TODO Auto-generated method stub
+		// 1.jsp가 처리했던 소스코드를 액션클래스가 처리->메서드호출->DB->결과
+		    //글목록보기에 해당 용어를 정리
+		    int pageSize=10;//int numPerPage->페이지당 보여주는 게시물수
+		    int blockSize=10;//int pagePerBlock->블럭당 보여주는 페이지수
+		    
+		   //게시판을 맨 처음 실행시킬 경우 초기화 설정부분->1페이지(pageNum)
+		   String pageNum=request.getParameter("pageNum");
+		   if(pageNum==null){//맨 처음에는 선택한 적이 없기때문에 null
+			   pageNum="1";//1
+		   }
+		   //1.nowPage=>currentPage
+		   int currentPage=Integer.parseInt(pageNum);//"1"->1
+		   //2.DB상의 레코드시작 번호~몇개?  limit ?,?
+		                       //(1-1)*10+1=1, (2-1)*10+1=11,(3-1)*10+1=21		   
+		   int startRow=(currentPage-1)*pageSize+1;
+		   int endRow=currentPage*pageSize;//1*10=10,2*10=20,3*10=30
+		   //화면에 출력시켜주는 레코드갯수가 아니다.X
+		   int count=0;//3.총레코드수->totalRecord
+		   int number=0;//4.beginPerPage->페이지별로 맨 처음에 나오는 시작 게시물번호
+		   List<BoardDTO> articleList=null;//5.화면에 실제로 출력할 레코드객체
+		   //6.총레코드수 구하기
+		   BoardDAO dbPro=new BoardDAO();
+		   //<jsp:useBean id="dbPro" class="lys.board.BoardDAO" />
+		   count=dbPro.getArticleCount();
+		   System.out.println("현재 레코드수(count=>)"+count);
+		   //6.검색된 레코드가 존재->articleList에 담기
+		   if(count > 0){ //한개이상이라면    ------>endRow(X)
+			   articleList=dbPro.getArticles(startRow, pageSize);//int pageSize=10;
+		   }
+		   //7.beginPerPage을 계산
+		   //            122-(1-1)*10=122, 122-(2-1)*10=112
+		   number=count-(currentPage-1)*pageSize;
+		   System.out.println("페이지별 number 확인=>"+number);
+		
+		//2.request.setAttribute(키명,저장할값);//공유
+		   //request.setAttribute("currentPage", new Integer(currentPage));
+		   request.setAttribute("currentPage", currentPage);//int->Integer
+		   request.setAttribute("startRow", startRow);
+		   request.setAttribute("count", count);
+		   request.setAttribute("pageSize", pageSize);
+		   request.setAttribute("blockSize", blockSize);
+		   request.setAttribute("number", number);
+		   request.setAttribute("articleList", articleList);
+		   
+		//3.정해진 view로 이동
+		return "/list.jsp";
+	}
+}
+----------------------------------------------------------------
+2.list.jsp
+
+ //request.setAttribute("count", count);
+  //int count=(Integer)request.getAttribute("count"); //Integer->int
+  //${count}
+
+${article.re_level}=${article['re_level']}=${article["re_level"]}
+
+DBConnectionMgr.java->1.DB에 관련된 정보가 오타
+                      2.port(3307->3306)
+===========================================================
+
+http://localhost:8090/JspBoard2/list.do
+
+불러온경로=C:/webtest/4.jsp/sou/JspBoard2/WebContent/WEB-INF/commandPro.properties
+command=/list.do
+className=action.ListAction
+commandClass=class action.ListAction
+commandInstance=action.ListAction@1d3d5bee
+commandMap={/list.do=action.ListAction@1d3d5bee}
+request.getRequestURI()=>/JspBoard2/list.do
+request.getContextPath()=>/JspBoard2
+실질적인 command=>/list.do
+com=action.ListAction@1d3d5bee
+_driver=>org.gjt.mm.mysql.Driver,_url=jdbc:mysql://localhost:3306/mydb?useUnicode=true&characterEncoding=UTF-8
+_user=>root,_password=1234
+pool=>lys.board.DBConnectionMgr@692dced6
+con=>com.mysql.jdbc.JDBC4Connection@19576a00
+총레코드수(x)=>13
+현재 레코드수(count=>)13
+페이지별 number 확인=>13
+view->/list.jsp
+
+============================>메인페이지 index.jsp 작성
+
+2.글쓰기를 구현
+
+글쓰기 링크문자열을 클릭
+
+http://localhost:8090/JspBoard2/writeForm.do
+
+javax.servlet.ServletException: java.lang.NullPointerException
+	controller.ControllerAction.requestPro(ControllerAction.java:116)
+	controller.ControllerAction.doGet(ControllerAction.java:79)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+Root Cause
+
+NullPointerException  ==>액션클래스의 객체가 존재X
+                         발생한 에러메세지
+
+/writeForm.do=action.WriteFormAction =>연결X
+---------------------------------------------------------
+
+*** 모델1=>모델2 연결시키는 방법 ***
+
+1.요청명령어가 제대고 연결됐는지를 확인(commandPro.properties)
+
+
+/writeForm.do=action.WriteFormAction
+#/writePro.do=action.WriteProAction
+
+
+2.WriteFormAction 작성
+
+ //list.do(글쓰기)->신규글, content.jsp(글상세보기)->답변글쓰기->답변글
+	    int num=0,ref=1,re_step=0,re_level=0; //writePro.jsp 전달->신규글
+	     //content.do에서 num이하가 넘어오는 경우라면
+	    if(request.getParameter("num")!=null){ //1이상
+	    	num=Integer.parseInt(request.getParameter("num"));
+	    	ref=Integer.parseInt(request.getParameter("ref"));
+	    	re_step=Integer.parseInt(request.getParameter("re_step"));
+	    	re_level=Integer.parseInt(request.getParameter("re_level"));
+	    	System.out.println("content.jsp에서 넘어온 매개변수값을 확인");
+	    	System.out.println
+	    	("num="+num+",ref="+ref+",re_step="+re_step+",re_level="+re_level);
+	    }
+	    
+	    //2.액션클래스가 처리한 결과->request저장->페이지 이동
+	    request.setAttribute("num", num); //${num}
+	    request.setAttribute("ref", ref);
+	    request.setAttribute("re_step", re_step);
+	    request.setAttribute("re_level", re_level);
+	    
+	    //3.return 경로포함해서 이동할 페이지명
+		return "/writeForm.jsp";
+
+
+3.writeForm.jsp 작성
+=====================
+모델2로 작성한 글쓰기 구현
+
+1.commandPro.properties파일에 요청명령어를 추가확인->스프링(xml)
+
+/writeForm.do=action.WriteFormAction
+/writePro.do=action.WriteProAction ==>*** 클래스명이 틀리면
+                                          NullPointerException
+
+ *** 요청명령어를 추가하지 않으면 ->404에러
+-----------------------------------------------------------------
+WriteProAction 작성
+
+ request.setCharacterEncoding("utf-8");//한글
+	     //BoardDTO->Setter Method호출(5개)+hidden(4개)->9개
+	     //BoardDTO article=new BoardDTO();
+	     //property="*" =>매개변수로 전달받은 경우에만 적용
+         BoardDTO article=new BoardDTO();
+	     article.setNum(Integer.parseInt(request.getParameter("num")));
+	     article.setWriter(request.getParameter("writer"));
+	     article.setEmail(request.getParameter("email"));
+	     article.setSubject(request.getParameter("subject"));
+	     article.setPasswd(request.getParameter("passwd"));
+	     //추가
+	     article.setReg_date(new Timestamp(System.currentTimeMillis()));
+	     article.setRef(Integer.parseInt(request.getParameter("ref")));
+	     article.setRe_step(Integer.parseInt(request.getParameter("re_step")));
+	     article.setRe_level(Integer.parseInt(request.getParameter("re_level")));
+	     article.setContent(request.getParameter("content"));
+	     article.setIp(request.getRemoteAddr());//원격 ip주소
+	    
+	   BoardDAO dbPro=new BoardDAO();
+	   dbPro.insertArticle(article);//num=0
+		//request.setAttribute()왜 사용->페이지 이동=>전달할 매개변수가 필요한 경우
+	    //에만 코딩
+		return "/writePro.jsp";
+-------------------------------------------------------
+writePro.jsp->페이지 이동만 시키면 된다.->/list.do=>/list.jsp
+
+<% 
+   //response.sendRedirect("/JspBoard2/list.do");//1페이지
+%>
+<meta http-equiv="Refresh" content="0;url=/JspBoard2/list.do">
+---------------------------------------------------------------
+ 글상세보기
+
+ <a href="/JspBoard2/content.do?num=${article.num}&pageNum=${currentPage}">
+           ${article.subject}</a> 
+
+1.요청명령어 등록 ->/content.do=action.ContentAction
+ 
+/list.do=action.ListAction
+/writeForm.do=action.WriteFormAction
+/writePro.do=action.WriteProAction
+/content.do=action.ContentAction
+
+2.ContentAction작성<---content.jsp에서의 자바코드를 옮겨온다.
+  액션클래스에서 처리->content.jsp
+
+3.content.jsp에서 처리
+---------------------------------------------------
+ ** 수정하기(예습) **
+
+1.요청명령어를 등록
+
+/updateForm.do=action.UpdateFormAction
+/updatePro.do=action.UpdateProAction
+
+2.UpdateFormAction 작성->updateForm.jsp 전송
+3.UpdateProAction 작성->updatePro.jsp 전송
+==============================================
+
+  //list.jsp에서 링크->content.do?num=3&pageNum=1
+		   int num=Integer.parseInt(request.getParameter("num"));//메서드의 매개변수때문에
+		   String pageNum=request.getParameter("pageNum");
+		   
+		   BoardDAO dbPro=new BoardDAO();
+		   //조회수 증가,num에 해당되는 레코드한개
+		   BoardDTO article=dbPro.getArticle(num);
+		   //링크문자열의 길이를 줄이기위해서(댓글때문에)
+		   int ref=article.getRef();
+		   int re_step=article.getRe_step();
+		   int re_level=article.getRe_level();
+		   System.out.println("content.do의 매개변수 값");
+		   System.out.println("ref->"+ref+",re_step->"+re_step+",re_level=>"+re_level);
+		
+		   //request에 저장
+		   request.setAttribute("num", num);
+		   request.setAttribute("pageNum", pageNum);
+		   request.setAttribute("article", article);//ref,re_step,re_level이 들어있기때문에
+		    //${article.ref}
+		   //request.setAttribute("ref","ref");// ${ref} 
+		return "/content.jsp";
+============================================================ 
+

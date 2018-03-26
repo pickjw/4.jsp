@@ -1,0 +1,267 @@
+17일차-게시판-글쓰기,글상세보기,답변달기 작성법)->과제) 수정하기,삭제하기
+
+ insert into Round16_Table_01 values(null,?,?,?)//자동으로 저장   
+                                                  자릿수때문에 null
+                            or
+
+ insert into Rounds16_Table_01(subject,author,contents) values(?,?,?);
+
+  DB접속하는 방법->1.JNDI  2.DBConnectionMgr 3.Mybatis (xml파일 설정)
+
+                  (xml파일)->Spring
+                  ========================
+                  1) context.xml
+                  2) web.xml파일 설정
+                  3) Context객체를 이용->DB
+                  ==========================
+
+ *** 신규글인지 답변글인지 구분***
+ =>num,ref,re_step,re_level값의 존재유무에 결정
+
+1.BoardDAO->insertArticle()작성->신규글,답변글도 된다.
+
+2.답변글의 경우 ->중간에 삽입되는 위치를 하나 만들어준다.
+
+  ** 신규글의 경우의 sql-> insert into board~  (ref,0,0)~ **
+  ** 답변글의 경우
+
+          update board set re_step=re_step+1 where ref=?
+          and re_step > ?
+
+          insert into board~  (ref,re_step+1,re_level+1)~ **
+
+          ->같은 그룹번호를 가지고 있으면서 나보다 step값이 클게시물을
+            찾아서 step값을 하나 증가시켜라 (aaa-4)
+
+                   나중에 삽입(insert)
+
+num     subject    ,,,      ref     step    level
+
+ 1       aaa                 0       0         0 
+          |
+           -aaa-1            0       1        1 ->답변글이라는 의미
+                |
+                 -aaa-2      0       2        2
+                                <-------------------
+                  aaa-4      0       3         2
+                |
+                 -aaa-3      0       3->4      2
+
+// 3.insertArticle()->글쓰기 및 답변글 쓰기
+	// insert into~ ->내부에서 성공유무 체크,->list.jsp로 자동으로 이동
+	public void insertArticle(BoardDTO article) {
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;// select ->select max(num) from board->+1(num구함)
+
+		// -------------신규글인지 답변글인지 구분----------------------
+		int num = article.getNum();// 0->신규글 0아닌 경우->답변글
+		int ref = article.getRef();
+		int re_step = article.getRe_step();
+		int re_level = article.getRe_level();
+		// 추가
+		int number = 0;// 테이블에 입력할 게시물번호를 저장할 변수
+		System.out.println("insertArticle메서드 내부의 num=>" + num);
+		System.out.println("ref=" + ref + ",re_step=>" + re_step + ",re_level=>" + re_level);
+		String sql = "";// sql구문 저장
+
+		// 2.메서드 목적에 맞는 SQL구문
+		try {
+			con = pool.getConnection();
+			sql = "select max(num) from board";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			// 추가
+			if (rs.next()) { // 레코드갯수가 한개이상이라면
+				number = rs.getInt(1) + 1;
+			} else {
+				number = 1;// 게시물 번호를 1로 설정
+			}
+			System.out.println("insertArticle의 number=>" + number);
+			// 만약에 답변글이라면 ->num=0 신규글이기 때문에
+			if (num != 0) {
+				// 같은 그룹번호를 가지고 있으면서 내가 들어가 위치에 있는 게시물의
+				// re_step값을 하나 증가->빈 step->답변글
+				sql = "update board set re_step=re_step+1 where ref=? and re_step > ?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setInt(1, ref);
+				pstmt.setInt(2, re_step);
+				int update = pstmt.executeUpdate();
+				System.out.println("댓글 수정 유무(update)=>" + update);//1
+				re_step = re_step + 1;
+				re_level = re_level + 1;
+			} else { // 신규글이라면
+				ref = number;// 1,2,3,4,5,6,
+				re_step = 0;
+				re_level = 0;
+			}
+			// 12개의 필드->num,reg_date,readcount(생략)->sysdate,now()<-?
+			// num(자동입력),readcount(디폴트 기능때문에)->0이 들어가게 설정
+			sql = "insert into board(writer,email,subject,passwd,reg_date,";
+			sql += " ref,re_step,re_level,content,ip) values(?,?,?,?,?,?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, article.getWriter());
+			pstmt.setString(2, article.getEmail());
+			pstmt.setString(3, article.getSubject());
+			pstmt.setString(4, article.getPasswd());// 암호
+			pstmt.setTimestamp(5, article.getReg_date());// 작성 날짜
+			// ---------------------------------------
+			pstmt.setInt(6, ref);// ref ->article.getRe_ref() X
+			pstmt.setInt(7, re_step);// re_step
+			pstmt.setInt(8, re_level);// re_level
+			// ------------------------------------------
+			pstmt.setString(9, article.getContent());// 글내용
+			pstmt.setString(10, article.getIp());// 접속자의 ip주소
+                        //실행
+			int insert=pstmt.executeUpdate();
+			System.out.println("게시판의 글쓰기 성공유무(insert)=>"+insert);
+		
+                } catch (Exception e) {
+			System.out.println("insertArticle() 메서드 실행오류=>" + e);
+		} finally {// 메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+	}
+=====================================================================
+2.writeForm.jsp(입력폼)
+
+
+<%
+      //list.jsp(글쓰기)->신규글, content.jsp(글상세보기)->답변글쓰기->답변글
+    int num=0,ref=1,re_step=0,re_level=0; //writePro.jsp 전달->신규글
+     //content.jsp에서 num이하가 넘어오는 경우라면
+    if(request.getParameter("num")!=null){ //1이상
+    	num=Integer.parseInt(request.getParameter("num"));
+    	ref=Integer.parseInt(request.getParameter("ref"));
+    	re_step=Integer.parseInt(request.getParameter("re_step"));
+    	re_level=Integer.parseInt(request.getParameter("re_level"));
+    	System.out.println("content.jsp에서 넘어온 매개변수값을 확인");
+    	System.out.println
+    	("num="+num+",ref="+ref+",re_step="+re_step+",re_level="+re_level);
+    }
+%>
+
+ <!-- button->onclick이벤트를 처리(함수)
+       submit->onsubmit이벤트가 발생->함수를 호출 형식) return 호출할 함수명()
+       함수를 호출해서 제대로 입력했는지를 체크->입력->return false를 받는다.
+       제대로 입력->return true을 받아서 자동적으로 action="writePro.jsp로 전송
+  -->
+<form method="post" name="writeform" action="writePro.jsp"
+          onsubmit="return writeSave()">
+
+  <input type="hidden" name="num" value="<%=num %>">
+  <input type="hidden" name="ref" value="<%=ref %>">
+  <input type="hidden" name="re_step" value="<%=re_step %>">
+  <input type="hidden" name="re_level" value="<%=re_level %>">
+===============================================================
+
+3.writePro.jsp(insertArticle()호출)->list.jsp로 페이지를 이동
+
+<%
+     request.setCharacterEncoding("utf-8");//한글
+     //BoardDTO->Setter Method호출(5개)+hidden(4개)->9개
+     //BoardDTO article=new BoardDTO();
+     //property="*" =>매개변수로 전달받은 경우에만 적용
+%>
+<jsp:useBean id="article" class="lys.board.BoardDTO" />
+<jsp:setProperty name="article" property="*" />
+<%
+  //BoardDAO 객체->insertArticle(aritcle)=>9개+2개(작성날짜,ip)
+   Timestamp temp=new Timestamp(System.currentTimeMillis());//컴퓨터의날짜,시간
+   article.setReg_date(temp);//->insert into ~?  =>직접 ?대신에 now() 써준다.
+   article.setIp(request.getRemoteAddr());//원격접속 ip주소 출력
+   BoardDAO dbPro=new BoardDAO();
+   dbPro.insertArticle(article);//num=0
+   response.sendRedirect("list.jsp");//1페이지
+%>
+-----------------------------------------------------------------
+글상세보기-><a href=content.jsp?num=4&pageNum=1>~</a>
+                    (답변달기,글수정(수정 OK=>수정한 게시물이 있는 페이지
+                                     ,글삭제=>삭제한 게시물이 있는 페이지)
+
+BoardDAO ->글상세보기 메서드 구현
+
+// 4.글 상세보기->조회수도 증가
+	//update board set readcount=readcount+1 where num=?
+	//select * from board where num=?
+	public BoardDTO getArticle(int num) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;// select * from board where num=?
+		BoardDTO article = null;// 게시물번호에 해당하는 레코드 한개
+		
+		// 2.메서드 목적에 맞는 SQL구문
+		try {
+			con = pool.getConnection();
+			
+			String sql = "update board set readcount=readcount+1 where num=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			int update=pstmt.executeUpdate();
+			System.out.println("조회수 증가유무(update)=>"+update);//1
+			//pstmt.close();
+			sql="select * from board where  num=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) { // 레코드갯수가 한개라도 존재한다면
+				    article = new BoardDTO();// MemberDTO mem=new MemberDTO
+					article.setNum(rs.getInt("num"));// 번호
+					article.setWriter(rs.getString("writer"));// 작성자
+					article.setEmail(rs.getString("email"));// 메일
+					article.setSubject(rs.getString("subject"));
+					article.setPasswd(rs.getString("passwd"));
+					article.setReg_date(rs.getTimestamp("reg_date"));// 오늘날짜->코딩->now()
+					article.setReadcount(rs.getInt("readcount"));// 조회수
+					article.setRef(rs.getInt("ref"));// 그룹번호->답변다는 위치지정
+					article.setRe_step(rs.getInt("re_step"));// 답변글 순서
+					article.setRe_level(rs.getInt("re_level"));// 답변의 깊이(depth)
+					article.setContent(rs.getString("content"));// 글내용
+					article.setIp(rs.getString("ip"));// 글쓴이의 ip
+			} // if(rs.next()){}
+		} catch (Exception e) {
+			System.out.println("getArticle() 메서드 실행오류=>" + e);
+		} finally {// 메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return article;
+	}
+
+
+content.jsp(글상세보기)=>** 응용 **
+
+디자인시 html만 사용하는 경우(한글처리 부분 추가할것)
+
+=><html>
+<head>
+====================================================================
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+====================================================================
+<title>JSPBoard</title>
+======================================================================
+<pre>
+테스트중
+ㅁ
+ㅇㅁ
+ㅁㅇㅁ
+</pre>
+=====================================
+=>DB상에 저장
+
+테스트중<br>
+ㅁ<br>
+ㅇㅁ<br>
+ㅁㅇㅁ<br>
+
+=>enter를 만나면 <br>=>spring
+
+
+=======================================================================
+
+
+
+
+

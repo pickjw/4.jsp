@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;DBConnectionMgr.java&apos; to &apos;JspBoard/src&apos;&#x0D;&#x0A;- Original project: &apos;JspMember&apos;&#x0D;&#x0A;- Destination element: &apos;JspBoard/src&apos;&#x0D;&#x0A;- Original element: &apos;hewon.DBConnectionMgr.java&apos;" description="Copy compilation unit" destination="=JspBoard/src" element1="/src&lt;hewon{DBConnectionMgr.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1517377988168" units="1" version="1.0"/>
+</session>

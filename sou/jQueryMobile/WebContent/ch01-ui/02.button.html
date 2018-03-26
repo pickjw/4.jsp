@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+                                                        maximum-scale=1.0,minimum-scale=1.0,
+                                                        user-scalable=no">                                                                                               
+    <title>jquery mobile예제</title>
+
+    <!-- 모바일에서 환경설정(cdn->jquerymobile.com) 
+      <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+      <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+      <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+       
+    -->
+    <link href="../mobile/jquery.mobile-1.3.2.min.css" rel="stylesheet">
+    <style>
+        .ui-button-width {
+           width:200px; /* 임의로 버튼의 넓이를 지정 */
+        }
+        .ui-table-width{
+           width:100%;  /*테이블 내부의 버튼의 넓이를 지정*/
+        }
+    </style>
+      <script src="../mobile/jquery-1.9.1.min.js"></script>
+      <script src="../mobile/jquery.mobile-1.3.2.min.js"></script>
+  </head>
+  <body>
+    <div data-role="page">
+     <div data-role="header">
+       <h1>Button 크기</h1>
+     </div>
+     <!-- 
+        1.버튼을 생성->브라우저의 폭에 따라서 버튼의 폭이 조절
+        2.브라우저의 넓이와 상관없이 버튼 글자의 길이에 맞게 버튼의 폰이 조절
+            =>data-inline="true"
+        3.data-inline속성을 사용하지 않고 버튼의 폭을 조절?->스타일을 적용시킨다.    
+      -->
+    <div data-role="content"><!-- class="btn btn-default"(부트스트랩) -->
+         <a href="#"  data-role="button">버튼1</a>
+         <table class="ui-table-width">
+             <tr>
+                <td><a href="#" data-role="button">버튼2</a></td>
+                <td><a href="#" data-role="button">버튼3</a></td>
+             </tr>
+         </table>
+         <a href="#" data-role="button"  data-inline="true">버튼4</a>
+         <a href="#" data-role="button" class="ui-button-width">버튼5</a>
+     </div>
+   
+    <div data-role="footer">
+        <h1>화면하단</h1>
+     </div>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+

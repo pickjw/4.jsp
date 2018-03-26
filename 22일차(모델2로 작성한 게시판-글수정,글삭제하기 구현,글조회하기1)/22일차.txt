@@ -1,0 +1,126 @@
+22일차(모델2로 작성한 게시판-글수정,글삭제하기 구현,글조회하기1)
+
+http://localhost:8090/JspBoard2/updateForm.do?num=11&pageNum=1
+
+->주제->밴치마킹 사이트 분석->요구사항->스토리보드
+      ->테이블 설계(정규화 예습->제1차~제4차)->논리적으로
+      ->Tool 사용법
+================================================================
+javax.servlet.ServletException: java.lang.NullPointerException
+	controller.ControllerAction.requestPro(ControllerAction.java:116)
+	controller.ControllerAction.doGet(ControllerAction.java:79)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:635)
+	javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+Root Cause
+
+1.요청명령어 등록
+
+/updateForm.do=action.UpdateFormAction ->ClassNotFoundException
+/updatePro.do=action.UpdateProAction
+
+
+2.UpdateFormAction 작성->updateForm.jsp 소스변경
+
+   //updateForm.jsp?num=3&pageNum=1
+	    int num=Integer.parseInt(request.getParameter("num"));
+	    String pageNum=request.getParameter("pageNum");
+	    BoardDAO dbPro=new BoardDAO();
+	    //select * from board where num=?
+	    BoardDTO article=dbPro.updateGetArticle(num);
+	
+	    //서버의 메모리에 저장
+	    request.setAttribute("pageNum", pageNum);
+	    request.setAttribute("article", article);
+	    
+		return "/updateForm.jsp"; 
+============================================================
+/updateForm.jsp 작성
+
+3.UpdateProAction 작성->updatePro.jsp(암호체크->수정성공 or 실패)
+
+  request.setCharacterEncoding("utf-8");//한글
+	     String pageNum=request.getParameter("pageNum");
+	     
+         BoardDTO article=new BoardDTO();
+	     article.setNum(Integer.parseInt(request.getParameter("num")));//hidden
+	     article.setWriter(request.getParameter("writer"));
+	     article.setEmail(request.getParameter("email"));
+	     article.setSubject(request.getParameter("subject"));
+	     article.setContent(request.getParameter("content"));
+	     article.setPasswd(request.getParameter("passwd"));
+	     
+	   BoardDAO dbPro=new BoardDAO();
+	   int check=dbPro.updateArticle(article);//num=0
+		
+	   //updatePro.jsp에서 어느 페이지에서 게시물이 수정됐는지를 보여주기위해서
+	   request.setAttribute("pageNum", pageNum);
+	   request.setAttribute("check", check);
+	   
+		return "/updatePro.jsp";
+	}
+-----------------------------------------------------------------
+ updatePro.jsp에서 처리
+
+<c:if test="${check==1}">
+<meta http-equiv="Refresh" 
+            content="0;url=/JspBoard2/list.do?pageNum=${pageNum}">
+</c:if>
+<c:if test="${check==0}">
+     <script>
+        alert("비밀번호가 맞지않습니다.\n다시 확인요망!!")
+        history.go(-1);//history.back()
+     </script>
+</c:if>
+=============================================================
+** 게시판의 글삭제하기 **
+
+1.요청명령어 등록
+
+/deleteForm.do=action.DeleteFormAction  =>삭제폼
+/deletePro.do=action.DeleteProAction    =>삭제메서드호출
+
+2.DeleteFormAction작성<---deleteForm.jsp(자바코드 옮겨옴)
+                          action="/JspBoard2/deletePro.do~
+
+  //deleteForm.do?num=3&pageNum=3
+	    int num=Integer.parseInt(request.getParameter("num"));//삭제할 게시물번호
+	    String pageNum=request.getParameter("pageNum");
+	    System.out.println("deleteForm.do의 num=>"+num
+	    		                                               +",pageNum="+pageNum);
+	    request.setAttribute("num", num);
+	    request.setAttribute("pageNum", pageNum);
+	    
+		return "/deleteForm.jsp" ;
+-------------------------------------------------------------
+  deleteForm.jsp
+
+<form method="POST" name="delForm"  
+          action="/JspBoard2/deletePro.do?pageNum=${pageNum}&num=${num}" 
+ ---------------------------------------------------------------
+3.DeleteProAction작성 <--deletePro.jsp에서 자바코드 옮겨옴
+                         ->updatePro.jsp save as deletePro.jsp
+
+//pageNum이 넘어오는지 체크
+		   int num=Integer.parseInt(request.getParameter("num")); //삭제할 게시물번호
+		   String pageNum=request.getParameter("pageNum");//필드X
+		   String passwd=request.getParameter("passwd");//실제 입력을 받아서 넘어옴
+		   System.out.println
+		                 ("deletePro.do의 num=>"+num+",pageNum=>"+pageNum);
+		   BoardDAO dbPro=new BoardDAO();
+		   int check=dbPro.deleteArticle(num,passwd);//(passwd,num)
+		   
+		   request.setAttribute("pageNum", pageNum);
+		   request.setAttribute("check", check);
+	
+		return "/deletePro.jsp";
+===============================================================
+ deletePro.jsp는 updatePro.jsp와 소스코드가 일치한다.
+===============================================================
+  검색부분은 따로 파일로 저장***
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(객체의 속성을 추가(상속))</title>
+<script>
+  $(function(){ 
+	  //자바스크립트객체 생성-> var 변수(=객체)=new Object()
+	  //자바->동적으로 멤버변수(속성)를 추가X <--> 동적으로 멤버변수(속성) 추가O
+	  
+	  var object1={} //빈 객체 생성(속성이 없는 객체)
+	  object1.name='임시';//동적->객체생성->객체명.속성=값
+	  object1.addr='서울시 강남구 대현빌딩 3층'
+      object1.age=34;
+	  alert(object1.name+'님의 주소는'+object1.addr+'이고 나이는'
+			    +object1.age+'이군요!!!!');
+	  
+	  //단독 처리 함수->선택자가 앞에 기술X  형식) $.함수명($.each)->객체관리(배열)
+	  //기존의 객체에게다 속성명과 속성값을 추가->$.extend(기존객체명,{속성명:값,,})
+	  //,$('선택자').함수() or (~)
+	  var object2={name:'테스트'} //속성명:속성값
+	  //추가
+	  $.extend(object2,{
+		  region:'서울시 강남구',//속성명:속성값,,,
+		  age:23
+	  })
+	  //출력
+	  var output='';
+	  //$.each(1.출력할 객체명,2.매개변수로 index(key)와 value값을 갖는 익명함수)
+	  $.each(object2,function(key,item){ //name,region,age키값에 해당하는 값
+		  output+=key+':'+item+'\n'; //속성명의 갯수만큼 반복->누적(문자열)
+	  })
+	  alert(output)
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제</h1>
+</body>
+</html>
+
+
+
+

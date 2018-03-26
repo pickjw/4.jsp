@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(이벤트 처리)</title>
+<script>
+  $(function(){ 
+	  //형식1) window.on이벤트종류=호출할 함수명 또는 익명함수(function(){})
+	  //형식2) window.addEventListener(1.on등록할 이벤트종류명,2.실행할 함수명(익명함수))
+	  //형식3)$(이벤트발생 대상자 선택자).bind(1.등록할 이벤트종류명,2.실행할 함수명(익명함수))
+      //태그의 기본적인 기능(원래의 기능(링크(a)->페이지 이동),submit(전송X))
+	  //1.event 객체의 preventDefault()를 이용
+	  //2.event 객체를 이용하지 않는 방법->return false
+	  //$('a').bind('click',function(event){ //1. event객체를 매개변수
+		 $('a').bind('click',function(){ //2
+    	 //alert('이벤트 연습중') =>$(this)=>현재 이벤트를 발생시킨 태그객체
+    	 var href=$(this).attr('href') //<->$('a').attr('href','~')
+    	 //event.preventDefault()//1
+    	 //alert(href)
+    	 //$('img').attr('src',href)
+    	 $('img').attr('src',$(this).attr('href'))
+    	 return false //2)
+     })
+  })
+</script>
+</head>
+<body>
+<h1>동적 이미지 출력(클릭한 링크문자열(속성을 불러와서 특정속성에 적용))</h1>
+<ul>
+  <li><a href="../picCats/Persian.jpg">Persian</a></li>
+  <li><a href="../picCats/RussianBlue.jpg">RussianBlue</a></li>
+  <li><a href="../picCats/BritishShorthairs.jpg">BritishShorthairs</a></li>
+</ul>
+   <!-- <img src="../picCats/Persian.jpg"> -->
+   <img>
+</body>
+</html>
+
+
+
+

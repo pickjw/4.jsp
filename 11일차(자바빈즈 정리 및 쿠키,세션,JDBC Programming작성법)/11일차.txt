@@ -1,0 +1,419 @@
+11일차(자바빈즈 정리 및 쿠키,세션,JDBC Programming작성법)
+
+과제) cal.jsp(입력)(5+3)--->calResult.jsp
+
+          계산                  8
+      form->name->"form1"  ---->action=>calResult.jsp"
+      input type="text" name="num1">
+      <select name="operator">
+             +,-,*,/
+       <option>+</option>
+      input type="text" name="num2">
+
+============================================================
+  자바빈즈->calc.CalcBean
+      num1,num2,operator->setter,getter ==>DTO
+       ->입력받은값을 저장->멤버변수
+
+     +,-,*,/->메서드작성->calculate=>비지니스로직 메서드=>DAO
+
+**********************************************************************
+<title>응답을 처리해주는 페이지(결과전송)</title>
+</head>
+<body>
+<%
+    //방법1 ->매개변수 전달받아->계산->출력
+    //CalcBean ca=new CalcBean();
+    //ca.setNum1(Integer.parseInt(request.getParameter("num1")));//"5"->5
+    //ca.setOperator(request.getParameter("operator"));
+    //ca.setNum2(Integer.parseInt(request.getParameter("num2")));
+    //ca.calculate();//+,-,*,/
+%>
+<!-- 방법2 -->
+<jsp:useBean id="ca" class="calc.CalcBean" scope="page" />
+<jsp:setProperty name="ca" property="*" />  
+<%  ca.calculate();  %>
+
+ 계산결과:<%=ca.getResult() %><br>
+ 계산결과2:<jsp:getProperty name="ca" property="result" />
+</body>
+</html>
+****************************************************************
+===============================================================
+
+ 요청을 하는 페이지------>요청을 처리해주는 페이지(응답페이지)
+          투수     <----        포수
+
+
+ 요청을 하는 페이지와 요청을 처리하는 페이지를 한꺼번에 한다.
+<form name="form1" method="post" action="cal2.jsp">
+                                         ======
+                                      자기페이지 이름을 쓰거나 생략
+                                      하거나
+<form name="form1" method="post">
+<input type="submit" value="계산" name="b1">
+          ==========
+           type="button"주면 안된다.(주의할점)
+
+  ** 액션태그를 사용할때 주의할점**
+    1.
+        public void setNum1(int num1) {
+		this.num1 = num1;
+		System.out.println("setNum1()호출됨!");
+	}
+
+	/*
+	 * Tomcat 8.5 기준
+	 * <jsp:setProperty name="~" property="*" /> ->에러유발
+	 *  멤버변수의 자료형과 Setter Method의 자료형이 반드시 같아야 된다.
+	 * public void setNum1(String num1){
+	 *     this.num1=Integer.parseInt(num1);
+	 * }
+	 */
+
+    2. 디자인할때
+
+    핸드폰hp:________  or ____- _____ - ________
+                           hp1   hp2      hp3
+
+                          테이블 설계->hp 필드한개
+
+      setHp1() setHp2(),setHp3()->문자열을 결합->hp필드
+
+     =>**** 디자인과 테이블설계 연관(조율) ****
+------------------------------------------------------------
+
+     public void setHp(String hp){//액션태그를 사용할때 주의
+          this.hp=hp
+      }
+
+     public void setHp1(String hp1,String hp2,String hp3) X
+    계좌번호,핸드폰입력할때 - 빼고 입력
+    
+    여러개를 각각 입력을 받는 경우->
+     <jsp:setProperty name="~" property="*" />
+     <jsp:setProperty name="~" property="멤버변수명" value="값" />
+----------------------------------------------------------------
+ JspWork3->프로젝트-->쿠키와 세션에 대해 정리
+        |
+         -cookietest->makeCookie.jsp------>useCookie.jsp
+        |              쿠키를 생성->전송    저장된 쿠키를 확인하는 예제
+
+         -sessiontest->준비된 예제
+
+
+
+TCP 프로토콜의 구분
+
+1.지속적인 연결을 유지하지 않는(stateless) 프로토콜 =>사이트 접속
+   HTTP
+
+2.지속적인 연결을 유지하는(stateful) 프로토콜->업로드 또는 다운로드 사이트
+   FTP, Telnet
+
+------------------------------------->
+결제,예매=>한페이지에서 처리가 안된다.-->페이지가 이동되면서 처리
+                                      ==>대화상자 
+     ->연결상태가 끊어진다.
+==================================================================
+
+**********HTTP에서 상태를 유지하기 위한 방법 ****
+
+**1.URL Rewriting =>이동할페이지명?전달할 매개변수명=전달할값&매개변수2=값2
+                  Get방식(적은 데이터의 양을 전송),보안취약
+                =>가장 보편적인 방법
+
+2.Hidden Form Field->눈에 보이지 않게 전송<input type="hidden"~>
+                   ->게시판에게 매개변수 전달할때 사용
+3.Cookie
+
+쿠키(Cookie)
+
+HTTP의 상태 유지를 위한 방법
+
+클라이언트의 상태 정보를 클라이언트의 하드 디스크에 저장한 후 
+필요 시 저장된 쿠키를 읽어서 클라이언트를 식별하는 방식 =>접속한 서버입장
+
+쿠키란 서버가 클라이언트에 전송하여 저장하는 텍스트 조각을 의미
+                                           (도메인정보~)
+
+*** 4.Session ***=>내장객체에서 HttpSession session=null
+
+
+Windows7의 쿠키 위치
+
+모뎀으로 인터넷으로 접속->인터넷속도가 너무 느린관계->쿠키를 이용
+                                   ->접속속도를 향상시킬 목적
+
+쿠키파일->특정 사이트에 접속->접속한 컴퓨터(서버)->자기 컴퓨터의 정보를
+                담은 파일을 재전송->
+
+==>해킹소지(개인정보 보호)->잘 사용하지 않는다.
+---------------------------------------------------------------------------
+
+C:\Users\kitcoop\AppData\Roaming\Microsoft\Windows\Cookies
+          =====
+           계정명
+
+http://192.168.0.57:8090/JspWork3/cookietest/makeCookie.jsp
+       
+
+mycookie
+Melone
+192.168.0.13/JspWork3/cookietest/
+1536
+3891973248
+30603962
+2698993780
+30603962
+*
+
+----------------------------------------------------------------------------
+URLEncoder 클래스
+일반 문자열을 웹에서 통용되는 'x-www-form-urlencoded' 형식으로 변환하는 역할
+
+=>Cookie cookie = new Cookie("name",  URLEncoder.encode("이연수") );
+=>java.net.URLEncoder.encode("이연수")=>한글이 깨지지 않도록 저장이가능
+                                    =====>포장해주는것(데이터 보호목적)
+
+URLDecoder 클래스
+URLEncoder로 인코딩된 결과를 디코딩하는 클래스
+
+  java.net.URLDecoder.decode(cookie.getValue())
+                     ====>포장을 푸는것
+
+====>***Tomcat 8.5기준에서는 이러한 클래스가 필요없다.*****
+-------------------------------------------------------------
+**
+쿠키와 세션의 공통점->둘다 클라이언트---------서버와의 연결을 일정시간동안
+                                              유지시켜주는 방법(로그인)
+
+쿠키->파일로 저장->해킹의 소지,개인정보 유출->잘 사용X
+================================================================
+세션(Session)
+
+클라이언트와 서버간의 상태를 유지하기 위한 방법
+
+클라이언트가 처음 접속했을 때 세션 ID를 부여하고, 서버에 세션 ID를 저장
+다시 클라이언트가 접속했을 때 부여된 세션 ID를 이용해서 클라이언트를 구분
+
+
+세션->서버의 메모리에 저장->30분(default)유지->30분후 자동 종료
+**
+->ex) 은행->번호표 받기(세션id)=>새로 발급(번호표)=>강제로 종료
+---------------------------------------------------------------------------
+             세션의 메모리에 저장(HashMap)->키,value로 저장
+
+         request.setAttribute(키,저장할값);
+         <--------->request.getAttribute(키명)
+
+         session.setAttribute(키,저장할값(계정id));
+          <->session.getAttribute(키명)
+
+화면디자인을 먼저 하면 안되는 이유->설계(자바빈즈)
+
+
+ hp  __________ or ___  _____ ______->매개변수는 한개만 입력이 가능
+           hp1  hp2       hp3
+                           ---------->hp1+hp2+hp3=>hp
+ member(hp)
+ 테이블의 필드를 3개준비 hp1,hp2,hp3 or hp
+ ---------------------------------------------------------------------
+  <%
+    //인증처리?
+    String id=request.getParameter("id");
+    String passwd=request.getParameter("passwd");
+    System.out.println("id=>"+id+",passwd=>"+passwd);
+    //오라클->member 조회->true or false->인증성공
+    session.setAttribute("idKey", id);//키명(idKey),계정명
+    //세션유지 시간을 설정->기본(30분)
+    session.setMaxInactiveInterval(60);//60초->1분->세션유지시간을 설정
+ %>
+  
+  **서버입장에서 그때마다 컴퓨터의 접속할때 부여하는 세션id는 다르다**
+
+세션 id:A8B15CE47EE2EA644B05C43B1B6C155C->첫번째 실습 (test/1234)
+세션 id:C6DAB5203FB0E003C68724E21D513B95->두번째 실습 (test/1234)
+--------------------------------------------
+
+JDBC Programming 정리->회원관리 준비
+-------------------------------------------
+  JspMember=>프로젝트명(회원관리)->오라클
+        |
+       WebContent
+         -db=>oratest.jsp(테이블생성->입력->화면에 출력)
+
+        ->회원로그인-->회원가입->회원수정,회원탈퇴->회원리스트
+                           |                        (과제)페이징
+                      중복id를 체크->jQuery
+                      우편번호 검색
+   ========================================
+*************************************************************************
+1.Java Application의 DB연동방법(JDBC)
+
+ 1)접속 ojdbc6.jar->C:\jdk1.8\jre\lib\ext=>복사를 할것(전역)=>추가적인 작업
+                                                                                                    X
+  ->이클립스에서 경로를 지정 ojdbc6.jar를 불러오기
+
+  ->다른 경로에 ojdbc6.jar를 복사->classpath환경변수를 선언->그 경로지정
+     (지역)
+
+********2.Web Application의 DB연동방법*************=>
+
+       1)Tomcat 8.5.x\lib\ 접속 드라이버를 복사
+                                      ojdbc6.jar (전역)=>웹어플리케이션에서
+                                                         사용이 가능
+             -->복사한 후 이클립스를 새로 가동시키면 설정된 ojdbc6.jar를
+                모든 어플리케이션에서 DB접속이 가능한 상태가 된다.
+
+       ***2)JspMember==>여기에서만 DB접속이 가능하게 설정하고 싶다면
+                |             (Local인 경우)
+                 -WebContent
+                         |
+                          -WEB-INF
+                               |
+                                   -lib->ojdbc6.jar (지역)
+                                            my~.jar
+
+     ->이클립스에서 경로를 지정 ojdbc6.jar를 불러오기
+----------------------------------------------------
+*******************************
+  test1계정 or scott=>1.테이블생성 MyTest->2.insert into 테이블~3.select
+
+SQL> select * from tab;
+
+TNAME                          TABTYPE  CLUSTERID
+------------------------------ ------- ----------
+BUSER2                         SYNONYM
+B_PRTEST                       TABLE
+DEPT                           TABLE
+PRTEST                         TABLE
+SAWON                          TABLE
+-----------------------------------------------------------------------------------
+   '"+~+"'->?
+  jsp=>
+
+JDBC_Oracle 접속방법
+con=>oracle.jdbc.driver.T4CConnection@6da5bb25 DB접속오류=>java.sql.SQLSyntaxErrorException: 
+ORA-00955: 기존의 객체가 이름을 사용하고 있습니다.
+
+=>이미 테이블이 생성이 된 경우에는 두번 실행시킬 수 가 없다.
+=>한번 더 실행시킬려면 ->MyTest2,MyTest3,,,
+
+-----------------------------------------
+모델1->자바빈즈
+
+try{
+    	  //1.드라이버 메모리에 로드
+    	  Class.forName("oracle.jdbc.driver.OracleDriver");
+    	  //2.Connection객체를 얻어오기
+    	  con=DriverManager.getConnection(url,"test1","t1234");//scott,tiger
+    	  System.out.println("con=>"+con);
+===============================>반복적인 구문
+2.
+          stmt=con.createStatement();//반환형
+    	  sql="create table MyTest(name varchar2(20),age number)";
+    	  stmt.executeUpdate(sql);
+    	  System.out.println("MyTest 테이블 생성 OK!");
+    	  //2.insert->pstmt
+    	  pstmt=con.prepareStatement("insert into MyTest values(?,?)");
+    	  //setString,setInt,setDouble,,,(?의순서,입력할값)
+    	  pstmt.setString(1,"Lee");//request.getParameter("name");
+    	  pstmt.setInt(2,34);
+    	  pstmt.execute();//executeUpdate()
+    	  //3.select->필드별로 출력하자
+    	  stmt2=con.createStatement();
+    	  String sql2="select * from MyTest";
+    	  //4.ResultSet 객체 필요
+    	  rs=stmt2.executeQuery(sql2);
+
+3.
+         rs.close(); //con->stmt,pstmt,stmt2,rs
+         stmt2.close();
+         pstmt.close();
+         stmt.close();
+         con.close();
+=====================================
+ 자바빈즈 3가지 종류
+
+1.DB Connection빈->DB연결관리빈(연결 및 해제)
+ =>DBConnectionMgr.java(350line)
+
+--------------------------------------------------------------------
+ 1.DB에 관련된 설정정보만 변경 시켜된다.
+
+private String _driver = "oracle.jdbc.driver.OracleDriver",
+    _url = "jdbc:oracle:thin:@localhost:1521:orcl",
+    _user = "test1",
+    _password = "t1234";
+
+2.DBConnectionMgr클래스의 객체를 생성->getConnection() 필요->Connection
+              정적메서드로 구현
+--------------------------------------------------------------------
+//커넥션풀객체를 선언
+
+    private static DBConnectionMgr instance = null;
+
+    public DBConnectionMgr() {
+    }
+
+    /** Use this method to set the maximum number of open connections before
+     unused connections are closed.
+     */
+  
+    //커넥션풀을 얻어오는 정적메소드
+    public static DBConnectionMgr getInstance() {
+        //커넥션풀이 생성이 안되어있다면
+		if (instance == null) {
+            synchronized (DBConnectionMgr.class) {
+                //생성이 안되어있다면
+				if (instance == null) {
+					//객체생성
+                    instance = new DBConnectionMgr();
+                }
+            }
+        }
+        return instance;//호출한 클래스쪽으로 반환
+    }
+
+3) freeConnection()을 이용해서 ->DB메모리 해제구문
+
+public void freeConnection(Connection c, PreparedStatement p, ResultSet r) {
+        try {
+            if (r != null) r.close();
+            if (p != null) p.close();
+            freeConnection(c);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+-------------------------------------------------------------
+=>회원로그인 부터 시작->회원 중복id체크->우편번호 검색
+-------------------------------------------------------------
+
+
+
+
+2.SQL구문을 실행--->자바빈즈의 메서드선언=>메서드를 호출
+                               (DAO->Data Access Object)=>DB접속후->메서드 선언
+3.DTO(데이터 저장빈)->Setter,Getter메서드 구성(테이블의 필드와 연관)
+--------------------------------------------------------------------------------
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

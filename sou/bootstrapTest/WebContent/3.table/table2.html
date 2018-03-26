@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>테이블의 스타일 적용</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <h4>테이블의 부트스트랩</h4>
+       <table>
+          <thead><!-- 타이틀을 설정  -->
+             <tr>
+                 <td>게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr>
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr>
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+       <hr>
+       <!-- class="table-hover(각행에 마우스를 갖다대면 색상이 변경)" -->
+       <h4 class="text-primary">class="table-hover를 준다"</h4>
+       <table class="table table-hover">
+          <thead><!-- 타이틀을 설정  -->
+             <tr>
+                 <td>게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr>
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr>
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+       <hr>
+       <!--4.
+       <table class="table table-condensed">
+        각 셀의 padding값이 작아져서 타이트한 느낌(셀과 셀안의 문자열 간격)
+         5.각 행또는 각셀마다 색상을 부여->행에 부여하는 클래스 선택자 존재
+          active(회색), success(연두색),warning(겨자색),danger(빨강색)부여
+
+         -->
+       <h4 class="text-primary">class="table-condensed를 준다"</h4>
+       <table class="table table-condensed">
+          <thead><!-- 타이틀을 설정  -->
+             <tr class="active">
+                 <td>게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr class="success">
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr class="warning">
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr class="danger">
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  //Json표기법->키값:저장할값(숫자,문자열,논리적인값,객체,배열형태로 저장)
+   var myjson={
+		  "name":"홍길동",//키명:저장할값--->객체명.키명(속성명)
+		  "sung":"남자",
+		  "func":"function(){alert('test')}" /* 함수정의 부분을 문자형태로 저장  */
+  }  //빈객체 var myjson0={}
+   var myjson2={"number":123}
+   var myjson3={"temp":true}
+     //배열
+   var myjson4={"temp":["aaa","bbb","ccc"]} /* [] 배열을 의미 */
+   var mem={name:'홍길동',
+		             fColor:['파랑','녹색','빨강']}
+   function print1(){  //객체명.속성명(키명)
+	  var msg=mem.name+"님이 좋아하는 색깔은"+mem.fColor.length+"개이고,"
+	        msg+="그 중에서 제일 좋아하는 색깔은 "+mem.fColor[1]+"입니다."
+	  alert(msg)
+  }
+</script>
+</head>
+<body>
+<h1>json표기법을 통한 객체의 값출력</h1>
+<input type="button" value="test" onclick="print1()">
+</body>
+</html>
+
+
+
+

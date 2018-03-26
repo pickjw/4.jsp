@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func9(생성자함수를이용한객체생성).html</title>
+</head>
+<body>
+<script>
+   /*  생성자함수 형태로 객체를 생성하는 구문을 작성  */
+   //자바->String name; int kor; int math; int eng; 멤버변수를 선언
+   //멤버변수를 동적으로 선언해서 사용할 수 가 있다.
+   function Student(name,kor,math,eng){
+	   this.name=name;  //this.멤버변수=값->동적인 멤버변수 선언방법
+	   this.kor=kor;
+	   this.math=math;
+	   this.eng=eng;
+	   
+   //}
+   //Getter 함수=>자바)public 반환값 get멤버변수명() { return this.멤버변수}
+   //형식) this.getter함수명=fucntion() { return this.멤버변수}
+   this.getName=function(){ //public String getName(){~}
+	   return this.name;
+   }
+   //public String toString(){ return ~}
+   this.toString=function(){
+	   return this.name+","+this.kor+","+this.math+","+this.eng;
+   }
+ }
+   //객체생성방법-->자바->클래스명 객체명=new 생성자함수(매개변수명~);
+   //자바스크립트---> var 변수명(=객체명)=new 생성자함수(매개변수명~);
+   var stu=new Student("홍길동",100,78,34)
+   document.write("stu=>"+stu+"<br>")//stu=>[object Object]
+   //자바->패키지명.클래스명@주소값--->자바스크립트 [object~]
+   var name=stu.getName()
+   document.write("name=>"+name+"<br>")
+   
+   var test=stu.toString()
+   document.write("test=>"+test) 
+   
+</script>
+</body>
+</html>
+
+
+
+
+

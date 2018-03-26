@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "HTTP://mybatis.org/dtd/mybatis-3-config.dtd">
+ <configuration>
+ 
+ <!-- 
+    typeAliases은 생략가능(패키지가 긴 DTO클래스이름의 별칭을 부여할때 사용)
+    typeAlias 태그등록->별칭을 등록(패키지명이 긴 자바빈즈파일(~DTO)
+    type->"패키지명....클래스명(~DTO)  alias="별칭명"
+  -->
+  <typeAliases>
+     <typeAlias type="lee.BoardCommand"  alias="board"/>
+  </typeAliases>
+  
+  <!-- mappers태그는 필수(불러올 테이블의 정보를 가진 xml파일 갯수만큼을
+         지정할때 사용하는 태그정보
+         mapper태그(resource=불러올 파일명을 나열)(springboard)
+          ex) lee.Board.xml
+   -->
+   <mappers>
+        <mapper  resource="lee/Board.xml"/>
+   </mappers>
+ 
+ </configuration>
+
+ 
+ 
+ 

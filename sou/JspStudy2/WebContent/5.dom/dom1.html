@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>dom1.html</title>
+  <script>
+  //화면에 보여주는 DOM+이벤트와 연결해서 화면에 보여준다.
+   function test(){
+  //->이벤트종류->문서를 제일 먼저 읽어들일때->onload="함수명()"
+  //alert('test함수호출중')
+   //화면에 읽어들일때 1.화면에 보여줄 태그를 생성하라->createElement("태그명")
+   var header=document.createElement("h1")//<h1></h1>
+   //alert(header)//[htmlHeadingElement]=>메모리에 생성된 태그를 확인
+   //2.태그에 부착시킬 문자열을 생성하라->createTextNode("생성시킬 문자열")
+   var textNode=document.createTextNode("Hello,DOM연습")
+   //3.h1태그에 부착시킬 문자열을 결합하라->트리구조->부모.appendChild("자식태그명")
+   header.appendChild(textNode)//<h1>Hello,DOM연습</h1>
+
+   //4.최종적으로 부착->body태그에 부착시켜라
+    document.body.appendChild(header)
+   }
+  </script>
+ </head>
+ <body onload="test()">
+	<!-- <h1>Hello,DOM연습</h1> 정적디자인(번역)->화면에 출력 -->
+ </body>
+</html>

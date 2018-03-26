@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //$.each()->단독으로 사용(배열,객체관리(json,xml))
+	  var array=[{name:'naver',link:'http://www.naver.com'},
+		                {name:'daum',link:'http://www.daum.net'},
+		                {name:'nate',link:'http://www.empas.com'},
+		                {name:'google',link:'http://www.google.com'}]
+	  //형식) $.each(컬렉션(배열),처리해줄 함수명(index,value)) {처리 구문}
+	  $.each(array,function(index,item){  
+		       //index->배열의 인덱스번호,item->배열의 인덱스를 통해 읽어들이는 객체
+		  var output='';//링크문자열을 저장
+		  output+='<a href="'+item.link+'">';
+		  output+='<h1>'+item.name+'</h1>';
+		  output+='</a>';
+		  //인덱스번호에 해당하는 항목을 가져와서 body에 결합
+		  document.body.innerHTML+=output;
+	  })
+  })
+</script>
+</head>
+<body><!-- 링크걸기 -->
+<!-- <a href="http://www.naver.com">naver</a> -->
+</body>
+</html>
+
+
+
+
+
+
+
+

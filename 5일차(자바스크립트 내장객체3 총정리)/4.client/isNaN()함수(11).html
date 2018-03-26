@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>isNaN()함수(11).html</title>
+<script>
+  //문자인지 숫자인지를 체크? 형식) isNaN(숫자)->false, 
+  //                                                숫자가 아닌경우(문자열,논리적인값)->true
+  //if(Character.isDigit(ch))->자바
+      function getNumber(x){ // int x  | String x
+	       if(isNaN(x))
+	    	   return "숫자가 아닌 문자인데요";
+	       else //false인 경우
+	    	   return x;//숫자라면 있는 그대로 전달
+     }
+</script>
+</head>
+<body>
+    <script>
+        var x,y//x(숫자) ,y(문자열)
+        x=getNumber(2018)
+        y=getNumber("테스트")
+        document.write(x+"<br>"+y)
+    </script>
+</body>
+</html>
+
+
+
+

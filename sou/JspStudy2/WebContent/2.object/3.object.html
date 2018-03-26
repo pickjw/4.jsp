@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>JSON(속성명:값) 표기법형태로 객체를 생성</title>
+<script>
+   /*
+   *  var 객체명={
+		   속성명:속성값,
+		   속성명2:속성값2,,,  
+   }
+   */
+  var product={
+		   제품명:'갤럭시노트 8',
+		   제품번호:'A1001',
+		   기능:'멀티윈도우',
+		   원산지:'대한민국',
+		   가격:2500,
+		   업데이트지원:true
+   }
+   //속성값 출력
+   alert(product.제품명);
+   alert(product['제품번호'])
+   
+   var output='';//출력할값
+   for(var key in product){
+	   //for in 반복문에서는 객체명[속성명]으로 코딩->결과를 볼 수 있다.
+	   output+='*'+key+':'+product[key]+'\n'
+	   //output+='*'+key+':'+product.key+'\n' //undefined->값을 못 불러오는 경우
+   }
+   alert(output);
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+

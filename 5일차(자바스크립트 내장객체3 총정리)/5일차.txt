@@ -1,0 +1,250 @@
+5일차(자바스크립트 내장객체3 총정리)
+
+화면구현 프로젝트폴더
+
+=>팀별로 작성->팀별
+               이름별로 폴더->ppt,java,or ~.txt(DB파일)
+--------------------------------------------------------
+=>개인별로 작성->화면구현 프로젝트폴더
+                 각자 이름으로 폴더
+                 자바미니프로젝트
+                 ->ppt,java,or ~.txt(DB파일)
+----------------------------------------------------------
+**tip**
+
+화면 디자인한 이미지,글->마우스 오른쪽버튼 금지,
+                         드래그 & 드롭 금지
+body태그 내부에 작성
+****************************************************
+oncontextmenu="return false"=>마우스 오른쪽버튼 금지
+ondragstart="return false"->드래그 시작금지
+onselectstart="return false"-> 선택(블럭지정)금지
+*****************************************************
+
+자바스크립트에서도 함수의 매개변수를 전달하는 경우
+
+1.자바스크립트 코드상으로 직접 불러오는 경우
+  ->매개변수가 필요없는 경우가 있다(자바와 비슷)
+
+****
+ document.폼객체명.입력양식객체명.속성명->전통
+------------------------------------------
+ document.getElementById("id값")=>id값에 해당하는 
+                                  태그정보를 불러온다
+                                  =(태그객체)
+ =>$("id값")==>jQuery상
+
+2.경우에 따라서는 코딩의 편리성때문에 매개변수를
+  전달하는 경우->매개변수값을 전달
+  =>기본자료형(숫자,문자,논리적인값,함수이름도 전달)
+  =>****추가(태그객체도 전달->매개변수로)***
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>select(6).html</title>
+<script>
+    function fg_color(form){
+       //alert(form) //select태그 객체->[ selectElement]
+       //var list=document.f_list.form.selectedIndex; //options배열의 항목인덱스번호
+       var list=form.selectedIndex;
+       //alert(list)
+       //글자색->document.fgColor or bgColor=파란색
+       //document.f_list.form.options[인덱스번호].text->바깥문자열(파란색,오랜지색)
+       //document.f_list.form.options[인덱스번호].value->내부문자열
+       alert(form.options[list].value)
+       //document.bgColor=document.f_list.form.options[document.f_list.form.selectedIndex].value
+       document.fgColor=form.options[list].value;
+    }
+</script>
+</head>
+<body>
+  <h3>글자색 바꾸기</h3>
+  원하시는 색상을 선택하시면 글자의 색깔이 변경됩니다.<p>
+  <form name="f_list">
+    <select name="form" onchange="fg_color(document.f_list.form)">
+    <!--size="항목수"(리스트박스) multiple(동시에 여러개 선택하는 경우)  -->
+    <!-- <select name="form" size="4" multiple> -->
+       <option value="blue">파란색</option>
+       <option value="green" selected>초록색</option>
+       <option value="orange">오렌지색</option>
+       <option value="gray">회색</option>
+    </select>
+  </form>
+  
+</body>
+</html>
+======================================================
+****
+ 웹상에서 실시간으로 시간을 출력=>자바(쓰레드 사용)
+  =>자바스크립트=>setTimeout(호출할 함수명,초단위)
+                =>딱 한번만 ->clearTimeout
+
+                  setInterval(호출할 함수명,초단위)
+                =>반복해서 호출
+*****
+ ===================================================
+  Data객체(7).html =>save as clearTimeout(8).html
+
+  배열=>웹상에서 어떻게 활용? =>화면디자인 콤보박스
+   ================================================
+    검색->콤보박스로 선택=>배열을 이용
+   ================================================
+   eval함수(9).html
+
+<!-- 
+   eval(문자열)
+   
+   1.문자열로 된 수식을 계산해서 결과값을 반환할때 사용->"5*3"=>5*3=15
+   ***2.입력양식을 통해서 입력받은 수식을 계산
+      (자바스크립트 코드형태의 문자열->실제로 자바스크립트코드로 변환)
+ -->
+</head>
+<body>
+   <script>
+      var word,num; //변수를 ,로 나열
+      word="3*5";//String word="3*5";   //"3"->Number("3")->3
+      num=3*5;
+      document.write("word=>"+word+"<br>")
+      document.write("eval(word)=>"+eval(word)+"<br>")
+      document.write("num=>"+num+"<br>")
+      eval("var re"+"sult=15")//eval("var result=15")->var result=15
+      document.write("result=>"+result)
+   </script>
+</body>
+</html>
+==================================================
+  Array객체를 이용한 목록상자 선택하기(10).html
+  =>사이트의 특정컴포넌트에 대한 예제=>소스를 분석
+
+*** www.happyscript.com ***
+    kktest / 1234
+=============================
+**** 웹상에서 입력 ****
+
+1.입력유무 체크
+2.입력받는 데이터의 갯수를 체크
+**3.웹상에서 입력을 받으면 기본자료형=>문자열
+
+ price 3000->"3000"->3000
+             Integer.parseInt("3000")->3000
+             Number("3000")->3000
+
+ prcie  ag=>문자인지 숫자인지를 체크=>제어->isNaN() or
+                                          직접 구현
+
+  NaN=>Not a Number=>숫자가 아니라는 에러메세지
+====================================================
+  isNaN()함수(11).html =>www.w3schools.com 기준(문법)
+
+                          javascript
+
+  예제->www.happyscript.com을 이용
+===============================================
+  숫자입력검증(12).html
+
+//1.입력받은 값이 문자인지 숫자인지 체크
+          function test(){
+        	  //if(isNaN(document.myform.money.value))->true(문자=>숫자입력)
+        	  var mylen=document.myform.money.value.length;//길이
+        	  var str=document.myform.money.value;//입력받은값
+        	  //alert(str)
+        	  var i;//첨자
+        	  for(i=0;i<mylen;i++){
+        		  //0~9->문자를 입력->숫자만  가능->자바 Character.isDigit(~)
+        		  if((str.charAt(i) < "0") || (str.charAt(i) > "9")) { //문자로 입력
+        			  alert("숫자만 입력이 가능합니다.")
+        			  document.myform.money.value="";
+        		      document.myform.money.focus();
+        		      break;//문자를 만나게 되면 더 이상 for실행 필요가 없다.(탈출문)
+        		  }//if
+        	  }//for
+          }
+          //test2
+          function test2(){
+        	  if(document.myform.money.value==""){
+        		  alert("금액을 먼저 입력하세요!")
+        		  document.myform.money.focus();
+        		   return false;//탈출문
+        	  }else{
+        		  var str="금액="+document.myform.money.value
+        		  alert(str)
+        		  document.myform.money.value="";
+        		  document.myform.money.focus();
+        	  }
+          }
+</script>
+</head>
+<body onload="document.myform.money.focus()">
+<!-- 
+   입력받을때 사용하는 항목을 입력하고 나서 커서를 이동시킬때 호출되는 이벤트
+    ->blur이벤트->on이벤트종류명="처리할 문장;~ or 함수명(~)"
+ -->
+  <form name="myform">
+    금액 <input type="text" name="money" size="10"  onblur="test()">
+    <input type="button" value="주문"  onclick="test2()">
+  </form>
+</body>
+</html>
+---------------------------------------------
+
+  금액____________
+
+  private int price;
+
+  public void setPrice(int price){
+    if(price <0 || price>4000) ==>웹에서 처리
+                                  자바스크립트,jquery에서
+                                  처리
+    this.price=price; //올바른 값만 입력->이런식 코딩
+    =================
+  }
+  ,,,
+=================================================
+  Web Programming
+
+1.client=>Client Side Language->html5,css3,javascript
+
+2.server=>Server Side Languae->C#(.net),PHP,JSP
+                                            ===
+=====================================================
+5.dom
+   =>dom5(노드삭제).html
+-----------------------------------------------------
+
+  =>JSP ppt(1장,4장을 읽어올것)
+예습
+===============================
+JSP의 동작 원리
+
+ *****JSP 4대구성요소*****
+
+지시문,스크립트릿,표현식,선언문(,주석문)?
+스크립트 요소와 서블릿의 관계
+
+jsp예제->서블릿
+===================================
+책=>스크립팅 원소와 지시어 원소 ->p774
+=>지시문,스크립트릿,표현식,선언문 읽어보기
+===============================================
+
+
+
+
+
+
+     
+
+
+   
+  자바의 Collection=>동적배열=>화면에 출력해서 보여주기
+  
+
+
+
+
+
+
+
+

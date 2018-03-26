@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>05.$.post().html</title>
+<script>
+  $(function(){ 
+	  //$.post()->내부적으로 $.ajax()를 실행->post방식으로 서버에 요청
+	  //                서버에서 요청한 문서결과->콜백함수가 받아서 원하는 위치 출력
+	  $('#saveButton').click(function(){
+		  var value=$('#name').val()
+		  $.post('aa.jsp',{name:value,age:34},function(args){
+			  $('#resultDIV').html(args)
+		  })
+	  })//click
+	  $('#clearButton').click(function(){
+		  $('#resultDIV').empty()//내용만 삭제-->태그까지 삭제 (remove())
+	  })
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제($.post())</h1>
+이름:<input type="text" id="name"><br><p>
+<button id="saveButton">전송</button>
+<button id="clearButton">지우기</button>
+<div id="resultDIV"></div>
+</body>
+</html>
+
+
+
+

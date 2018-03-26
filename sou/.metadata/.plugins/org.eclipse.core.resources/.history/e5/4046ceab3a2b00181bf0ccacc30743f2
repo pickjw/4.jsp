@@ -1,0 +1,10 @@
+package lee;
+
+//BoardDTO와 같은 역할을 한다.(테이블의 필드와 연결)
+//사용자로부터 순수 입력받는값만 처리해주는 클래스
+
+public class BoardCommand {
+    private String author,title,content;
+    
+    
+}

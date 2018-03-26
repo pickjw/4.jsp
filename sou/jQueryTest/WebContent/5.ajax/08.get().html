@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>08.get().html</title>
+<script>
+  $(function(){ 
+	  //요청문서->item2.json파일 ->$.ajax() 대신 $.getJSON()
+	  //$.get('경로포함해서 불러올 파일명',처리함수명(익명함수(매개){}))
+      $.get('item.xml',function(data){
+    	  //xml파일의 구조를 이해->태그를 검색(find)->값가져오는 구문
+    	  $('#treeData').append('<tr><td>id</td>'+'<td>name</td>'
+    			                            +'<td>price</td>'+'<td>description</td></tr>')
+       //객체관리,배열관리->$.each(1.컬렉션객체(배열~) 2.호출할 함수명 or 익명함수)
+        //<item id="1" name="레몬">
+    	   $(data).find('item').each(function(){
+    		   var $item=$(this);//현재 선택돼서 불러올 item태그 객체->jQuery객체
+    		                              //$item.find('id).text(),$item.find('name').text()
+        	  $('#treeData').append('<tr><td>'+$item.attr('id')+'</td><td>'
+        	                                    +$item.attr('name')+'</td><td>'
+        	                                    +$item.find('price').text()+'</td><td>'
+        	                                    +$item.find('description').text()+'</td></tr>')
+          })//$.each()
+      })//$.get
+  })
+</script>
+</head>
+<body>
+ <table id="treeData" border="1"></table>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

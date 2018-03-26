@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>formselect(4).html</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+    <h5>bootstrap 기타 입력폼 예제</h5>
+    <h5>textarea</h5>
+    <!-- rows속성만 사용(기본적으로 넓이는 100%) -->
+    <textarea rows="5"></textarea>
+    
+    <h5>input type="checkbox"</h5>
+    <!-- checkbox(다중선택) ,radio(하나만 선택) -->
+    <div class="checkbox">
+       <label>
+            <input type="checkbox" value="">여기는 체크박스 사용
+       </label>
+    </div>
+    <div class="checkbox">
+       <label>
+            <input type="checkbox" value="">체크박스는 다중선택이 가능
+       </label>
+    </div>
+    <!-- Radio 수직정렬(default)  -->
+    <h5>input type="radio"</h5>
+    <div class="radio">
+       <label>
+            <input type="radio" name="optionRadios"  id="optionRadios1"
+                       value="option1" checked>여기는 라디오박스 사용
+       </label>
+    </div>
+    <div class="radio">
+       <label>
+            <input type="radio" name="optionRadios"  id="optionRadios2"
+                       value="option2">여기는 라디오박스 사용2
+       </label>
+    </div>
+    <hr>
+    <h5>checkbox-inline 선택자를 사용</h5>
+    <div class="checkbox-inline">
+       <label>
+            <input type="checkbox" id="test1" value="option1">1
+       </label>
+    </div>
+    <div class="checkbox-inline">
+       <label>
+            <input type="checkbox" id="test1" value="option2">2
+       </label>
+    </div>
+    <hr>
+     <h5>radio-inline 선택자를 사용</h5>
+    <div class="radio-inline">
+       <label>
+            <input type="radio" id="optest1" value="optionra1" checked>r1
+       </label>
+    </div>
+    <div class="radio-inline">
+       <label>
+            <input type="radio" id="optest1" value="optionra2">r2
+       </label>
+    </div>
+    <h5>콤보박스</h5>
+    <!-- input과 동일하게 width(100%)적용  -->
+    <select class="form-control">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+    </select>
+    <!-- 다중선택(multiple)속성을 부여한다. -->
+    <select multiple class="form-control">
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+    </select>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+   <Resource name="jdbc/orcl"
+                    auth="container"
+                    type="javax.sql.DataSource"
+                    username="scott"
+                    password="tiger"
+                    driverClassName="oracle.jdbc.driver.OracleDriver"
+                    factory="org.apache.commons.dbcp.BasicDataSourceFactory"
+                    url="jdbc:oracle:thin:@localhost:1521:orcl"
+                    maxActive="20"
+                    maxIdle="10" />
+</Context>

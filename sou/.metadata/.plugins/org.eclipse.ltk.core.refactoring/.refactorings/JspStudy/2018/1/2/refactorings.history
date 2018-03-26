@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;JspStudy/WebContent/함수의 선언및 호출유형 (6).html&apos; to &apos;fun(2).html&apos;" description="Rename resource &apos;함수의 선언및 호출유형 (6).html&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="WebContent/함수의 선언및 호출유형 (6).html" name="fun(2).html" stamp="1515554109162" updateReferences="true"/>
+</session>

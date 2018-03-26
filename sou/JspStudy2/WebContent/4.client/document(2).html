@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>document(2).html</title>
+<script>
+   //링크문자열 정리
+   //1.문자열을 링크
+   function ex(link,alink,vlink){//var ex=function(link,alink,vlink){
+	   document.linkColor=link;//링크된 문자열의 색깔을 지정
+	   document.alinkColor=alink;//눌렀을때 변경되는 색깔을 지정
+	   document.vlinkColor=vlink;//방문한적이 있는 링크문자열의 색깔을 지정   
+   }
+   //2.문서내의 글자색과 배경색을 지정
+   function ex2(A,B){//글자색,배경색->객체명.속성명(=멤버변수)=값
+	   document.fgColor=A; //글자색
+	   document.bgColor=B;//배경색
+   }
+</script>
+</head>
+<body onload="ex('red','green','gold')">
+<a href="http://www.daum.net">다음</a><br>
+<input type="button" value="navy" onclick="ex2('blue','navy')"><br>
+<input type="button" value="white" onclick="ex2('red','yellow')"><br>
+<font size="4pt">클릭하면 배경색이 변경됩니다.!!</font><p>
+<a href="JavaScript:ex2('green','cyan')">ex2함수호출</a>
+
+</body>
+</html>
+
+

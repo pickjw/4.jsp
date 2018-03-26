@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>테이블의 스타일 적용</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+      <h4 class="text-primary">테이블 스타일 적용</h4>
+      <p>
+          <small>small태그</small>는 작은글씨를 <strong>strong</strong>은
+          문장을 강조할때 사용,<em>em태그는 이탤릭체를</em> 표시한다. </p>
+     <p>
+          <span class="lead">리드선택자를 이용하여</span>단락의 첫문장 강조
+      </p>
+      <hr>
+      <p>강조클래스(text-muted,text-primary,text-success,text-info,text-warning)
+      <p class="text-left text-success">문장의 긍정(.text-left) 존재</p>
+      <p class="text-center text-info">문장의 정보(.text-center) 존재</p>
+      <p class="text-right text-warning">문장의 경고(.text-right) 존재</p>
+      <p class="text-center text-danger">글자색은 빨강(.text-right) 존재</p>
+      
+    <div class="container">
+      <h4>테이블의 부트스트랩</h4>
+       <table>
+          <thead><!-- 타이틀을 설정  -->
+             <tr>
+                 <td>게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr>
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr>
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+       <hr>
+       <!-- 테이블에 스타일 적용시킨 경우 -->
+       <table class="table table-striped">
+          <thead><!-- 타이틀을 설정  -->
+             <tr>
+                 <td>게시물번호</td>
+                 <td>글제목</td>
+                 <td>작성자</td>
+             </tr>
+          </thead>
+              <tr>
+                 <td>1</td>
+                 <td>게시판의 글제목</td>
+                 <td>홍길동</td>
+             </tr>
+             <tr>
+                 <td>2</td>
+                 <td>게시판의 글제목2</td>
+                 <td>테스트</td>
+             </tr>
+             <tr>
+                 <td>3</td>
+                 <td>게시판의 글제목3</td>
+                 <td>테스트</td>
+             </tr>
+       </table>
+    </div>
+
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+

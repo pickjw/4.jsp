@@ -1,0 +1,11 @@
+package lee;
+
+//DTO(입력폼의 <input type="text" name="name"
+
+public class BoardDTO {
+    private int num;//게시물 번호
+    private String authro,title,content,date;//작성날짜->String
+    private int readcnt;//조회수
+    
+    
+}

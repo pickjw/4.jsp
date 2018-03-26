@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제(속성선택자)</title>
+<script>
+  $(function(){ 
+	  /*
+	 선택자  속성             설명
+	 요소[속성명]->특정 속성을 가진 태그를 찾을때 사용
+	 요소[속성명=값]->속성값이 일치하는 태그를 찾아라
+	 요소[속성명!=값]->속성값이 일치하지않는 태그를 찾아라
+	 
+	 요소[속성명^=값]->지정한값으로 시작하는 태그를 찾아라
+	 요소[속성명|=값]->지정하는값을 찾거나 지정한글자- 태그를 찾아라
+	 요소[속성명$=값]->지정한 값으로 끝나는 태그를 찾아라
+	 요소[속성명*=값]->지정한 값을 포함한 태그를 찾아라(ex sql의 like연산자 비슷)
+	 요소[속성명~=값]->지정한값을 단어로서 포함하는 태그를 찾아라
+	  */
+	  $('button[name]').html('변경됨')//버튼중에서 속성명이 name인 것을 찾아서변경
+      $('input[type=text]').val('hello jQuery attribute')//type속성이 text인 input태그
+         //<->val() ->입력받은 문자열을 가져올때
+      $('input[type!=text]').val('부정')//input태그중에서 type속성이 text가 아닌태그
+      //속성값을 찾는 방법
+      $('div[id^=content-]').css('background','green')//content-로 시작하는 태그찾기
+      //찾는값이 content이거나 content-인것을 찾아라
+      $('div[id|=content]').css('background','blue')
+      //div태그중에서 id속성값이 2로 끝나는 태그를 찾아서 크기를 20pt로 변경하라
+      $('div[id$=2]').css('font-size','30pt')
+      //한국을 포함하는 태그를 찾기(공백을 인식)->단어중심으로 찾기
+      $('input[name~=한국]').css('background','yellow')
+      //input태그 중에서 id속성값이 한국을 포함하는 단어찾기(공백인식 X)=>포함중요
+      $('input[id*=한국]').css('background','brown')
+  })
+</script>
+</head>
+<body>
+<h3>속성선택자 실습예제(같은 태그)</h3>
+  <button name="btb">버튼</button>
+  <button>버튼2</button>
+  <input type="text">
+  <input type="password">
+  <br>
+  <input name="한국"  value="한국">
+  <input name="한국인"  value="한국인">
+  <input name="한국 민"  value="한국 민">
+  <input name="대한민국"  value="대한민국">
+  
+  <div id="content-1">DIV content-1</div>
+  <div id="content-2">DIV content-2</div>
+  
+  <input id="한국"  value="한국">
+  <input id="한 국인"  value="한 국인">
+  <input id="한국민"  value="한국민">
+  <input id="대한민국"  value="대한민국">
+  
+</body>
+</html>
+
+
+
+
+
+
+
+

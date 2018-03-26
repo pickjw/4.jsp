@@ -1,0 +1,402 @@
+13일차(회원관리-중복id 체크 및 **우편번호 검색**,회원가입전까지 구현)
+                ===========    ================= 
+       회원가입,회원수정,회원탈퇴,회원약관->모델1 게시판(3~4일)
+       =======================================================
+ 행정업무->윤주임, (2/8일->구성->2/9 팀프로젝트 구성 확정)
+         ->10주이상 =>쪽지시험(중간점검)->객관식(다음주 8일)
+         ->JSP(2월 7일까지 공부한 내용)->모델2까지 범위
+         ->(2월 23일 어플리케이션 구현)->주관식
+         ->**환경설정방법,간단한 코딩구현,이론
+------------------------------------------------------------------
+Login.jsp-->회원가입버튼 클릭->회원약관 동의?->회원가입창
+ 연결코딩->script.js
+
+/* Login.jsp
+ * <INPUT TYPE="button" value="회원가입" onclick="memberReg()">
+ * <INPUT TYPE="button" value="회원가입" 
+ *    onclick="document.location='Register.jsp' ">
+ */
+function memberReg(){  //버튼클릭->특정페이지로 이동
+	//response.sendRedirect(~)->자바
+	//document.location.href="경로포함해서 이동할 페이지명" (자바스크립트)
+	document.location="Register.jsp"
+}
+
+**중복 id 체크**
+----------------------------------------------------------
+1.자바스크립트함수-->jsp을 어떻게 연결해서 프로그램을 작성?
+                  -->jsp를 요청
+2.jsp에게 요청을 하면서 매개변수를 어떻게 전달하는 방법?
+------------------------------------------------------------
+
+SQL> select id from member where id='kkk';
+
+선택된 레코드가 없습니다.
+
+SQL> select id from member where id='nup';
+
+ID
+--------------------
+nup
+
+==============================================================
+3.
+public boolean loginCheck(String id,String passwd) {
+		//1.DB연결
+		Connection con=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		boolean check=false;//회원인증 유무
+		String sql="";//sql구문을 저장
+		
+		//2.메서드 목적에 맞는 SQL구문
+		try {
+			con=pool.getConnection();
+			System.out.println("con=>"+con);
+			sql="select id,passwd from member where id=? and passwd=?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, id);//웹상에서 입력한 id값
+			pstmt.setString(2, passwd);
+			rs=pstmt.executeQuery();
+			check=rs.next();// 찾았으면 check=true or false
+		}catch(Exception e) {
+			System.out.println("loginCheck() 메서드 실행오류=>"+e);
+		}finally {//메모리해제
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return check;
+		
+		//3.DB연결해제 메모리해제
+	}
+====================================================================
+4.Register.jsp에서 ID중복확인을 클릭
+
+<input type="button" value="ID중복확인" 
+                   onClick="idCheck(this.form.mem_id.value)"></td>
+
+script.js =>공통모듈=>웹상에서 공통으로 사용할 소스코드부분을 따로
+                      파일로 만들어서 구현
+
+function idCheck(id){ //mem_id.value
+   if(id==""){
+	   alert("아이디를 먼저 입력하세요")
+	   document.regForm.mem_id.focus()//document.폼객체명.입력양식.함수명(~)
+   }else{ //IdCheck.jsp?매개변수명=전달할값->IdCheck.jsp->checkId(id)
+	   //IdCheck.jsp를 요청->매개변수를 전달하는 이유->DB에 접근=>id확인
+	   url="IdCheck.jsp?mem_id="+id
+	   window.open(url,"post","left=450,top=150,width=300,height=150")
+   }
+}
+
+----------------------------------------------------
+5.IdChcek.jsp
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="hewon.MemberDAO"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+   //script.js->idCheck(id)->IdCheck.jsp?mem_id='nup'
+   String mem_id=request.getParameter("mem_id");
+   System.out.println("IdCheck.jsp에 전달된 mem_id=>"+mem_id);//null
+   //DB접속 
+   MemberDAO memMgr=new MemberDAO();
+   boolean check=memMgr.checkId(mem_id);
+   System.out.println("IdCheck.jsp의 check=>"+check);
+%>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Id중복 체크</title>
+<link href="style.css" rel="stylesheet"  type="text/css">
+<SCRIPT LANGUAGE="JavaScript" src="script.js">
+</SCRIPT>
+</head>
+<body bgcolor="#FFFFCC">
+<br>
+<center>
+   <b><%=mem_id %></b>
+   <%
+       if(check){ //이미 당신이 입력한 아이디가 존재한다면
+    	   out.println("는 이미 존재하는 아이디 입니다.<p>");
+       }else{//그런 아이디가 없다는 경우-> 이 아이디 사용가능
+    	   out.println("는 사용 가능한 아이디 입니다.<p>");
+       }
+   %><!-- 자바스크립트에서 부모창(opener), 자식창(self)(현재 열려있는 창)-->
+ <a href="#" onclick="self.close()">닫기</a>
+</center>
+</body>
+</html>
+-------------------------------------------------------------------
+**<script language="JavaScript" src="script.js?ver=1"></script>**
+                                ======================
+**우편번호 검색** =>쇼핑몰 구축->상품 검색,고객검색,주문서검새
+                               =>테이블과 필드명만 다르다.
+
+================================================================
+0.우편번호 테이블을 작성->데이터를 입력
+
+    zipcode------------->대략 42000 입력 시켜논 상태
+
+        public class ZipcodeDTO {
+
+	private String zipcode;// 우편번호=>멤버변수명은 테이블의 필드와 
+	                                                      //같을수도 다를수도 있다.
+	private String area1;// 시,도
+	private String area2;// 구,소도시
+	private String area3;// 동,면,리
+	private String area4;// 나머지 주소
+        ,,,,
+
+1.우편번호를 검색할 수 있는 SQL실행->메서드 작성(zipcodeRead())
+   ZipcodeDTO(***Setter Method->DB에서 찾은 값을 필드별로 저장할 목적
+              ***Getter Method=>웹상에서 필드별로 출력할 목적
+===================================================================
+
+2.웹상에서 zipcodeRead()->실행결과->ZipCheck.jsp파일을 작성
+
+                like 연산자,=연산자를 사용
+-----------------------------------------------------------------
+SQL> select * from zipcode where area3 like '%수유3동%';
+
+
+ ***DTO 작성목적****
+
+1.DB상의 필드별로 데이터를 저장,꺼내올 목적으로 사용
+**2.웹상에서 메서드를 호출할때->매개변수,반환형을 생각?
+  =>매개변수,반환형을 이용할때도 사용이 된다.
+
+//3)우편번호를 실시간으로 검색?
+	//select area1 from zipcode where area3 like '%수유3동%';=>String(자료형)
+	//select zipcode,area1 from zipcode where area3 like '%수유3동%';
+	//필드명이 한개이상 반환을 받고싶다.->DTO자료형을 반환값으로 설정
+	//select * from zipcode where area3 like '%수유3동%'; //where조건식
+	//화면에 출력된 레코드가 한개이상=>Vector,ArrayList을 사용해야 한다.
+========================================================
+
+ZIPCODE AREA1      AREA2                AREA3
+------- ---------- -------------------- ----------------------
+
+AREA4
+--------------------
+142-890 서울       강북구               수유3동
+1번지
+
+142-872 서울       강북구               수유3동
+2
+,,,,
+public Vector<ZipcodeDTO>  zipcodeRead(String area3) {
+		Connection con=null;
+		PreparedStatement pstmt=null;//
+		ResultSet rs=null;//select 
+		//추가
+		Vector<ZipcodeDTO> vecList=new Vector();
+		//ArrayList<ZipcodeDTO> vecList=new ArrayList();
+		String sql="";
+		
+		try {
+			con=pool.getConnection();
+			     //select * from zipcode where area3 like '수유3동%'
+			sql="select * from zipcode where area3 like '"+area3+"%'";
+			pstmt=con.prepareStatement(sql);  //->NullPointerException발생주의
+			rs=pstmt.executeQuery();
+			//검색된 레코드들을 필드별로 담아서 vecList에 담는 구문
+			//레코드 한개를 담는다면 if(rs.next()){~}
+			//레코드 한개 이상을 담는다면 while(rs.next()){~)
+			while(rs.next()) {
+				//MemberDTO mem=new MemberDTO();
+				ZipcodeDTO tempZipcode=new ZipcodeDTO();
+				tempZipcode.setZipcode(rs.getString("zipcode"));//tempZipcode.setZipcode("142-890");
+				tempZipcode.setArea1(rs.getString("area1"));//area1="서울" =>
+				tempZipcode.setArea2(rs.getString("area2"));
+				tempZipcode.setArea3(rs.getString("area3"));
+				tempZipcode.setArea4(rs.getString("area4"));
+				//vector or ArrayList에 담는 구문
+				vecList.add(tempZipcode);//대략 13개의 레코드가 저장이 된다.
+			}
+		}catch(Exception  e) {
+			System.out.println("zipcdoeRead() 실행 중 에러유발=>"+e);
+		}finally {
+			pool.freeConnection(con, pstmt, rs);
+		}
+		return vecList;
+	}
+==================================================================
+3.Register.jsp에서 이벤트 처리
+
+<td>우편번호</td>
+            <td> <input type="text" name="mem_zipcode" size="7">
+                 <input type="button" value="우편번호찾기" 
+                  onClick="zipCheck()"></td>
+            <td>우편번호를 검색 하세요.</td>
+
+4.script.js에 zipCheck()구현
+
+function zipCheck(){
+    url="ZipCheck.jsp?check=y"
+    	window.open(url,"post","left=400,top=220,width=500,height=300," +
+    			"toolbar=no,menubar=no,status=yes,scrollbars=yes")	
+}
+
+5.ZipCheck.jsp파일을 작성->ZipCheck.html파일
+
+  ->ZipCheck.html->ZipCheck.jsp=>page지시어 추가
+  
+  <form name="zipForm" method="post"  action="ZipCheck.jsp">
+  <form name="zipForm" method="post"> =>요청한 페이지=처리페이지가
+                                        가능한 경우
+
+  <input type="hidden" name="check"   value="n">
+
+   cal.jsp--->calResult.jsp(과제)
+
+ 
+  ** 웹프로그래밍 중요 **
+
+페이지가 이동되면서 특정 매개변수가 전달=>4개
+
+** Hidden Form Field **
+
+POST 방식으로 처리하기 위한 방법
+HTML의 <form> 태그와 <input> 태그의 숨겨진 텍스트 필드를 이용
+
+         ZipCheck.jsp?check=y&area3=수유3동
+
+         나중에 check=n으로 전달?
+         맨처음 창=->check=y =>검색어를 입력 검색버튼을 클릭
+                                  =>check=n으로 전달하게 코딩하고 싶다.
+
+형식)  <input type="hidden" name="전달할 매개변수명"   value="전달할값">
+       <input type="hidden" name="check"   value="n">
+----------------------------------------------------------------
+ ZipCheck.jsp파일의 내용
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"
+    import="hewon.*,java.util.*" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%
+    //zipCheck()->ZipCheck.jsp?check=y
+     request.setCharacterEncoding("utf-8");//한글처리
+    
+    String check=request.getParameter("check");//y=>n으로 변경이 된다.
+    String area3=request.getParameter("area3");//검색어
+    System.out.println("check=>"+check+",area3="+area3);//y,null->n,"수유3동"
+    MemberDAO memMgr=new MemberDAO();
+    Vector<ZipcodeDTO> zipcodeList=memMgr.zipcodeRead(area3);
+    int totalList=zipcodeList.size();
+    System.out.println("검색된 총레코드수(totalList)=>"+totalList);//13개
+%>
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>우편번호 검색</title>
+<link href="style.css" rel="stylesheet"  type="text/css">
+<script>
+//동이름을 체크할 함수선언
+  function dongCheck(){
+	  if(document.zipForm.area3.value==""){
+		  alert("동이름을 먼저 입력하세요!");
+		  document.zipForm.area3.focus();
+		  return;
+	  }
+	  document.zipForm.submit();//<input type="button" ~>
+	  //Zipcheck.jsp?check=n&area3=수유3동
+  }
+  //검색된 레코드중에서 내 주소와 가장 가까운 주소를 링크를릭
+  //Register.jsp에 우편번호와 내 주소를 자동으로 넣어주는 함수 필요
+  function sendAddress(zipcode,area1,area2,area3,area4){
+	  //opener(부모창) ,self(열려져 있는 자식창(우편번호 검색창))
+	  //형식) opener.document.regForm.입력양식.속성=값
+	  var address=area1+" "+area2+" "+area3+" "+area4;
+	  opener.document.regForm.mem_zipcode.value=zipcode;
+	  opener.document.regForm.mem_address.value=address;
+	  self.close();//self=>ZipCheck.jsp창(우편번호 검색창)
+  }
+</script>
+</head>
+<body bgcolor="#FFFFCC">
+  <center>
+    <b>우편번호 찾기</b>
+    <table>
+  <!-- ZipCheck.jsp?area3=수유3동&check=n -->
+   <form name="zipForm" method="post"  action="ZipCheck.jsp">
+        <tr>
+        <td><br>
+        동이름 입력:<input type="text"  name="area3">
+        <input type="button" value="검색" onclick="dongCheck()">
+        </td>
+        </tr><!--직접 입력을 하지 않고 옵션으로써 매개변수를 전달하고자할때   -->    
+        <input type="hidden" name="check"   value="n">
+   </form>
+   <%
+      //검색어를 입력하고 검색버튼을 눌렀다면->check=n
+     if(check.equals("n")){
+    	 //if(zipcodeList.size()==0)  { //검색된 레코드가 없다면
+         if(zipcodeList.isEmpty()){ 
+   %>
+      <tr><td align="center">
+            <br>검색된 레코드가 없습니다.
+          </td>
+      </tr>
+      <% }else { %>
+   <tr><td align="center"><br>
+   *검색후 ,아래 우편번호를 클릭하면 자동으로
+     입력됩니다</td></tr>
+     <%
+          for(int i=0;i<totalList;i++){
+              ZipcodeDTO zipBean=zipcodeList.elementAt(i);//zipcodeList.get(i);
+              String tempZipcode=zipBean.getZipcode();//우편번호
+              String tempArea1=zipBean.getArea1().trim();// "서울  "->"서울"
+              String tempArea2=zipBean.getArea2().trim();//구
+              String tempArea3=zipBean.getArea3().trim();//읍면동
+              String tempArea4=zipBean.getArea4().trim();//나머지 주소
+     %>
+  <tr><td><!-- asp  -->
+   <a href="JavaScript:sendAddress('<%=tempZipcode%>',
+                                                      '<%=tempArea1%>',
+                                                      '<%=tempArea2%>',
+                                                      '<%=tempArea3%>',
+                                                      '<%=tempArea4%>')"> 
+    <%=tempZipcode%>&nbsp; <%=tempArea1%>&nbsp;                                                
+    <%=tempArea2%>&nbsp;  <%=tempArea3%>&nbsp;                                                
+    <%=tempArea4%>                                              
+  </a><br>
+   <%        
+                     }//for
+                 }//else
+             } //if(check.equals("n")){ %>
+    </td></tr>
+    <tr><td align="center"><br>
+<a href="JavaScript:this.close()">닫기</a>                      
+    </table>
+  </center>
+</body>
+</html>
+--------------------------------------------------------------------
+  회원가입,회원수정,회원탈퇴
+  ======== ========
+   hint)===><jsp:useBean> ,<jsp:setProperty~> ,<jsp:getProperty~>
+               을 사용해서 다시 한번 앞에서 입력받은값을 출력
+
+  1.Register.jsp----->2.RegisterProc.jsp에 다시 한번 출력
+                              |
+                      3.MemberInsert.jsp->회원가입을 축하드립니다
+                              <a href="Login.jsp">로그인</a>
+                         =>중복id 체크와 비슷(로직)
+      
+                        MemberDAO->회원가입시켜주는 메서드를 작성
+                         =>memberInsert 메서드=>매개변수,반환형?
+=====================================================================
+ 예습
+p752 user_tb테이블(회원테이블 작성)
+p754 ->id,pw을 입력->회원가입유무를 체크해주는 소스코드
+   web_java=>테이블이 들어가 있는 데이터베이스이름
+   root->mysql의 관리자계정이름,12345678=>암호
+
+p756(회원가입폼)=>p757 memberInsert.jsp(회원가입시켜주는 메서드호출)
+ p761 페이지까지 예습
+----------------------------------------------------------------------
+  
+

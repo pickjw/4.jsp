@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="../jquery-3.2.1.min.js"></script>
+<title>01.ready().html 이용</title>
+<script>
+  //function test() {} (1)
+  /* (2)불러오는 문서의 내용이 복잡(이미지,동영상,텍스트)->속도가 느려지는 단점
+   window.onload=function(){
+	  alert("jQuery소개!")
+  } */
+  //(3)속도가 빠른 jQuery ready함수를 이용
+  $(document).ready(function(){ //document객체를 이용->메모리에 올리기전에
+	  alert("jQuery소개2")
+  })
+  
+  $().ready(function(){ 
+	  alert("함수를 호출2!!!")
+  })
+  
+  $(function(){ 
+	  alert("함수를 호출3!!!")
+  })
+</script>
+</head>
+<body>
+<!-- (1)<body onload="test()">  -->
+<h1>Testing!!!</h1>
+</body>
+</html>
+
+
+
+

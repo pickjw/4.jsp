@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>04.each.html예제</title>
+<style>
+    .fromjQuery0 {color:red}
+    .fromjQuery1 {color:pink}
+    .fromjQuery2 {color:blue}
+    .fromjQuery3 {color:yellow}
+</style>
+<script>
+  var i=0 //첨자로 사용하기위해서 선언
+  
+  $(function(){ 
+	  //같은 태그일때 어떻게 서로 구분해서 스타일을 적용?=>1.each함수를 이용
+	  //형식) $('선택자').attr('추가시킬  속성명','속성값') -> 태그정보.setAttribute('속성명','속성값')
+	  //$('li').attr('class','fromjQuery0')=>모두 똑같이 적용
+	  //형식2)$('선택자').each(호출할 사용자정의 함수명 | 익명함수 function(){})
+	  $('li').each(forEach) //직접 함수이름을 적용
+  })
+  //ready()밖에 지정한 함수를 선언
+  function forEach(){
+	  //jquery->똑같은 태그를 구분하기위해서 사용되는 구분자=>$(this)
+	  //같은 대상의 이벤트라도 이벤트를 발생시키는 태그를 구분=>$(this)
+	 // $('li').attr('class','fromjQuery'+i) <->
+	 $(this).attr('class','fromjQuery'+i) //<->$(this).attr('키명')
+	  alert(i)
+	  i++
+  }
+</script>
+</head>
+<body>
+<h1>jQuery each함수 연습</h1>
+   <ul><!-- (2) 태그정보.setAttribute('속성명','속성값') 태그정보.getAttribute(키명)-->
+      <li>jQuery each() 연습</li>
+      <li>jQuery each() 연습2</li>
+      <li>jQuery each() 연습3</li>
+      <li>jQuery each() 연습4</li>
+   </ul>
+   
+   <!-- 
+     <ul> (1) 정적스타일->있는 그대로 적용
+      <li class="fromjQuery0">jQuery each() 연습</li>
+      <li class="fromjQuery1">jQuery each() 연습2</li>
+      <li class="fromjQuery2">jQuery each() 연습3</li>
+      <li class="fromjQuery3">jQuery each() 연습4</li>
+   </ul>
+    -->
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>2번째 객체를 생성하는 방법</title>
+<script>
+/*
+ *  var 객체명={}  // 객체만 생성 class Car { int i=0;}   Car a=new Car();
+ *  동적으로 속성(=멤버변수) 임의로 추가
+     객체명.속성=값;
+     ,,,
+     객체명.함수명=function(){ 내용 기술}
+ */
+var person = {};
+ //동적->추가개념 <->정적
+ document.write(person+'<br>');
+ document.write(person.toString()+'<br>');
+ 
+ //객체에 속성을 추가
+ person.name="홍길동";
+ person.hobby="악기";
+ person.hobby2="프로그래밍";
+ person.age=23;
+ person.toString=function(){
+	 var msg='';
+	 //확장 for문--->자바스크립트의 for ~in 구문->for 속성값 in 객체명
+	 for(var key in this){//this->객체참조(person)
+		 if(key!='toString'){//메서드는 제외하고 속성만 출력
+			 msg+=key+':'+this[key]+'<br>';//key(속성명) ,
+			 //객체명[속성명]=>값  =>System.out.println(객체명.속성명)
+			 //객체명.속성명 (둘다 가능)
+		 }
+	 }
+	 return msg;
+ }
+ document.write("person=>"+person+"<br>")
+ document.write("=====================<p>")
+ document.write(person.toString()+'<br>')
+</script>
+</head>
+<body>
+
+</body>
+</html>

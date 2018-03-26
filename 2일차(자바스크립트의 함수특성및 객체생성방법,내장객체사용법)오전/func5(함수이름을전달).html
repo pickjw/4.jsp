@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func5(함수이름을 전달).html</title>
+<script>
+ /*
+    자바에서 매개변수를 전달->기본형값을 전달 or 객체(주소)를 전달 
+    자바스크립트에서는 매개변수를 전달->기본자료형 전달은 자바와 동일
+                                                ->함수를 전달->전달된 함수를 실행하기위해
+ */
+ 
+  //어느 특정함수를 10번 반복해서 호출시켜주는 함수
+  function callFunction(other){ //매개변수 String other,int other,~
+          for(var i=0;i<10;i++){
+        	   other() //justFunction()
+          }     
+   }
+  //선언적함수=>함수이름이 있는 경우
+  function justFunction(){
+             document.write("Happy Day!! <br>");                                   	
+   }
+  
+//매개변수를 함수로 전달할때에는 함수명뒤에 () 붙이면 안된다.
+  callFunction(justFunction) //justFunction()를 쓰면 안된다.
+  /* for(var i=0;i<10;i++)
+         justFunction() */
+         
+  document.write("====================<p>")
+  //익명함수를 전달처리=>함수의 매개변수 부분에 익명함수를 작성->호출(jQuery)
+  callFunction(function(){
+	  document.write("Hello World!!!<br>")
+  })
+  
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+
+
+

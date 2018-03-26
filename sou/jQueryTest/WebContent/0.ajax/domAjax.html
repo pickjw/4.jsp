@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Ajax 개요(XHR객체)구하기</title>
+<script>
+    //function test(){}
+    window.onload=function(){ //익명함수->함수의 이름이 없는 함수->선언->호출
+    	//IE(ActiveXObejct속성),IE외의 chrome,firefox,,,(XMLHttpRequest속성)
+    	//IE 7.0이상===========>XMLHttpRequest속성 통합
+    	if(window.XMLHttpRequest){//XMLHttpRequest을 가지고 있다면
+    		var xhrObject=new XMLHttpRequest();//객체를 생성하는 구문
+    		alert(xhrObject)
+    	}
+    }
+</script>
+</head>
+<!-- <body onload="test()">(1) -->
+<body>
+
+</body>
+</html>
+

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //$.ajax(1.url(요청문서),2.매개변수(생략가능),3.콜백함수){}
+	  //$.ajax({url:요청문서),2.매개변수(생략가능),3.콜백함수(필수)}){}
+	  $.ajax({url:'aa.jsp',  //~aa.jsp?name=test&age=23&,,,
+			      //type:'post', post방식으로 전송하는 경우
+			      data:{name:'test',age:23},//2.data:(매개변수명:값,매개변수2:값2)
+		          success:function(args){//3.success:성공적으로 보내준경우 익명(매개)
+		        	  $('body').append(args)
+		     }
+	  })
+  })
+</script>
+</head>
+<body>
+  
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func6(내부함수).html</title>
+<script>
+  /*
+    함수내부에 또 다른 함수가 존재할 수 가 있다.=>내부함수를 호출하는 방법
+  */
+  function f(){
+    	var n=123;
+    	function g(){ //내부함수 밖에 있는 변수를 불러다 사용이 가능
+    		document.write("n is"+n+"<br>")
+    		document.write("g is called!!!<br>");
+    	}
+    	g();//반드시 내부함수 호출 구문을 줘야 f()의 실행결과가 나온다.
+    	g();
+    }
+    //함수호출
+    f()
+   // g() ->내부함수는 외부함수를 호출하지 않고는 호출할 수 가 없다. 
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+                                                        maximum-scale=1.0,minimum-scale=1.0,
+                                                        user-scalable=no">                                                                                               
+    <title>jquery mobile예제</title>
+
+    <!-- 모바일에서 환경설정(cdn->jquerymobile.com) -->
+    <link href="../mobile/jquery.mobile-1.3.2.min.css" rel="stylesheet">
+      <script src="../mobile/jquery-1.9.1.min.js"></script>
+      <script src="../mobile/jquery.mobile-1.3.2.min.js"></script>
+      <script type="text/javascript">
+      var db;//생성될 DB정보를 저장할 전역변수
+      //jquery이벤트 발생->연결시키는 방법->1.bind 2.각자 이벤트연결 3.on함수
+      //형식)$(선택자).on(1.연결시킬 이벤트종류명,(연결)처리할 페이지id,처리할 함수명)
+      $(document).on('pageinit','#page1',function(){
+    	  alert('pageinit 이벤트 호출됨!')
+    	  dbInit()//DB생성 및 open
+      })
+      
+      //pagebeforeshow->페이지를 전환할때 특정 페이지를 보여주기전에 해야할 작업
+      $(document).on('pagebeforeshow','#page1',function(){
+    	  //weekfriend->데이터가 있으면(추가된 데이터포함) 화면에 출력,
+    	  //                     없으면->없는대로 출력
+    	  alert('pagebeforeshow')
+    	  load()
+      })
+      $(document).ready(function(){//DB생성 , 추가버튼이벤트,팝업창(확인)
+    	  //1.DB생성
+    	  if(!db){//pageinit,pagebeforeshow이벤트가 제대로 발생이 안될경우
+    		  dbInit()//DB생성
+    	      load();//테이블에 접속->select->화면에 출력
+    	  }
+    	  //2.이벤트처리(추가,대화상자의 확인)
+    	  $('#btnAdd').bind('click',function(){ //링크<a link~>
+    		    add()
+    	    //기본기능 제거
+    	    return false;
+    	  })
+    	  //3.popup창의 데이터 추가 메세지가 나온후 확인버튼을  클릭시 이벤트처리
+    	  $('#btn_confirm').bind('click',function(){
+    		   //jsp->response.sendRedirect(현재페이지)
+    		   //형식)$.mobile.changePage(이동할 페이지의 id)
+    		   /*
+    		    <a href="#page1"  data-role="button"  data-inline="true"
+                           data-mini="true"  id="btn_confirm">확인</a>
+    		   */
+    		   var href=$(this).attr('href')
+    		   $.mobile.changePage(href)
+    		  //기본기능 제거
+    		  return false;
+    	  })
+      })//ready
+      //생성된 DB->select->레코드가 한개이상->for문을 이용 출력
+      function load(){ //select
+    	 db.transaction(function(tx){
+    		 //select->1.실행할 sql구문 2.검색필드명 부여(배열)[필드명],
+    		 //            3.콜백함수(3.데이터 존재시 화면출력),4.DB오류발생->처리함수
+    		 //select * from 테이블명 where num=3
+    		 tx.executeSql('select * from weekfriend order by num desc',
+    				                [],
+    				                function(tx,rs){//정상 콜백tx(실행할 sql),rs(resultSet)
+    			 var rows=rs.rows;//테이블의 모든 레코드를 반환(rows) 
+    			 //화면에 출력-><ul><li></li></ul>
+    			 $('#output').empty()//데이터 내용만 지우기
+    			 for(var i=0;i<rows.length;i++){
+    				 //while(rs.next()==true)->ArrayList->FriendDTO row와 같다
+    				 var row=rows.item(i);//한건의 레코드를 읽어오기
+    				 //row.필드명->필드명 불러오기,rs.getInt('num'),rs.getString('name')
+    				 var new_r='<li>';
+    				 new_r+='<h4>'+row.num+' '+row.name+'</h4>';
+    				 new_r+='<p>'+row.address+'</p>';
+    				 new_r+='<span class="ui-li-aside">'+row.phone+'</span>';
+    				 new_r+='</li>';
+    				 //ul태그에 추가
+    				 $('#output').append(new_r)//부모.append(자식)
+    			 }//for
+    			 //listview를 자동으로 refresh를 호출
+    			 $('#output').listview('refresh')//새로고침
+    		 },
+    		  function(error){ //DB에 오류발생 자동으로 호출하는 콜백
+    			 alert('에러발생'+error) //자바처럼 예외처리 객체(파라미터로 받음)
+    		 })//tx.executeSql()
+    	 })//db.transaction()
+      }//load
+      //등록시켜주는 함수
+      function add(){//insert
+    	  var name=$('#name').val()
+    	  var phone=$('#phone').val()
+    	  var address=$('#address').val()
+    	  if(name=="" || phone=="" || address==""){
+    		  alert('필수로 입력해야 됩니다.')
+    		  return;
+    	  }
+         //insert->pstmt.setString(1,name),pstmt.setString(2,phone)~
+         //->[name,phone,address]->?를 이용해서 배열형태로 넣어준다.
+         db.transaction(function(tx){
+        	 tx.executeSql('insert into weekfriend(name,phone,address) values(?,?,?)',
+        			              [name,phone,address], //입력할 값
+        			              function(tx,rs){//정상적으로 sql을 실행할 경우
+        		                      //rs.insertId(몇번째레코드 번호를 출력속성)
+        		                     loadMessage(rs.insertId+'번 자료 추가 성공!!!')
+        		                     //input태그 초기화
+        		                     $('#name').val('')
+        		                     $('#phone').val('')
+        		                     $('#address').val('')
+        	                      },
+        			              function(error){//정상적으로 실행못했을때 자동으로 호출
+        			            	  alert('insert 오류'+error)
+        			              })
+         })		 
+      }
+      //팝업창에 메세지를 출력시켜주는 함수<p class="notice-content"></p>
+      function loadMessage(msg){ //테이블에 데이터가 들어간 다음에 호출
+    	  //1.대화상자 화면에 출력<div data-role="popup" id="notice"
+    	  $('#notice').popup('open')//대화상자가 출력
+    	  //형식) $(선택자).popup('open')
+    	  //2.<p class="notice-content">1번째 레코드가 추가됨!</p>
+    	  $('.notice-content').text(msg)//문자열만 출력
+      }
+      //DB생성 및 호출(html5)
+      function dbInit(){
+    	  //현브라우저가 DB생성할 수 있는지를 먼저 체크
+    	  if(!window.openDatabase){//window.openDatabase속성이 존재하는지를 체크
+    		  alert('openDatabase를 지원하지 않습니다.')
+    	     return; //return false;
+    	  }
+    	  //DB생성 및 열기
+    	  //1.생성할 DB명,2.버전명(1.0),3. DB설명문 4.DB용량(1MB)
+    	  db=openDatabase('weekDb','1.0','friend DB',1024*1024);
+    	  alert(db)
+    	  //2.테이블을 생성->db.transaction함수(tx)를 이용
+    	  //tx->jsp의 PreparedStatement객체와 비슷한 기능(pstmt)
+    	  db.transaction(function(tx){
+    		  //tx.executeSql('실행시킬 SQL구문')->테이블이 없으면 생성
+    		  //자료형->MySQL(숫자(integer),autoincrement,)
+    		  tx.executeSql('create table if not exists weekfriend(num integer primary key autoincrement,name,phone,address)')
+    	  })
+      }
+      
+      </script>
+  </head>
+  <body>
+  <!-- 첫번째 페이지(친구목록보기)-->
+    <div data-role="page" id="page1">
+     <div data-role="header" data-position="fixed">
+       <h1>친구 목록</h1>
+       <a href="#page2" data-icon="plus" class="ui-btn-right" 
+                                    data-iconpos="right">등록</a>
+     </div>
+    <!-- content->listview 검색기능추가 id부여->append(자식) -->
+    <div data-role="content">
+         <ul data-role="listview" data-filter="true" id="output"></ul>
+     </div>
+   
+    <div data-role="footer" data-position="fixed">
+         <h1>footer</h1>
+     </div>
+    </div>
+    <!-- 두번째 페이지(친구 가입) -->
+    <div data-role="page" id="page2">
+     <div data-role="header" data-position="fixed">
+       <h1>친구 추가</h1>
+       <a data-icon="arrow-l" data-rel="back">이전</a>
+     </div>
+  
+    <div data-role="content">
+         <form id="insfrm">
+         <!--이름  -->
+            <div data-role="fieldcontain">
+               <label for="name">이름</label>
+               <input type="text" id="name">
+            </div>
+          <!--전번  -->
+            <div data-role="fieldcontain">
+               <label for="phone">전화</label>
+               <input type="text" id="phone">
+            </div>
+           <!--주소  -->
+            <div data-role="fieldcontain">
+               <label for="address">주소</label>
+               <input type="text" id="address">
+            </div>
+            <a data-role="button" id="btnAdd">추가</a>
+         </form>
+         <!-- 팝업창 효과(스타일 적용) data-mini=true,
+               data-overlay-theme="b"(부모창과 자식창이 화면이 겹쳐서 보일때 세련
+                                                     되게 보여주는 테마속성값)
+               data-role="popup"(대화상자)
+          -->
+          <div data-role="popup" id="notice" data-theme="d"
+                  data-overlay-theme="b" class="ui-content"
+                  style="max-width:340;text-align:center">
+            <p class="notice-content"></p>
+            <a href="#page1"  data-role="button"  data-inline="true"
+                           data-mini="true"  id="btn_confirm">확인</a>
+          </div>
+     </div>
+   
+    <div data-role="footer" data-position="fixed">
+         <h1>나의 친구들</h1>
+     </div>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+

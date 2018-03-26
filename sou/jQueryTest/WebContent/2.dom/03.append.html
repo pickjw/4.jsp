@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>10.filter.html예제</title>
+<style>
+     .textstyle{
+                    font-size:14pt;
+                    line-height:20pt; /* 행간 (세로) */
+                    margin:10px;
+     }
+</style>
+<script>
+  $(function(){ 
+	  /*
+		형식) 
+		        1.$(부모태그 > 자식태그)->부모태그 바로밑의 자식태그를 찾을때(자손X)
+		        2.$(부모태그  자식태그)->부모태그 바로밑의 자식태그를 찾을때(자손O)
+		        3.$(부모태그+자식태그)->바로 인접한 형제태그(짝궁)만
+		        4.$(부모태그~자식태그)->짝궁+다른 인접한 태그까지 찾기
+		        $('선택자').append(자식태그)//->부모태그.appendChild(자식태그)
+		*/
+		//jQuery에서 스타일 적용->1.css({속성명:속성값},)->특정태그에 속성부여
+		//jQuery에서 한꺼번에 많은 스타일을 적용
+		//->$('선택자').addClass(클래스선택자)<->removeClass(해제시킬 선택자)
+		$('*').addClass('textstyle')
+		$('em+a').css('background','yellow').each(function(){
+			$('.result1').append($(this)) //적용된 two
+		})
+		alert('검색된 엘리먼트(태그)의 수:'+$('em+a').length)
+  })
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제</h1>
+  <em>one</em>
+  <a>two</a>
+  <a>three</a>
+  <b>four</b>
+  <a>five</a>
+  <em>six</em>
+  <hr>
+  <div>
+       <span>prev+next로 검색된 엘리먼트(요소)</span>
+       <span class="result1"></span>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

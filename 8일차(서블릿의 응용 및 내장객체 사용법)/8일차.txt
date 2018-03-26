@@ -1,0 +1,318 @@
+8일차(서블릿의 응용 및 내장객체 사용법)
+
+  =>Servlet & JSP
+
+ Servlet-->JSP
+
+******************************************************
+ ->JSP작성-->내부적으로 서블릿으로 변환이 된다.->실행
+         변환시간이 있다.
+
+  장점->기본적인 자바구문만 이해
+        쉽게 프로그래밍을 작성이 가능
+
+  단점->경우에 따라서는 화면디자인이 어려울 수 있다.
+
+ ----------------------------->서블릿 작성------>실행
+
+         변환시간이 필요없다  ->실행속도가 빠르다(장점)
+                              ->자바를 어느정도 할줄알아야 된다.(단점)
+******************************************************
+
+
+->JSP와 서블릿의 관계,서블릿의 응용(환경설정->xml문서 특성(10가지 공식)
+->JSP 구성요소(include 지시어) 
+->내장객체의 개요 종류(8가지)=>3가지(request,response,out~)
+
+2월초쯤에 쪽지시험=>2.23일 평가 대비
+-----------------------------------------
+->액션태그개요,종류->쿠키,세션->JDBC Programming(설계)->회원관리(3일)
+->게시판(2~3일)->모델2(el,jstl 2일)->모델2로 게시판(2일)
+=>3주
+---------------------------------------------------------------------
+hello.jsp작성->실행->hello_jsp.java 변환(서블릿)
+                          ====
+
+서블릿의 종류
+
+1.순수 서블릿
+2.변환된 서블릿->응용서블릿(jsp중심)
+
+1) 차이점
+import javax.servlet.*;
+import javax.servlet.http.*;
+==============================>
+import javax.servlet.jsp.*;  =>새로 추가된 부분(jsp중심)
+
+2)HttpServlet상속=>HttpJspBase을 상속(
+     HttpJspBase(자식)
+
+3) init()---->_jspInit()메서드로 명칭이 변경(서블릿의 초기화)
+
+   get->doGet()
+   post->doPost()
+   get or post->service()=>_jspService()변경
+                           =>jsp작성코딩
+
+    //내장객체를 선언(8개)
+    final javax.servlet.jsp.PageContext pageContext;//환경설정
+    javax.servlet.http.HttpSession session = null; //세션(쿠키와 세션)
+    final javax.servlet.ServletContext application;//application객체
+    final javax.servlet.ServletConfig config;//서블릿 환경설정 config객체
+    javax.servlet.jsp.JspWriter out = null;//****웹에 출력객체****
+    final java.lang.Object page = this;//page->현재 jsp페이지에서 사용
+                                               되는 객체
+    
+    HttpServletRequest request  =>메서드의 매개변수로**** (요청객체)
+    HttpServletResponse response =>****(응답객체)
+
+    javax.servlet.jsp.JspWriter _jspx_out = null;
+    javax.servlet.jsp.PageContext _jspx_page_context = null;
+
+
+ try {
+      //내장객체 생성하는 부분
+      response.setContentType("text/html; charset=UTF-8");
+      pageContext = _jspxFactory.getPageContext(this, request, response,
+      			null, true, 8192, true);
+      _jspx_page_context = pageContext;
+      application = pageContext.getServletContext();
+      config = pageContext.getServletConfig();
+      session = pageContext.getSession();
+      out = pageContext.getOut();
+      _jspx_out = out;
+
+      out.write("\r\n");
+      out.write("<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\r\n");
+      out.write("<html>\r\n");
+      out.write("<head>\r\n");
+      out.write("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\r\n");
+      out.write("<title>Insert title here</title>\r\n");
+      out.write("</head>\r\n");
+      out.write("<body>\r\n");
+      out.write("<h1>JSP 첫번째 예제</h1>\r\n");
+
+   String str="이연수";
+   System.out.println("str=>"+str);//콘솔에 출력->디버깅용
+   out.println("str=>"+str);//웹에 출력->document.write("str=>"+str)
+ 
+      out.write("\r\n");
+      out.write("</body>\r\n");
+      out.write("</html>\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+      out.write("\r\n");
+
+   destroy()-->_jspDestroy()
+
+===============================================================
+**** 서블릿의 응용(팝업창을 띄우기)->공지사항창 띄우기 ********
+
+                              자바스크립트+서블릿+입출력
+  ServeltTest
+      |
+       -src->3)Notice.java  ->/ServletTest/Notice
+      |
+       -WebContent(/)->index.jsp(2)->window.open(경로포함 불러올 문서명)
+            |
+             -notice->2018119.txt=>오늘날짜만 지정해서 불러오기(1)
+                      2018120.txt
+-------------------------------------------------------------------
+서블릿의 환경설정=>모델2에서도 필요
+
+웹프로그래밍을 할때 환경설정=>xml파일,json파일(Ajax)
+
+html5-->xhtml->html문서에 xml문서의 특성이 결합된 문서
+
+xml->환경설정 위주로 작업=>json파일
+--------------------------------------------
+html=>화면에 보여주는 역할을 목적-><table>~</table>=>표
+
+   ex) <h1>홍길동</h1>    <h1>34</h1>
+
+    =>이미 정해진 태그만 사용이 가능
+
+Extensible Markup Language =>xml->태그작업=>의미를 전달(데이터의 뜻)
+(확장)  
+      =>사용자정의 태그->사용자가 임의대로 만들수가 있다.(태그)->element
+                             영어,한글,특수기호,숫자를 조합
+      <name>홍길동</name>
+      <이름>홍길동</이름>
+      <나이>34</나이>
+========================================================================
+ *******xml 문법의 규칙**************
+
+1.확장자->.xml (환경설정할때 사용)
+
+2.맨 처음 선언부가 먼저 나온다.
+
+html->태그 정해져 있기때문에 <h1>(모양)
+
+<?xml version="1.0" encoding="utf-8"?> =>한글도 가능(태그)
+           속성명         속성명
+
+<?xml version="1.0"~>  encoding->이 생략->영문만 가능
+======================================================
+
+  xml->extensible markup language
+     ->사용자정의 태그를 사용이 가능 (기능)->성격
+     ->태그를 임의로 작성이 가능하지만 현실적-->전세계 표준
+     ==>정해진 태그만 사용할 수있도록->DTD문서 
+
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+
+<서블릿></서블릿>=>X
+
+  html->정해진 태그만 사용->암기(화면 출력)-><h1>홍길동</h1>
+  xml->임의로 작성(의미 전달)-><name>홍길동</name>
+------------------------------------------------------------------
+  <?xml version="1.0" encoding="utf-8"?>
+  <이름>
+
+  </이름>
+
+ 3.루트태그는 한번만 사용->루트태그는 반드시 존재해야 한다.=>최소한의 태그는 한개
+                                                             존재해야 한다.
+
+ 4.태그의 이름을 부여=>알파벳,숫자,특수기호를 조합
+
+  <name> </name> or <이름></이름>
+
+  <h1>홍길동</h1>      <name>홍길동</name>
+      글자크게(제목)           이름은 홍길동---------->의미가 전달
+ 
+ 5.첫글자는 숫자가 오면 안된다.-->자바의 식별자와 같다(변수,클래스,메서드~)
+
+   <1a> </1a> X    <a1>~</a1>=>명확한 단어중심으로 작성
+ 
+ 6.태그중간에 _ ,-,. 이 올 수 있다.(대부분 -> -)
+
+  <servlet-name>  <servlet.name> <servlet_name>
+          (o)                        (x)                  (x)
+
+ 7.태그는 대,소문자를 구분해서 사용
+  <NAME> ,<Name>,<name>
+
+ 8.시작태그가 있으면 종료태그가 반드시 존재
+  <name>홍길동</name> =>태그명은 의미가 있는 단어사용
+
+  <a1>홍길동</a1> =>문법적으로 틀린것은 아니지만 올바른 사용법이 아니다.
+ <이름>홍길동</이름>
+
+ 9.태그내부에 또 다른 태그를 사용이 가능(겹쳐서)=>중첩
+         <!-- name  -->==>O
+      <person>
+        <!-- name  -->==>X
+ ex)  <name>홍길동</name>
+        <age>23</age>
+     </person>
+
+ 10.태그를 사용->속성을 사용=>속성값은 반드시 " "  ->html->속성->"" 생략 가능
+
+ ex) <font size=3>홍길동</font>
+     => <font size="3">홍길동</font>
+
+  xml구조=>트리구조로 구성->한개라도 틀리면 전체X
+           탬색기
+
+ **11.xml주석-><!-- 한글을 쓰면 안되는 경우  -->
+       encoding속성이 영문으로 되어있으면 주석도 한글 사용하면 X
+
+ xml 주석-><!--   --> html주석,jsp주석
+
+ ***** 중첩된 태그내부에서는 절대로 주석달지 말것.*****
+-------------------------------------------------------
+
+  <?xml version="1.0" encoding="UTF-8"?>
+<개인정보>
+ <회원 id="1">
+  <이름>홍길동</이름>
+  <나이>34</나이>
+  <주소>서울시 강남구 대현빌딩</주소>
+  <성별>남</성별>
+  <전번>02-123-0987</전번>
+  </회원>
+  <회원 id="2">
+  <이름>이길수</이름>
+  <나이>23</나이>
+  <주소>대전시 중구</주소>
+  <성별>남</성별>
+  <전번>02-432-0987</전번>
+  </회원>
+</개인정보>
+--------------------------------------------------------------
+서블릿의 환경설정->web.xml을 편집하는 경우에는 톰캣서버를
+ 엔진을 가동중지 시켜야 한다.
+
+ 서버가 가동-->web.xml
+--------------------------------------------------------------
+http://localhost:8090/ServletTest/imsi/abc/GuTest
+-----------------------------------------------------
+web.xml에서 
+
+<!-- 실행시킬 서블릿의 이름과 별칭(짧게 사용되는 이름)  -->
+   <servlet>
+      <servlet-name>실행시킬 서블릿의 별칭을 부여(Gu)</servlet-name>
+      <servlet-class>패키지명.하위패키지명...실행시킬서블릿클래스명(GuTest)</servlet-class>
+   </servlet>
+   
+  <!-- 실행시킬 서블릿의 웹상에서 요청경로를 지정해주는 역할  -->
+  <servlet-mapping>
+     <servlet-name>찾아가는 서블릿의 별칭을 부여(Gu)</servlet-name>
+     <url-pattern>서블릿을 실행시킬 요청경로를 지정(/imsi/abc/GuTest)</url-pattern>
+  </servlet-mapping>
+
+ =>*****내부에서 찾는 순서*****
+
+ 1.<url-pattern>서블릿을 실행시킬 요청경로를 지정(/imsi/abc/GuTest)</url-pattern>
+ 2.<servlet-name>찾아가는 서블릿의 별칭을 부여(Gu)</servlet-name>
+ 3.<servlet>태그의 <servlet-name>실행시킬 서블릿의 별칭을 부여(Gu)</servlet-name>
+    을 찾아서 서블릿을 실행시킨다.
+
+ 4.<servlet-class>패키지명.하위패키지명...실행시킬서블릿클래스명(GuTest)</servlet-class>
+*************************************************************************
+
+
+<!-- 실행시킬 서블릿의 이름과 별칭(짧게 사용되는 이름) 적용예  -->
+   <servlet>
+      <servlet-name>Gu</servlet-name>
+      <servlet-class>GuTest</servlet-class>
+   </servlet>
+   
+  <!-- 실행시킬 서블릿의 웹상에서 요청경로를 지정해주는 역할  -->
+  <servlet-mapping>
+     <servlet-name>Gu</servlet-name>
+     <url-pattern>/imsi/abc/GuTest</url-pattern>
+  </servlet-mapping>
+
+==========================================================================
+=>
+include지시어, 내장객체,액션태그,쿠키와 세션,JDBC Programming,회원관리(3일)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

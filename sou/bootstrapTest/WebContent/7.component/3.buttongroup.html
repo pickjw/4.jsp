@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 101 템플릿</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+    
+         <h1>버튼 그룹을 설정</h1>
+         <h4 class="text-primary">버튼 그룹 미설정한 경우</h4>
+         <input type="button" class="btn btn-default" value="기본 모양 버튼">
+         <input type="button" class="btn btn-primary" value="중요 버튼">
+         <input type="button" class="btn btn-success" value="긍정버튼">
+         <input type="button" class="btn btn-info" value="정보제공 버튼">
+         <p>
+         <hr>
+         <!--1)버튼 그룹
+           1.버튼의 그룹을 설정->div태그 내부에 btn-group선택자이용
+           2.버튼그룹의 크기를 일괄적으로 조절(btn-group-lg,~sm,~xs)
+           -->
+         
+         <h4 class="text-primary">버튼 그룹을 설정한 경우</h4>
+         <div class="btn-group btn-group-lg">
+         <input type="button" class="btn btn-default" value="기본 모양 버튼">
+         <input type="button" class="btn btn-primary" value="중요 버튼">
+         <input type="button" class="btn btn-success" value="긍정버튼">
+         <input type="button" class="btn btn-info" value="정보제공 버튼">
+         </div>
+         <p>
+         <hr>
+         <!--2.버튼그룹(1개이상)을 툴바형식으로 변환
+            div태그로 묶어준뒤 class="btn-toolbar"로 설정
+            툴바형태의 버튼그룹에서는 버튼의 크기를 일정하게 유지
+           -->
+        <div class="btn-toolbar">
+         <div class="btn-group btn-group-sm">
+         <input type="button" class="btn btn-default" value="버튼1">
+         <input type="button" class="btn btn-primary" value="버튼2">
+         <input type="button" class="btn btn-success" value="버튼3">
+         <input type="button" class="btn btn-info" value="버튼4">
+         </div>
+         
+         <div class="btn-group btn-group-xs">
+         <input type="button" class="btn btn-default" value="버튼5">
+         <input type="button" class="btn btn-primary" value="버튼6">
+         </div>
+         </div>
+         <p>
+         
+         
+         
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+

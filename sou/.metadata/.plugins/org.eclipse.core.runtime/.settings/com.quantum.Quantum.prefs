@@ -1,0 +1,5 @@
+com.quantum.actions.BookmarkSelectionUtil.bookmark=myoracle
+eclipse.preferences.version=1
+quantum.dialogs.bookmarkwizard.path=C\:\\webtest\\4.jsp\\11\uC77C\uCC28(\uC790\uBC14\uBE48\uC988 \uC815\uB9AC \uBC0F \uCFE0\uD0A4,\uC138\uC158,JDBC Programming\uC791\uC131\uBC95)\\DB\uC790\uB8CC\\mysql-connector-java-5.1.12-bin.jar
+quantum.dialogs.exportquery.path=C\:\\webtest\\7.spring\\6.spring\uC758 MVC\uD65C\uC6A9(\uAC8C\uC2DC\uD310)-\uAE00\uBAA9\uB85D\uBCF4\uAE30,\uAE00\uC4F0\uAE30\\board.txt
+quantum.dialogs.importquery.path=C\:\\webtest\\6.webmobile\\3\uC77C\uCC28(\uB2E4\uC591\uD55C \uCEF4\uD3EC\uB10C\uD2B8 \uC791\uC131\uC2DC \uD65C\uC6A9\uBC952)\\phone.sql

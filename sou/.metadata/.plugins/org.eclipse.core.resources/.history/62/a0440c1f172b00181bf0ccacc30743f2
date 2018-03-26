@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+   <Resource name=""
+                    auth=""
+                    type=""
+                    username="scott"
+                    password="tiger"
+                    driverClassName="oracle.jdbc.driver.OracleDriver"
+                    factory=""
+                    url="jdbc:oracle:thin:@localhost:1521:orcl"
+                    maxActive=""
+                    maxIdle="" />
+</Context>

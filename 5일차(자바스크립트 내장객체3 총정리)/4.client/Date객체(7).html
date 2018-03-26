@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Date(7).html(시간출력)</title>
+<script>
+       function showtime(){
+    	   //자바스크립트 객체생성방법
+    	   //var 변수명(=객체명)=new Date();
+    	   var today=new Date();
+    	   var timestr="현재 시간은"+today.getHours()+"시"+
+    	                                         +today.getMinutes()+"분"+
+    	                                         +today.getSeconds()+"초입니다."
+    	  // document.write(timestr)
+    	  //태그정보를 얻어온다.(=객체를 얻어온다.)->속성값,함수를 호출이 가능
+    	  var divtest=document.getElementById("imsi") //$("imsi")
+    	  divtest.innerHTML=timestr  //태그객체명.속성명=값
+    	  //재귀함수 호출->setTimeout(호출할 함수명(),초단위(1000))
+    	  setTimeout("showtime()",1000)//1초마다 호출
+       }
+</script>
+</head>
+<body onload="showtime()">
+   <!-- 1.id선택자(스타일적용) 2.h2,div 태그정보  -->
+   <h2 id="test">현재시간이 실시간으로 화면에 출력됩니다.!!!</h2>
+   <div id="imsi"></div><p>
+   <div id="imsi2"></div>
+</body>
+</html>
+
+
+

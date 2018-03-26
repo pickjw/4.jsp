@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko"><!-- 웹페이지에 한글사용 -->
+  <head>
+    <meta charset="utf-8"><!-- 웹페이지에 한글사용 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"><!--IE최신버전  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 101 템플릿</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+       .col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, 
+       .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, 
+       .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3,
+       .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4,
+       .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, 
+       .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, 
+       .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, 
+       .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, 
+       .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, 
+       .col-xs-10,.col-sm-10, .col-md-10, .col-lg-10,
+       .col-xs-11,.col-sm-11, .col-md-11, .col-lg-11, 
+       .col-xs-12,.col-sm-12, .col-md-12, .col-lg-12 {
+       
+        border:1px solid red;
+        padding:10px; /* 위,오른쪽,아래쪽,왼쪽 10px(안쪽 여백)*/
+       }
+       .row{
+          margin-bottom:4px; /* 밖의 하단 여백 */
+          margin-top:4px;      /* 밖의 상단 여백 */
+       }
+    </style>
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <h1>그리드 시스템</h1>
+    <h4>총 12열로 구성(12,(8,4),(6,4,2),(6,6),(4,4,4))</h4>
+     <!-- <div class="container"> -->
+     <!-- 전체 레이아웃을 감싸주는 역할(확대시 양쪽에 공백발생) -->
+     <div class="container-fluid"><!-- 전체 확대시 양쪽여백을 꽉차게 사용이 가능 -->
+       <div class="row">
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+          <div class="col-md-1">col-md-1</div>
+       </div>
+         <div class="row"><!-- 8:4 -->
+           <div class="col-md-8">col-md-8</div>
+          <div class="col-md-3">col-md-3</div>
+         </div>
+         
+         <div class="row">
+            <div class="col-md-4">col-md-4</div>
+            <div class="col-md-4">col-md-4</div>
+            <div class="col-md-4">col-md-4</div>
+         </div>
+         
+         <div class="row">
+            <div class="col-md-6">col-md-6</div>
+            <div class="col-md-6">col-md-6</div>
+         </div>
+     </div>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+

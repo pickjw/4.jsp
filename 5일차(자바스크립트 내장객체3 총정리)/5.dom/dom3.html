@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>dom3.html(태그의 내용을 변경) </title>
+  <script>
+     function test(){
+        //old tag->new tag로 replace(변경한다)
+      var newNode=document.createElement("div") //<div></div>
+       newNode.innerHTML="오늘은 DOM을 이용해서 변경연습"
+        //<div>오늘은 DOM을 이용해서 변경연습</div>
+        //old
+		var oldNode=document.getElementById("foo")
+         //부모태그.replaceChild(newTag,oldTag)
+          oldNode.parentNode.replaceChild(newNode,oldNode)
+	 }
+  </script>
+ </head>
+ <body onload="test()"><!-- appendChild(추가) removeChild(삭제),replaceChild(new,old)
+                    변경1(태그는 그대로인데 내용만 변경)->innerHTML속성
+                    변경2->태그도 변경, 태그의 내용도 변경->replaceChild
+                    -->
+	<p id="foo">태그의 내용 변경 연습</p>
+	<!-- 
+	  <div>오늘은 DOM을 이용해서 변경연습</div>
+	-->
+ </body>
+</html>

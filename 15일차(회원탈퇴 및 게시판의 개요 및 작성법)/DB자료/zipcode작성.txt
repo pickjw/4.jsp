@@ -1,0 +1,27 @@
+use mydb;
+CREATE TABLE zipcode (
+	zipcode             char(7)              NOT NULL  ,
+	area1               char(10)             NULL      ,
+	area2               char(20)             NULL      ,
+	area3               char(40)             NULL      ,
+	area4               char(20)             NULL      
+);
+c:\mysql5.1\bin에 복사(zipcode.txt)
+
+mysql -u root -p  mydb < zipcode.txt
+
+select count(*) from zipcode;
+
+-- select * from board order by ref desc,re_step asc limit ?,?
+-- 1.레코드의 시작번호  2.웹상에 보여줄 레코드갯수
+
+-- 우편번호는 내림차순으로 정렬(1~9),시는 ㄱ~ㅎ(오름차순)으로 정렬하라 
+select * from zipcode order by zipcode desc,area1 asc limit 10,5;
+
+
+
+
+
+
+
+

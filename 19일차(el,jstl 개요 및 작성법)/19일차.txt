@@ -1,0 +1,250 @@
+19일차(el,jstl 개요 및 작성법)->모델2 개요->작성법
+
+      모델1 게시판==>모델2로 전환(구조 변경)+el,jstl(적용)
+                                        +
+                                   보안(secure code)
+      =>오늘 까지
+==========================================================
+ 입력받은 이름은 <%=name%><br>
+ 입력받은 이름은 <%=request.getParameter("name")%><br>
+ 입력받은 이름은 ${param.name}<br>
+
+ el->표현언어=>변수값 출력, 메서드호출,수식계산,,값을 입력
+
+ el 내장객체===>내장객체=>jsp에서의 8가지 내장객체
+                          request,response,exception,page,,
+ ** param 내장객체 **
+
+ 형식=> ${param.전달받은 매개변수명}
+
+   request.getParameter("name")
+   ${param.name}
+
+  ex) <%=request.getParameter("age")%>
+      ${param.age}
+ 
+ *******************************************************
+ jstl태그->반드시 <%@taglib ~>선언문이 존재해야 사용이 가능
+ el은 <%@taglib ~>선언문과 상관없이 사용이 가능
+ ********************************************************
+ 
+ jsp에서의 내장객체의 사용범위?(default)
+
+ page->request->session->application
+
+===========================================
+ el에서의 내장객체의 사용범위
+
+ pageScope->requestScope->sessionScope->applicationScope
+     =====
+  =>jstl태그의 <c:set>태그의 사용범위와 연관
+-----------------------------------------------------------
+request.setCharacterEncoding("utf-8");
+
+=><fmt:requestEncoding  value="utf-8" />
+
+=>액션태그 p948
+
+<%
+   int num=3;
+%>
+
+->ifTag.jsp
+
+형식)  <c:if test="${조건식}">
+           참인 문장을 수행
+       </c:if>
+
+ if(조건식)
+   참
+ else
+   거짓
+===============><c:if>이 구문이 없다.
+<c:if test="${조건식}">
+           참인 문장을 수행
+</c:if>
+<c:if test="${조건식}">
+           거짓인 문장을 수행
+</c:if>
+
+** 간단한 출력문 **
+
+System.out.println(name);//콘솔
+-------------------------------------
+  다 같은 구문
+out.println(name);//웹에 출력
+<%=name%>
+${name}
+<c:out value="${name}" />
+===============================
+  if(조건식)
+     참
+  else if (조건식2)
+      참2
+  else if  ==>다중 if
+
+  else
+
+ =>switch~case==>chooseTag.jsp
+
+형식) <c:choose>
+        <c:when test="${조건식}">=><c:if >X
+            참인문장
+        </c:when>
+        <c:when test="${조건식2}">
+            참인문장2
+        </c:when>
+        ,,,
+        <c:otherwise>
+             위의 조건에 만족하지 않은경우
+        </c:otherwise>
+      </c:choose>
+
+
+
+=><c:out value="출력할값" /> =>제어문과 같이사용
+
+
+==><c:choose>태그를 이용하면 가능->switch ~case
+
+${param.name=='tk'}
+
+request.getParameter("name")=="tk" 와 동일
+
+http://localhost:8090/Jstltest/chooseTag.jsp?name=tk
+http://localhost:8090/Jstltest/chooseTag.jsp?age=20
+
+  형식)  try{
+           예외발생구문
+         }catch(예외처리클래스명 ex){
+            System.out.println(ex.toString()) ==>액션태그로 작성
+         }
+
+<%-- <c:if test="${ex!=null}"> --%>
+   <c:if test="${not empty ex}">
+       예외가 발생하였습니다.<br>
+       ${ex}
+======================================
+param.jsp작성
+
+<%
+     //response.sendRedirect("http://www.naver.com");//단순히 외부 페이지 이동
+     //response.sendRedirect("chooseTag.jsp?name=tk");//내부 페이지 이동
+     //형식) <c:redirect url="이동할 페이지명"  />
+     /* 형식2)<c:redirect url="이동할 페이지명" >
+                      <c:param  name="전달할 매개변수명" value="전달할값">
+                      <c:param  name="전달할 매개변수명" value="전달할값">
+                       ,,,
+                   </c:redirect>
+     */
+%>
+<%-- <c:redirect url="http://www.naver.com" /> --%>
+<c:redirect url="chooseTag.jsp">
+   <c:param name="name"  value="tk" />
+</c:redirect>
+
+
+   </c:if>
+===================================================
+       <c:catch var="예외객체명">
+           예외발생구문
+       </c:catch>
+
+ import.jsp작성->동적페이지 삽입->include액션태그의 확장판
+-------------------------------------------------------------
+<c:out value="${u}"  />=>접속한 사이트의 메인페이지의 문자열을
+                         그대로 가져온다.(html태그 형태로)
+                       escapeXml="true"
+
+<c:out value="${u}"  escapeXml="false" />
+                       =>접속한 사이트를 브라우저에서 본 상태
+                         그대로 화면캡쳐해 상태
+--------------------------------------------------------------
+ ==>완전히 특정 페이지로 이동-->url창에 이동경로가 출력
+ ==>chooseTag.jsp?name=tk  =>url창에 노출
+
+<c:redirect url="chooseTag.jsp">
+   <c:param name="name"  value="tk" />
+</c:redirect>
+
+====================================================
+ ==>url창에 노출X ----->페이지로 이동->실행결과
+                  ----->내페이지의 특정위치에 삽입(실행결과)
+                  <jsp:include액션태그의 확장판
+
+<c:set var="url"   value="chooseTag.jsp" />
+    <c:import url="${url}" var="u" >
+       <c:param name="name" value="tk" />
+    </c:import>
+    <c:out value="${u}"  escapeXml="false" /> ==>출력결과
+---------------------------------------------------
+
+***forEach.jsp
+
+<%
+      int sum=0;
+      for(int i=1;i<=100;i++){
+    	  sum+=i;
+      }
+      out.println(sum);
+  %>
+
+형식) <c:forEach var="출력변수명" begin="시작값" end="종료값"
+                 step="증감식"(default 1) 생략가능>
+               출력할값=><c:out value="${출력변수명} />
+                ${출력변수명}
+      </c:forEach>
+
+<c:set var="sum" value="0" />
+
+ *** ->items=${intArray} =>객체표시를 해줘야 된다.
+=====================================================
+ <c:set target="${intArray}" =>객체표시
+
+<c:forEach var="i" items="${intArray}" begin="2" end="4">
+        [${i}]      ===================
+</c:forEach>
+   ==============>p941  items="${sessionScope.list}"
+                        items="${list}"
+
+  p940 <c:when test="${requestScope.x %2 ==0}">
+       <c:when test="${x%2 ==0}">
+------------------------------------------------------------
+ ** el내장객체의 사용범위 **
+
+ jstlcore.jsp
+
+ <c:set var="x" value=100" scope="request" />
+                ==========>value=${requestScope.data}
+ <c:set var="data" value=300" scope="request" />
+ <%
+   request.setAttribute("x",100);
+ %>
+
+   처리해주는 페이지에서 쓰는 문장
+  ${requestScope.data} =><%=request.getAttribute("data")%>
+============================================================
+p941 <c:forTokens>=>특정 문자열 분리기호(=Token)를 이용해서 문자열을
+                    분리시켜주는 액션태그
+
+   "테스트,임시,테스트2,임시2" =>
+   "테스트|임시|테스트2|임시2"
+
+  =>StringTokenizer를 이용
+ <c:forTokens var="출력객체명" items="분리기호가 포함된
+                                       문자열객체"
+              delims="분리기호(,)|"
+========================================================
+jstlfmt.jsp =>10장->MVC패턴 개요->모델2 설계->모델1->모델2
+===========
+  default:2018. 2. 6 오후 5:11:04
+                            
+  short: 18. 2. 6 오후 5:11
+  
+  medium:2018. 2. 6 오후 5:11:04
+  
+  long:2018년 2월 6일 (화) 오후 5시 11분 04초
+  
+  full:2018년 2월 6일 화요일 오후 5시 11분 04초 KST
+
+

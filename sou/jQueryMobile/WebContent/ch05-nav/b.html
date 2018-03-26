@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+                                                        maximum-scale=1.0,minimum-scale=1.0,
+                                                        user-scalable=no">                                                                                               
+    <title>jquery mobile예제</title>
+
+    <!-- 모바일에서 환경설정(cdn->jquerymobile.com) -->
+    <link href="../mobile/jquery.mobile-1.3.2.min.css" rel="stylesheet">
+      <script src="../mobile/jquery-1.9.1.min.js"></script>
+      <script src="../mobile/jquery.mobile-1.3.2.min.js"></script>
+  </head>
+  <body>
+    <div data-role="page"  data-position="fixed">
+     <div data-role="header">
+       <h1>두번째탭 검색화면</h1>
+     </div>
+     <!-- 2.content 지정
+         1)header영역 사이에 공백을 주고 싶다.->data-inset="true"
+         2)실시간 검색->data-filter="true" ->like연산자 실행결과
+         3)주소록목록(listview항목의 구분선->data-role="list-divider"
+       -->
+    <div data-role="content">
+         <ul data-role="listview" data-inset="true" data-filter="true">
+           <li data-role="list-divider">Divider(구분선)</li><!-- 5호선 -->
+           <li><a href="#">방화</a></li><!--DB의 데이터를 출력  -->
+           <li><a href="#">개화산</a></li>
+           <li><a href="#">김포공항</a></li>
+           <li><a href="#">송정</a></li>
+           <li><a href="#">마곡</a></li>
+           <li><a href="#">발산</a></li>
+         </ul>
+     </div>
+   
+    <div data-role="footer" data-id="persistFooter" data-position="fixed">
+       <div data-role="navbar">
+         <ul>
+             <li><a href="a.html" data-icon="plus">회원가입</a></li>
+             <li><a href="b.html" data-icon="search" 
+                        class="ui-btn-active ui-state-persist">회원검색</a></li>
+             <li><a href="c.html" data-icon="gear" >회원목록</a></li>
+         </ul>
+       </div>
+     </div>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+

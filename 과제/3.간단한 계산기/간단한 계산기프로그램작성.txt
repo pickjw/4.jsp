@@ -1,0 +1,23 @@
+  JspWork->bean폴더
+
+과제) cal.jsp(입력)(5+3)--->calResult.jsp
+
+          계산                  8
+      form->name->"form1"  ---->action=>calResult.jsp"
+      input type="text" name="num1">
+      <select name="operator">
+             +,-,*,/
+       <option>+</option>
+      input type="text" name="num2">
+
+============================================
+  자바빈즈->calc.CalcBean
+      num1,num2,operator->setter,getter
+       ->입력받은값을 저장->멤버변수
+
+     +,-,*,/->메서드작성->calculate
+============================================
+
+
+
+

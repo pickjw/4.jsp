@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //1.사용자가 글자를 입력했을때 발생->keyUp 이벤트
+	  $('input').keyup(function(){
+		  var value=$(this).val()
+		  report(value)
+	  })
+	  //2.reset버튼을 클릭->input의 내용을 지우고 커서 입력
+	  $('button').click(function(){
+		 $('input').val('')
+		 $('input').focus()
+
+	  })
+	  //3.사용자정의 함수->div태그에 입력받은 값을 넣어주는 기능함수 작성
+	  function report(msg){
+		  //1)html(태그포함 문자열만) 2) text(문자열만)  3)val()->입력받은 양식
+		  $('#console').text(msg)//<->$('#console').text()
+	  }
+  })
+</script>
+</head>
+<body>
+<button>reset</button>
+<input type="text" value="val()메서드를 연습중" size="80">
+<div id="console"></div>
+</body>
+</html>
+
+
+
+

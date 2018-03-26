@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!--(4~5) viewResolver(위치,이동할 페이지의 확장자를 지정) -->
+<bean id="viewResolver"
+class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+   <property name="viewClass" 
+                   value="org.springframework.web.servlet.view.JstlView" />
+   <property name="prefix" value="/"  />
+   <property name="suffix" value=".jsp" />           
+</bean>
+
+<!--(2) 컨트롤러이름을 알려주는 HanderMapping등록 -->
+<bean id="defaultHandlerMapping"
+ class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping" />
+ 
+<!--(3)  컨트롤러를 등록(=모델2의 액션클래스)
+  <bean name="/요청명령어.do" class="상위패키지명....처리할 컨트롤러클래스명"/>
+    /index.do->(list.jsp)로 이동
+    setViewName(list)
+-->
+<bean name="/index.do" 
+   class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+     <property name="viewName" value="list"></property>
+</bean>
+
+
+
+</beans>
+
+
+
+
+

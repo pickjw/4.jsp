@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  $.getJSON("http://api.flickr.com/services/feeds/photos_public.gne?"
+	   +"tags=raccoon&tagmode=any&format=json&jsoncallback=?",
+	     function(data){
+		  //1.컬렉션객체(배열)(items항목만),function(인덱스번호,item)
+		  /*
+		    items:[
+		    "title":~
+		    "media": 
+		    {"m":"http:\/\/farm5.staticflickr.com\/4660\/40382561792_42227d0ca2_m.jpg"},
+		      ,,,
+		      ]
+		    */
+		    $.each(data.items,function(i,item){ //items배열의 요소(item)
+		    	//<img src="경로포함해서 불러올 파일명">
+		        $("<img>").attr("src",item.media.m).appendTo("#images")
+		        //전체의 이미지 중에서 0~4인덱스에 해당하는 이미지만 불러오기
+		        if(i==4)
+		        	return false;
+		    })
+	  })
+  })
+</script>
+</head>
+<body>
+<div id="images">
+   
+</div>
+</body>
+</html>
+
+
+
+

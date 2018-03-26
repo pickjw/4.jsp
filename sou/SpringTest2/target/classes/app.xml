@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+<!-- SystemMoniter클래스의 setPeriodTime메서드를 호출하면서
+        10(매개변수)을 전달 
+         p:멤버변수명="저장할값" p:멤버변수-ref="참조할 상대방 빈즈의 id"
+        -->
+<bean id="moniter"  class="spring3.SystemMoniter"
+           p:periodTime="20" p:sender-ref="smsSender">
+     <!-- <property name="periodTime">
+         <value>10</value>
+     </property>
+     <property name="sender">
+        <ref bean="smsSender" />
+     </property> -->
+</bean>
+<bean id="smsSender"  class="spring3.SmsSender" />
+
+<!--spring4(생성자방법) 
+  SystemMoniter클래스의 객체를 생성해서 호출되는 생성자의 매개변수중
+  첫번째 매개변수는 10전달되고, 두번째는 생성된 SmsSender객체를 전달해준다. 
+ -->
+ 
+<bean id="moniter2"  class="spring4.SystemMoniter"
+          c:periodTime="20" c:sender-ref="smsSender2">
+   <!-- <constructor-arg value="10" /> 
+   <constructor-arg ref="smsSender2" /> -->
+   <!-- <constructor-arg>
+       <ref bean="smsSender2" />
+   </constructor-arg> -->
+</bean>
+<bean id="smsSender2"  class="spring4.SmsSender" />
+
+<!--spring5(축약형(임의의 객체)) 빈즈내부에 참조하고자하는 빈즈가
+                                                 포함이 되는 경우 -->
+<bean id="moniter3"  class="spring5.SystemMoniter"
+           p:periodTime="20">
+    <property name="sender">
+         <!-- <ref bean="smsSender3" />(1) -->
+          <bean class="spring5.SmsSender">
+                  <constructor-arg value="true" />
+          </bean>
+    </property>
+</bean>
+
+<!-- (2)
+  <bean id="smsSender3"  class="spring5.SmsSender" >
+     <constructor-arg value="true" />
+</bean>
+ -->
+
+<!--spring6
+/list.do=action.ListAction
+<bean name="/요청명령어" class="패키지명...처리클래스명"/>
+<bean name="/list.do" class="action.ListAction"/>
+
+ id와 동일한 기능을 속성명->name
+ id->특정클래스의 객체를 가져오기위한 내부적인 구분번호,특수기호 사용불가
+       /,# 특수기호 사용불가(지금은 가능 버전업때문에)
+ name->/,특수기호를 사용이 가능하다.
+ public void setNumber(List<Double> number) {
+  -->
+
+<bean name="performanceMoniter"  class="spring6.PerformanceMoniter">
+   <property name="number">
+    <list>
+      <value>0.2</value>
+      <value>0.3</value>
+     </list>
+   </property>
+</bean>
+
+<!-- spring7(Set 자료형) -->
+<bean name="customer"  class="spring7.Customer">
+   <property name="subSet">
+    <set>
+      <value>1</value>
+      <value>4</value>
+     </set>
+   </property>
+</bean>
+
+
+
+
+
+
+
+</beans>

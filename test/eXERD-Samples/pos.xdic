@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tm:TermDictionary xmlns:tm="http://exerd.com/term-model" version="1.1">
+  <term name="사원" description="회사에 근무하는 사람. 회사원" physicalName="EMP" physicalDescription="EMPLOYEE"/>
+  <term name="암호" description="비밀 유지를 위하여 당사자끼리만 알 수 있도록 꾸민 약속 기호" physicalName="PWD" physicalDescription="PASSWORD">
+    <synonyms>비밀번호</synonyms>
+    <synonyms>비번</synonyms>
+  </term>
+  <term name="이름" description="다른 사람과 구별하는 명칭" physicalName="NAME" physicalDescription="NAME">
+    <synonyms>성명</synonyms>
+  </term>
+  <term name="순번" description="차례로 오는 번. 또는 그 순서" physicalName="IDX" physicalDescription="INDEX"/>
+  <term name="매입" description="사들임. 매득(買得)." physicalName="PURCHASE" physicalDescription="PURCHASE"/>
+  <term name="일" description="날. 하루." physicalName="DATE" physicalDescription="DATE">
+    <synonyms>일시</synonyms>
+    <synonyms>날짜</synonyms>
+  </term>
+  <term name="매입처" description="판매한 회사" physicalName="SUPPLIER" physicalDescription="SUPPLIER"/>
+  <term name="단가" description="각 단위마다의 값" physicalName="PRICE" physicalDescription="PRICE">
+    <synonyms>가격</synonyms>
+    <synonyms>가</synonyms>
+  </term>
+  <term name="바코드" description="상품의 포장이나 꼬리표에 표시된 막대기 모양의 흑백 줄무늬 기호." physicalName="BARCODE" physicalDescription="BARCODE"/>
+  <term name="타입" description="구분할 수 있는 형태" physicalName="TYPE" physicalDescription="TYPE">
+    <synonyms>형식</synonyms>
+  </term>
+  <term name="수량" description="물건의 양" physicalName="QTY" physicalDescription="QUANTITY">
+    <synonyms>개수</synonyms>
+  </term>
+  <term name="VAT" description="거래 단계별로 상품이나 용역(用役)에 새로 부가되는 가치" physicalName="VAT" physicalDescription="VALUE ADDED TAX">
+    <synonyms>부가가치세</synonyms>
+  </term>
+  <term name="PAGE" description="페이지" physicalName="PAGE" physicalDescription="PAGE"/>
+  <term name="출고" description="제품을 내보냄" physicalName="RELEASE" physicalDescription="RELEASE"/>
+  <term name="발주" description="물건을 주문하는 것" physicalName="ORDER" physicalDescription="ORDER"/>
+  <term name="입력일" description="입력한 날짜" physicalName="REG_DATE" physicalDescription="REGISTER DATE"/>
+  <term name="세일" description="할인판매의 관용적 표현" physicalName="DC" physicalDescription="DISCOUNT"/>
+  <term name="판매" description="제품을 가격을 받고 고객에서 팖" physicalName="SALE" physicalDescription="SALE"/>
+  <term name="재고" description="물건의 남아있는 양" physicalName="STOCK" physicalDescription="STOCK"/>
+  <term name="규격" description="제품의 치수, 모양, 품질 등의 일정한 표준" physicalName="STANDARD_SIZE" physicalDescription="STANDARD SIZE"/>
+  <term name="조사일" description="조사한 날짜" physicalName="STOCK_DATE" physicalDescription="STOCK DATE"/>
+  <term name="ID" description="식별하기 위한 번호" physicalName="ID" physicalDescription="ID"/>
+  <term name="수" description="용어 설명" physicalName="COUNT" physicalDescription="newWord">
+    <synonyms>양</synonyms>
+    <synonyms>량</synonyms>
+  </term>
+</tm:TermDictionary>

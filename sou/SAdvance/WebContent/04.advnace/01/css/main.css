@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+/*
+ * Slideshow
+ */
+ 
+.slideshow {
+    overflow: hidden;
+    position: relative;
+    min-width: 960px;
+    height: 465px;
+}
+
+.slideshow img {
+      display: none;  /*이미지 안보이게 설정*/
+     /* position:relative; (첫슬라이드)  */
+    position: absolute;/* (마지막 슬라이드) */
+    left: 50%;   /* 중앙 위치 */
+    margin-left: -800px;
+}
+
+/* JavsScript 비활성화 시 첫번째 슬라이드만 출력이 되게 설정 */
+.no-js .slideshow img:first-child {
+    display: inline;
+}

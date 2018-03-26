@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  $('img').css('width',250) //고양이 이미지의 초기값 크기 250
+	  
+	  setInterval(function(){//여러번 반복해서 실행시킬때 사용
+		  //clone()->복사
+		  $('img').first().clone().appendTo('body')//setInterval 함수 적용->애니매이션
+	  },2000)  //1.호출할 함수명|익명함수 function(){} ,초단위(1000)
+	 
+  })
+  
+</script>
+</head>
+<body>
+<h1>jQuery 실습예제(이미지)</h1>
+ <img src="../picCats/Persian.jpg">
+ <img src="../picCats/RussianBlue.jpg">
+ <img src="../picCats/BritishShorthairs.jpg">
+ <!-- <img src="../picCats/Persian.jpg"> -->
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<style>
+   p {margin:4px;font-size:16px;
+        font-weight:bolder;cursor:pointer /* 마우스 모양 */}
+   .blue {color:blue}
+</style>
+<script>
+  $(function(){ 
+	  $('p').bind('click',function(){
+		  //같은 태그 구분(이벤트를 발생시킨 태그)->$(this)
+		  //형식) $(선택자).toggleClass(적용시킬 클래스명)->if문 대용으로 많이 사용
+		  //addClass(적용시킬 클래스명)<-->removeClass(해제시킬클래스명)
+		  $(this).toggleClass('blue')
+	  })
+  })
+</script>
+</head>
+<body>
+<p class="blue">엘리먼트(=태그)에 적용된 클래스를 </p>
+<p>추가하고 제거하기를 반복적으로 실행
+</body>
+</html>
+
+
+
+

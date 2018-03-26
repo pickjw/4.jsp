@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,
+                                                        maximum-scale=1.0,minimum-scale=1.0,
+                                                        user-scalable=no">                                                                                               
+    <title>jquery mobile예제</title>
+
+    <!-- 모바일에서 환경설정(cdn->jquerymobile.com) -->
+    <link href="../mobile/jquery.mobile-1.3.2.min.css" rel="stylesheet">
+      <script src="../mobile/jquery-1.9.1.min.js"></script>
+      <script src="../mobile/jquery.mobile-1.3.2.min.js"></script>
+  </head>
+  <body>
+    <div data-role="page">
+     <div data-role="header">
+       <h1>자주 물어보는 항목을 보여주는 페이지</h1>
+     </div>
+    <!--  탐색기
+       data-role="collapsible-set" ->전체 화면의 데이터부분을 보여줄 영역을 설정
+                                              ->각각의 항목은 collapsible로 설정을 한다.
+     -->
+    <div data-role="content">
+         <div data-role="collapsible-set">
+            <div data-role="collapsible"><!-- 트리구조형태로 정보를 제공 -->
+               <h1>홍길동</h1><!--화면에 보이는 부분(Question)  -->
+               <p>홍길동의 나이는 23살이며 주소는 서울시 강남구에 거주합니다.</p>
+            </div>
+            <div data-role="collapsible">
+               <h1>이길수</h1>
+               <p>이길수의 직업은 프로그래머이며 나이는 34살입니다.</p>
+            </div>
+         </div>
+     </div>
+   
+    <div data-role="footer" data-id="persistFooter" data-position="fixed">
+       <div data-role="navbar">
+         <ul>
+             <li><a href="a.html" data-icon="plus">회원가입</a></li>
+             <li><a href="b.html" data-icon="search" >회원검색</a></li>
+             <li><a href="c.html" data-icon="gear" 
+                         class="ui-btn-active ui-state-persist">회원목록</a></li>
+         </ul>
+       </div>
+     </div>
+    </div>
+  </body>
+</html>
+
+
+
+
+
+

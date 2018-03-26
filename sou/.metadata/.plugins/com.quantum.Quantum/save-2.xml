@@ -1,0 +1,143 @@
+<?xml version="1.0" ?>
+<SAVED_DATA>
+	<bookmarks>
+		<jdbcDriver className="com.mysql.jdbc.Driver" name="MySQL-AB JDBC Driver" type="MYSQL" version="mysql-connector-java-5.1.12 ( Revision: ${bzr.revision-id} )">
+			<jar fileName="C:\webtest\4.jsp\11일차(자바빈즈 정리 및 쿠키,세션,JDBC Programming작성법)\DB자료\mysql-connector-java-5.1.12-bin.jar" />
+		</jdbcDriver>
+		<jdbcDriver className="org.apache.derby.jdbc.EmbeddedDriver" name="org.apache.derby.jdbc.EmbeddedDriver" type="DERBY" version="">
+			<jar fileName="C:/Users/kitcoop/.p2/pool/plugins/com.quantum.derby_3.3.10/lib/derby.jar" />
+		</jdbcDriver>
+		<jdbcDriver className="oracle.jdbc.driver.OracleDriver" name="Oracle JDBC driver" type="ORACLE" version="11.2.0.1.0">
+			<jar fileName="C:\Tomcat 8.5\lib\ojdbc6.jar" />
+		</jdbcDriver>
+		<bookmark>
+			<name>(Internal) Derby</name>
+			<username>QUANTUM</username>
+			<password />
+			<prompt>false</prompt>
+			<connect>jdbc:derby:C:/Users/kitcoop/.p2/pool/plugins/com.quantum.derby_3.3.10/data/quantum</connect>
+			<autoCommit>true</autoCommit>
+			<autoCommitPreference>Always True</autoCommitPreference>
+			<autoCommitIgnoreView>false</autoCommitIgnoreView>
+			<quoteAll>false</quoteAll>
+			<sendQueryAsIs>false</sendQueryAsIs>
+			<stripNewline>false</stripNewline>
+			<shutdownOnDisconnect>true</shutdownOnDisconnect>
+			<defaultEncoding />
+			<driver>org.apache.derby.jdbc.EmbeddedDriver</driver>
+			<type>DERBY</type>
+			<substituteVariables>false</substituteVariables>
+			<variablesRegexp>\$\{(.*?)\}</variablesRegexp>
+			<driverLocation>C:/Users/kitcoop/.p2/pool/plugins/com.quantum.derby_3.3.10/lib/derby.jar</driverLocation>
+			<Other_Schemas schemaRule="useAll" />
+			<quickList />
+			<queryList />
+		</bookmark>
+		<bookmark>
+			<name>myoracle</name>
+			<username>scott</username>
+			<password>tiger</password>
+			<prompt>false</prompt>
+			<connect>jdbc:oracle:thin:@localhost:1521:orcl</connect>
+			<autoCommit>true</autoCommit>
+			<autoCommitPreference>Always True</autoCommitPreference>
+			<autoCommitIgnoreView>false</autoCommitIgnoreView>
+			<quoteAll>false</quoteAll>
+			<sendQueryAsIs>false</sendQueryAsIs>
+			<stripNewline>false</stripNewline>
+			<shutdownOnDisconnect>false</shutdownOnDisconnect>
+			<defaultEncoding />
+			<driver>oracle.jdbc.driver.OracleDriver</driver>
+			<type>ORACLE</type>
+			<substituteVariables>false</substituteVariables>
+			<variablesRegexp>\$\{(.*?)\}</variablesRegexp>
+			<driverLocation>C:\Tomcat 8.5\lib\ojdbc6.jar</driverLocation>
+			<Other_Schemas schemaRule="useAll" />
+			<quickList />
+			<queryList>
+				<query>
+					<queryString>create table phone(
+ productnum number primary key,
+ model varchar2(30) not null,
+ company varchar2(20) not null,
+ price number(10) not null,
+ color varchar2(20) not null,
+ image varchar2(100) not null)</queryString>
+				</query>
+				<query>
+					<queryString>create table springboard(
+num number(3) primary key,
+author varchar2(15),
+title varchar2(50),
+content varchar2(4000),
+writeday date default sysdate,
+readcnt number(4) default 0)</queryString>
+				</query>
+				<query>
+					<queryString>insert into springboard(num,author,title,content) 
+        values(1,'홍길동','스프링 연습1','스프링 테스트 내용중')</queryString>
+				</query>
+				<query>
+					<queryString>commit</queryString>
+				</query>
+				<query>
+					<queryString>select * from springboard</queryString>
+				</query>
+			</queryList>
+		</bookmark>
+		<bookmark>
+			<name>mysqltest</name>
+			<username>root</username>
+			<password>1234</password>
+			<prompt>false</prompt>
+			<connect>jdbc:mysql://localhost:3306/mydb</connect>
+			<autoCommit>true</autoCommit>
+			<autoCommitPreference>Always True</autoCommitPreference>
+			<autoCommitIgnoreView>false</autoCommitIgnoreView>
+			<quoteAll>false</quoteAll>
+			<sendQueryAsIs>false</sendQueryAsIs>
+			<stripNewline>false</stripNewline>
+			<shutdownOnDisconnect>false</shutdownOnDisconnect>
+			<defaultEncoding />
+			<driver>com.mysql.jdbc.Driver</driver>
+			<type>MYSQL</type>
+			<substituteVariables>false</substituteVariables>
+			<variablesRegexp>\$\{(.*?)\}</variablesRegexp>
+			<driverLocation>C:\webtest\4.jsp\11일차(자바빈즈 정리 및 쿠키,세션,JDBC Programming작성법)\DB자료\mysql-connector-java-5.1.12-bin.jar</driverLocation>
+			<Other_Schemas schemaRule="useAll" />
+			<quickList />
+			<queryList>
+				<query>
+					<queryString>create table phone(
+ productnum int primary key,
+ model varchar(30) not null,
+ company varchar(20) not null,
+ price int(10) not null,
+ color varchar(20) not null,
+ image varchar(100) not null)</queryString>
+				</query>
+				<query>
+					<queryString>insert into phone values(1, '갤럭시s8','삼성', 190000,'blue','phone01.png')</queryString>
+				</query>
+				<query>
+					<queryString>select * from board</queryString>
+				</query>
+				<query>
+					<queryString>insert into phone values(2, 'v30','LG', 1850000,'green','phone02.png')</queryString>
+				</query>
+				<query>
+					<queryString>insert into phone values(3, '아이폰10','애플', 250000,'navy','phone03.png')</queryString>
+				</query>
+				<query>
+					<queryString>insert into phone values(4, '갤럭시s9','삼성', 190000,'red','phone04.png')</queryString>
+				</query>
+				<query>
+					<queryString>commit</queryString>
+				</query>
+				<query>
+					<queryString>select * from phone</queryString>
+				</query>
+			</queryList>
+		</bookmark>
+	</bookmarks>
+</SAVED_DATA>

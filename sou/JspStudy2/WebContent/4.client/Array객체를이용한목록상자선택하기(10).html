@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Array객체를 이용한 목록상자 선택하기(10).html</title>
+<script>
+      /* 첫번째 항목에 해당하는 배열의 값을 구해와서 두번째 컴보박스에 출력  */
+      var kid1=new Array("KBS","SBS","MBC")
+      var kid2=new Array("아프리카","튜브","뮤즈")
+      var kid3=new Array("소리바다","벅스뮤직","멜론")
+      //1.선택된 특정항목에 대한 배열의 값을 가져오게 해주는 함수
+      function sel(arr_name){
+    	  //alert(arr_name)//"kid2"->"아프리카","튜브","뮤즈 ->"kid2"->new Array
+          var the_array=eval(arr_name)//"kid2"->자바스크립트객체 kid2객체인식
+          //alert(the_array)
+          setOptionText(document.form1.start,the_array)
+      }
+      //2.두번째 콤보박스에 데이터를 실시간으로 넣어주는 함수 작성
+      //1)두번째 콤보박스 정보 2) 선택된 배열객체
+      function setOptionText(the_select,the_array){
+    	  the_select.options.length=the_array.length;
+    	  //선택된 배열의 값을 두번째 콤보박스에 출력
+    	  for(i=0;i<the_array.length;i++){
+    		  the_select.options[i].text=the_array[i];//"아프리카","튜브","뮤즈"
+    	  }
+      }
+</script>
+</head>
+<body>
+   <center>
+   <form name="form1">
+      <select name="s_list" 
+      onchange="sel(document.form1.s_list.options[selectedIndex].value)">
+        <option value="kid1">방송국</option>
+        <option value="kid2">인터넷 방송국</option>
+        <option value="kid3">MP3 사운드</option>
+      </select>
+   
+       <select name="start">
+        <option>KBS</option>
+        <option>SBS</option>
+        <option>MBC</option>
+       </select>
+   </form>
+   </center>
+</body>
+</html>
+
+

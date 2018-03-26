@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 101 템플릿</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+    <h1>경로와 페이지네이션</h1>
+    <h4>페이지네이션 크기 및 정렬(이전,다음)</h4>
+    <!-- 
+          <ul class="pagination">
+          크기->pagination-lg,pagination-sm,,xs
+     -->
+     <ul class="pagination pagination-lg">
+        <li class="disabled"><a href="#"><<</a></li>
+        <li class="active"><a href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a href="#">3</a></li>
+        <li><a href="#">4</a></li>
+        <li><a href="#">5</a></li>
+        <li><a href="#">>></a></li>
+     </ul>
+     <hr>
+     <ul class="pagination pagination-sm">
+        <li class="disabled"><a href="#"><<</a></li>
+        <li class="active"><a href="#">6</a></li>
+        <li><a href="#">7</a></li>
+        <li><a href="#">8</a></li>
+        <li><a href="#">9</a></li>
+        <li><a href="#">10</a></li>
+        <li><a href="#">>></a></li>
+     </ul>
+     <hr>
+     <h4>페이지 가운데 정렬</h4>
+     <ul class="pager">
+        <li><a href="#">이전</a>
+        <li><a href="#">다음</a>
+     </ul>
+     <hr>
+     <h4>페이지 양쪽끝 정렬</h4>
+     <!-- 
+         class="previous"(왼쪽),next(오른쪽) ->페이지의 넓이에 따라서 자동조절
+         페이지 비활성화->disabled
+      -->
+     <ul class="pager">
+        <li class="previous disabled"><a href="#">이전</a>
+        <li class="next"><a href="#">다음</a>
+     </ul>
+    
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+

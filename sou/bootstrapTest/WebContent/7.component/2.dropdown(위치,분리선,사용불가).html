@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>부트스트랩 101 템플릿</title>
+
+    <!-- 부트스트랩 -->
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+    <h1>드롭다운 예제</h1>
+    <h4 class="text-center">기본적인 드롭다운</h4>
+    <!-- 
+        드롭다운에 별도의 헤더를 추가
+        li태그내부에 class="dropdown-header" 지정
+        어느특정메뉴는 메뉴불활성화(사용불가)
+        ->li태그 내부에 class="disabled"
+         li태그내부에 class="divider"(분리선)
+     -->
+    <div  class="dropdown">
+       <!-- <a  data-toggle="dropdown" href="#">여기를 클릭하세요</a> -->
+       <input type="button" data-toggle="dropdown"
+                  class="btn btn-default btn-primary" 
+                  value="여기를 누르세요">
+       <ul class="dropdown-menu"  role="menu">
+           <li role="presentation" class="dropdown-header">사용자</li>
+           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">회원로그인</a></li>
+           <li role="presentation" class="disabled">
+           <a role="menuitem" tabindex="-1" href="#">리뷰게시판</a></li>
+           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">설문조사</a></li>
+           <li role="presentation"  class="divider"></li>
+           <li role="presentation">
+           <a role="menuitem" tabindex="-1" href="#">관리자 로그인</a></li>
+           
+       </ul>
+    </div>
+    <hr>
+    <h4>눌렀을때 오른쪽에 배치된다.(pull-right)</h4>
+    <div  class="dropdown">
+       <a  data-toggle="dropdown" href="#">여기를 클릭하세요</a>
+       <ul class="dropdown-menu pull-right"  role="menu">
+           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">메뉴1</a></li>
+           <li role="presentation" class="disabled">
+           <a role="menuitem" tabindex="-1" href="#">메뉴2</a></li>
+           <li role="presentation"><a role="menuitem" tabindex="-1" href="#">메뉴3</a></li>
+           <li role="presentation"  class="divider"></li>
+           <li role="presentation">
+           <a role="menuitem" tabindex="-1" href="#">분리된 메뉴4</a></li>
+           
+       </ul>
+    </div>
+    
+    
+    </div><!--container  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+  </body>
+</html>
+
+
+
+

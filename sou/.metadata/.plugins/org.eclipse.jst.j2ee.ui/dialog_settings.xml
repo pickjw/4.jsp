@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<item value="true" key="J2EE_EXPORT_OVERWRITE"/>
+	<item value="true" key="J2EE_EXPORT_SOURCE"/>
+	<list key="J2EE_IMPORT_null">
+		<item value="C:\test\글쓰기폼으로 이동만 안된는 SpringAnno예제\SpringAnno.war"/>
+		<item value="C:\webtest\7.spring\9.Mybatis로 구현한 게시판의 글쓰기,글상세보기,글수정,글삭제,검색하기\Mybatis로 구현한 게시판의 글검색하기까지 구현\SpringMyBatis.war"/>
+		<item value="C:\test\IKEA.war"/>
+		<item value="C:\webtest\7.spring\7.spring MVC활용2(글상세보기,글수정,삭제,조회하기,MyBatis개요 및 작성법)\게시판의 글검색까지 구현\SpringBoard.war"/>
+		<item value="C:\webtest\7.spring\5.spring의 MVC개요 및 작성법\SpringMVC.war"/>
+		<item value="C:\webtest\4.jsp\18일차(-게시판-글수정,글삭제하기),el,jstl구현하기\게시판의 글삭제까지 구현\JspBoard.war"/>
+	</list>
+	<list key="MRU_RUNTIME_STORE">
+		<item value="Apache Tomcat v8.5"/>
+	</list>
+	<list key="J2EE_EXPORT_JST_WEB">
+		<item value="C:\test\글쓰기폼으로 이동만 안된는 SpringAnno예제\SpringAnno.war"/>
+		<item value="C:\webtest\7.spring\9.Mybatis로 구현한 게시판의 글쓰기,글상세보기,글수정,글삭제,검색하기\Anno테이션으로 구현한 글목록보기까지 구현\SpringAnno.war"/>
+		<item value="C:\webtest\7.spring\9.Mybatis로 구현한 게시판의 글쓰기,글상세보기,글수정,글삭제,검색하기\Mybatis로 구현한 게시판의 글검색하기까지 구현\SpringMyBatis.war"/>
+		<item value="C:\webtest\7.spring\9.Mybatis로 구현한 게시판의 글쓰기,글상세보기,글수정,글삭제,검색하기\Mybatis로 구현한 게시판의 글수정까지 구현\SpringMyBatis.war"/>
+		<item value="C:\webtest\7.spring\9.Mybatis로 구현한 게시판의 글쓰기,글상세보기,글수정,글삭제,검색하기\Mybatis로 구현한 게시판의 글상세보기까지 구현\SpringMyBatis.war"/>
+		<item value="C:\webtest\7.spring\9.Mybatis로 구현한 게시판의 글쓰기,글상세보기,글수정,글삭제,검색하기\Mybatis로 구현한 게시판의 글쓰기까지 구현\SpringMyBatis.war"/>
+	</list>
+</section>

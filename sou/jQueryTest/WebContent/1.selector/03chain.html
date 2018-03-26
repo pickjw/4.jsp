@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" 
+            src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+<title>jquery예제</title>
+<script>
+  $(function(){ 
+	  //var test=document.getElementsByTagName('h2')//태그이름->태그정보(객체)
+      var test=$('h2')
+      alert(test)//[Object object] 태그정보->$('h2').css(~)
+     /*   chain method방식으로 jquery함수 호출
+      특정태그에 대해서 함수를 호출할때 여러개를 마치 체인처럼 나열하는 방식
+      =>chaining method
+      test.css('font-family','궁서체')
+      test.css('font-size','30pt')
+      test.css('color','red') */
+      //test.css('font-family','돋움체').css('font-size','24pt').css('color','blue')
+      test.css({'font-family':'돋움체',   /*  css({'키명':'속성값',,})형식  */
+    	            'font-size':'24pt',
+    	            'color':'blue'})
+  })
+</script>
+</head>
+<body>
+<h2>jQuery CSS 연습</h2>
+</body>
+</html>
+
+
+
+

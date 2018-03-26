@@ -1,0 +1,45 @@
+package lee;
+
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.Controller;
+
+  //   /list.do->자동적으로 호출되는 메서드(handleRequest() 호출)
+/*
+ * <bean name="/list.do" class="lee.ListActionController">
+     <property name="dao">
+         <ref bean="boardDAO" />
+     </property>
+   </bean>
+ */
+//Controller인터페이스를 상속->handleRequest()를 사용이 가능->요청->처리역할
+public class ListActionController implements Controller {
+
+	BoardDAO dao;//BoardDAO dao=new BoardDAO() (X)
+
+	public void setDao(BoardDAO dao) {
+		this.dao = dao;
+		System.out.println("setDao() 호출됨(dao)->"+dao);
+	}
+
+	@Override
+	public ModelAndView handleRequest(HttpServletRequest request, 
+			                                                HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		System.out.println("ListActionController 실행됨!");
+		//BoardDAO dao=new BoardDAO() (X)
+		ArrayList list=dao.list();
+		ModelAndView mav=new ModelAndView();
+		mav.setViewName("list");//list.jsp  이동할 페이지 지정
+		//request.setAttribute("list",list);
+		mav.addObject("list",list); //${list} <%=request.getAttribute("list")%>
+		return mav;
+	}
+}
+
+
+

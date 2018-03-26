@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func7(내부함수2(리턴값)).html</title>
+<script>
+  function f(){
+    	var n=123;
+    	function g(){ 
+    		document.write("n is"+n+"<br>")
+    		document.write("g is called!!!<br>");
+    	}
+    	//g();
+    	return g; //return 함수명->내부함수이름을 반환
+    }
+    //함수호출
+    var n=f() //n의 변수에는 함수이름이 들어가 있다.
+    document.write("n=>"+n+"<br>")//함수의 선언부분을 문자형태로 전달받음
+    //형식) 반혼값=호출할 함수명(~)
+    //함수호출->함수이름()
+    document.write("==================<p>")
+    n() //전달받은 함수이름()->내부함수를 밖에서 호출하는 방법
+    
+</script>
+</head>
+<body>
+
+</body>
+</html>
+
+
+

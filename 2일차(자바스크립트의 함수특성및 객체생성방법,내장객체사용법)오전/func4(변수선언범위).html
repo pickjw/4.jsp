@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>func4(변수선언 범위).html</title>
+</head>
+<body>
+<script>
+ /*
+    1.지역변수
+       함수안에서 var를 사용해서 선언된 변수->함수가 끝나면 자동으로 소멸한다.
+       ->함수밖에서 함수내부에서 사용된 변수를 불러다 사용X
+       
+    2.전역변수
+       함수밖에서 만들어진 모든 변수->함수안에서 var 없이 만들어진 변수
+       함수가 끝나도 메모리에 계속 남아있다.
+ */
+      function test1(){
+    	   var i=10;//지역변수
+    	   document.write(i+"<br>");
+       }
+       test1();
+       //document.write(i+"<br>");//함수밖에서 i출력 =>메모리에서 사라지기때문
+                                                //Uncaught ReferenceError: i is not defined
+      var j;//전역변수->자바의 멤버변수처럼 함수에서 불러다 사용이 가능
+      function test2(){
+    	   j=200;
+    	   document.write(j+"<br>");
+       }
+       test2();  
+       //추가
+       
+       function test3(){
+    	   document.write("j=>"+j)
+       }
+       test3();
+       
+       //전역변수를 선언할때 주의할점
+       a=0;//전역
+       //a;  반드시 var이 없는 경우에는 초기값을 부여해야 한다.
+       function test4(){ //void test4(){ a=100; System.out.println(a)}
+    	   a=100;
+    	   document.write("<br>"+a);
+       }
+       test4()
+       
+       //전역변수의 예외->함수 내부에서 사용된 변수
+       //                        ->var를 사용하지 않고 선언된변수=>전역변수
+       function test5(){
+    	   m=300;//전역변수 O   //var m=300; //지역변수
+    	   document.write("<br>"+m);
+       }
+       test5()
+       
+       //m을 다른 함수에서 불러다 사용가능->전역변수
+       function test6(){
+    	   document.write("<br>"+m);
+       }
+       test6()
+       
+</script>
+</body>
+</html>
+
+
+
+
+
